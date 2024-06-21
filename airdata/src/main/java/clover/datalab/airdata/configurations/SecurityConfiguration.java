@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                  .loginProcessingUrl("/user/login")
                  .usernameParameter("username")
                  .passwordParameter("password")
+                 .defaultSuccessUrl("/")
                  .successHandler(customAuthenticationSuccessHandler())
                  .failureHandler(new SecurityLoginFailure());
         }).logout(logout -> {

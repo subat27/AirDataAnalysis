@@ -38,9 +38,9 @@ public class SecurityLogin implements UserDetailsService {
                                  .password(member.get().getPassword())
                                  .authorities(grantedAuthorities)
                                  .build();
+        } else {
+            throw new UsernameNotFoundException("등록된 사용자가 없습니다.");
         }
-
-        throw new UsernameNotFoundException("등록된 사용자가 없습니다.");
     }
 
 }
