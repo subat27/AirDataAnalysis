@@ -28,7 +28,7 @@ public class Product {
     @Column(nullable = false)
     private String subject; // 상품명
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     private String content; // 내용(에디터로 작성된 HTML 형태의 내용)
 
     @Column(nullable = false)

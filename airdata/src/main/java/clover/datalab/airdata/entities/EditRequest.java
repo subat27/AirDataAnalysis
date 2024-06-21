@@ -30,7 +30,7 @@ public class EditRequest {
     @Column(nullable = false)
     private String subject; // 제목
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     private String content; // 내용(에디터로 작성된 HTML 형태의 내용)
 
     @CreationTimestamp
