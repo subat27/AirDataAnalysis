@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "dusts")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Dust {
 
     @Id
@@ -40,13 +43,13 @@ public class Dust {
 
     @Column(nullable = false, name = "pm25_value")
     private String pm25Value; // 초미세먼지 농도
+    
+    @Column(nullable = true, name = "pm10_grade")
+    private String pm10Grade; // 미세먼지 등급, null 값은 Unknown으로 처리
 
-    @Column(nullable = false, name = "pm10_grade")
-    private String pm10Grade; // 미세먼지 등급
-
-    @Column(nullable = false, name = "pm25_grade")
+    @Column(nullable = true, name = "pm25_grade")
     private String pm25Grade; // 초미세먼지 등급
-
+    
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime created; // 등록일자 (자동생성)
