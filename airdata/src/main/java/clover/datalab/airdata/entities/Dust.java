@@ -45,10 +45,10 @@ public class Dust {
     private String pm25Value; // 초미세먼지 농도
     
     @Column(nullable = true, name = "pm10_grade")
-    private String pm10Grade; // 미세먼지 등급, null 값은 Unknown으로 처리
+    private String pm10Grade1h; // 미세먼지 등급
 
     @Column(nullable = true, name = "pm25_grade")
-    private String pm25Grade; // 초미세먼지 등급
+    private String pm25Grade1h; // 초미세먼지 등급
     
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
