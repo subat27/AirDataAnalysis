@@ -52,7 +52,7 @@ public class ILifestyleService implements LifestyleService {
 	@Transactional(rollbackFor = Exception.class)
 	public void modify(MultipartFile thumbnail, LifestyleForm form, String path, Long id) throws Exception {
 		try {
-			Map<String, Object> uploaded = fileUpload.upload(thumbnail, "test", path);
+			Map<String, Object> uploaded = fileUpload.upload(thumbnail, "\\upload", path);
 			
 			Lifestyle orgLifestyle = repository.findById(id).orElseThrow(() -> new Exception("데이터 처리 중 문제가 발생했습니다."));
 			

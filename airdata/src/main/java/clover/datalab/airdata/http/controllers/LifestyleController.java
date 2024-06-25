@@ -1,5 +1,6 @@
 package clover.datalab.airdata.http.controllers;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,10 +25,14 @@ public class LifestyleController {
 
 	private final LifestyleService service;
 
+	@Value("${tinymce}")
+    public String tinymce;
+	
 	// 라이프스타일 등록 페이지로 이동
 	@GetMapping("/lifestyle/register")
 	public String register(Model model) {
 		model.addAttribute("lifestyle", new LifestyleForm());
+		model.addAttribute("tinymce", tinymce);
 		return "_pages/lifestyle/register";
 	}
 
@@ -84,6 +89,7 @@ public class LifestyleController {
 			Lifestyle ls = service.findByLifestyleId(id);
 			model.addAttribute("lifestyle", new LifestyleForm(ls.getSubject(), ls.getContent(), ls.getTags(), ls.getCategory()));
 			model.addAttribute("thumbnail", ls.getThumbnail());
+			model.addAttribute("tinymce", tinymce);
 		} catch (Exception e) {
 			model.addAttribute("error", "데이터 처리 중 문제가 발생했습니다.");
 		}
@@ -99,7 +105,7 @@ public class LifestyleController {
 		
 		try {
 			if (bindingResult.hasErrors()) {
-				return "_pages/lifestyle/moldify/" + id;
+				return "/lifestyle/moldify/" + id;
 			}
 			String path = "";
 			path = mRequest.getServletContext().getRealPath(path);
@@ -108,7 +114,7 @@ public class LifestyleController {
 		} catch (Exception e) {
 			model.addAttribute("error", e.toString());
 
-			return "_pages/lifestyle/modify/" + id;
+			return "/lifestyle/modify/" + id;
 		}
 	}
 	

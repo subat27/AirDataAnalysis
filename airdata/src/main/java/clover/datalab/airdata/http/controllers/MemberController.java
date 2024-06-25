@@ -10,6 +10,7 @@ import clover.datalab.airdata.services.MemberService;
 import clover.datalab.airdata.utilities.Common;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class MemberController {
     private final PasswordEncoder encoder;
     private final ServerValidator validator;
     private final MemberService service;
-
+    
     @GetMapping("/user/login")
     public String login() {
         return "_pages/user/login";
