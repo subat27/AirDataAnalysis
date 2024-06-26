@@ -21,7 +21,7 @@
     <jsp:include page="../../_layouts/public/scripts.jsp"/>
     <script>
     	$(document).ready(function(){
-    		$.getJSON('/predict/airCondition', function(data) {
+    		$.getJSON('/predict/airCondition?date=20240627&localName=서울', function(data) {
     			$("#dust_10").html(JSON.parse(data.data)["미세먼지"]);
     			$("#dust_25").html(JSON.parse(data.data)["초미세먼지"]);
     		});

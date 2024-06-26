@@ -60,7 +60,7 @@ public class LifestyleController {
 	}
 
 	// 라이프스타일 목록 조회
-	@GetMapping("/lifestyle/list")
+	@GetMapping("/lifestyle")
 	public String listLifestyle(
 			@RequestParam(name = "page", defaultValue = "1") Integer page,
 			@RequestParam(name = "search", defaultValue = "") String search,

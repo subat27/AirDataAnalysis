@@ -7,6 +7,19 @@
 <jsp:include page="../../_layouts/public/meta.jsp" />
 <jsp:include page="../../_layouts/public/link.jsp" />
 <title>Blue sky Wellness</title>
+<style>
+	.card-img-top {
+    	object-fit: cover;
+	    height: 15rem;
+	}
+
+	.card-text {
+		max-height: 6em;
+		line-height: 1.5em;
+		white-space: normal;
+		overflow: hidden;
+	}
+</style>
 </head>
 <body>
 	<header>
@@ -42,13 +55,19 @@
 		<div class="col">
 			<div class="row m-5">
 				<c:forEach items="${items.content }" var="lifestyle">
-					<div class="col-4 p-2">
-						<div class="card">
-							<img class="rounded img-thumbnail" src="${lifestyle.thumbnail }" alt="thumbnail" onerror="this.onerror=null; this.src='/assets/images/noImage.png'">
+					<div class="col-lg-3 col-md-4 col-sm-6 p-2">
+						<div class="card h-100">
+							<img class="card-img-top" src="${lifestyle.thumbnail }" alt="thumbnail"
+								onerror="this.onerror=null; this.src='/assets/images/noImage.png'">
 							<div class="card-body">
 								<h5 class="card-title">${lifestyle.subject }</h5>
-								<p class="card-text">${lifestyle.content }</p>
-								<a href="/lifestyle/detail/${lifestyle.id }">더보기</a>
+								<div class="card-text">
+									${lifestyle.content }
+								</div>
+								
+							</div>
+							<div class="card_footer">
+							<a href="/lifestyle/detail/${lifestyle.id }">더보기</a>
 							</div>
 						</div>
 					</div>
@@ -62,20 +81,20 @@
 					<ul class="pagination justify-content-center">
 						<c:if test="${currentPage gt 1 }">
 							<li class="page-item"><a
-								href="/lifestyle/list?page=${currentPage-1 }&type=${type}&search=${search}"
+								href="/lifestyle?page=${currentPage-1 }&type=${type}&search=${search}"
 								class="page-link">이전</a></li>
 						</c:if>
 
 						<c:forEach var="page" begin="${start }" end="${end }">
 							<li class="page-item"><a
-								href="/lifestyle/list?page=${page }&type=${type}&search=${search}"
+								href="/lifestyle?page=${page }&type=${type}&search=${search}"
 								class="page-link <c:if test="${page eq currentPage }">active</c:if>">${page }</a>
 							</li>
 						</c:forEach>
 
 						<c:if test="${currentPage lt totalPages }">
 							<li class="page-item"><a
-								href="/lifestyle/list?page=${currentPage-1 }&type=${type}&search=${search}"
+								href="/lifestyle?page=${currentPage-1 }&type=${type}&search=${search}"
 								class="page-link">다음</a></li>
 						</c:if>
 
