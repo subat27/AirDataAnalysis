@@ -44,8 +44,7 @@
 				<c:forEach items="${items.content }" var="lifestyle">
 					<div class="col-4 p-2">
 						<div class="card">
-							<img src="${lifestyle.thumbnail }" alt="thumbnail"
-								onerror="assets/images/noImage.jpg">
+							<img class="rounded img-thumbnail" src="${lifestyle.thumbnail }" alt="thumbnail" onerror="this.onerror=null; this.src='/assets/images/noImage.png'">
 							<div class="card-body">
 								<h5 class="card-title">${lifestyle.subject }</h5>
 								<p class="card-text">${lifestyle.content }</p>
