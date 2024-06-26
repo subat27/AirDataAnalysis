@@ -1,0 +1,126 @@
+@font-face {
+    src: url('../fonts/LINESeedKR-Th.woff2');
+    font-family: 'LINE Seed Sans KR';
+    font-weight: 300;
+}
+@font-face {
+    src: url('../fonts/LINESeedKR-Rg.woff2');
+    font-family: 'LINE Seed Sans KR';
+    font-weight: 500;
+}
+@font-face {
+    src: url('../fonts/LINESeedKR-Bd.woff2');
+    font-family: 'LINE Seed Sans KR';
+    font-weight: 700;
+}
+
+* {
+    font-family: 'LINE Seed Sans KR', sans-serif;
+    word-break: keep-all;
+}
+
+div#page-content--user.user-form {
+    max-width: 360px;
+}
+div#page-content--user.user-form * {
+    border-radius: 0 !important;
+}
+div#page-content--user > header {
+    border-bottom: 2px solid #202020;
+}
+div#page-content--user > header > h2 {
+    font-weight: 500;
+    color: #191d1f;
+}
+div#page-content--user > header > p,
+div#page-content--user > main label.form-label {
+    margin: 0;
+    color: #888888;
+}
+div#page-content--sub > header.page-subject {
+    color: #191d1f;
+    border-bottom: 2px solid #191d1f;
+}
+
+div#navigation-wrapper > section.navigation {
+    margin: 6.4rem 0;
+}
+div#navigation-wrapper > section.navigation ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+div#navigation-wrapper > section.navigation ul a {
+    padding-bottom: 0.24rem;
+    color: #2b3035;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+div#navigation-wrapper > section.navigation ul a:hover,
+div#navigation-wrapper > section.navigation ul a.active {
+    padding-bottom: 0.24rem;
+    border-bottom: 2px solid #2b3035;
+}
+div#navigation-wrapper > section.banner {
+    margin-top: 3.2rem;
+}
+div#navigation-wrapper > section.banner > div.banner-250p {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #eaeaea;
+    background-color: #f9f9f9;
+}
+div#navigation-wrapper > section.banner > div.banner-250p img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+div#wrapper main#page-content--main > section#intro.intro {
+    width: 100%;
+    background-image: url('../images/main_intro.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+div#wrapper main#page-content--main > section#intro.intro > img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+div#wrapper main#page-content--main > section#intro.intro > p > strong {
+    font-weight: 700;
+    color: #191d1f;
+}
+
+
+h1.brand {
+    width: 100%;
+    height: 96px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+h1.brand > a.logo-default {
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/logo_default.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    text-indent: -9999px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.fs-7 {
+    font-size: 0.96rem;
+}
+.fs-8 {
+    font-size: 0.8rem;
+}
+.fs-9 {
+    font-size: 0.72rem;
+}

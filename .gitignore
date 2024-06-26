@@ -2,7 +2,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse,java,windows,macos,maven,python,flask
 
 application.properties
+application-API-KEY.properties
 development.mv.db
+airdata/src/main/webapp/upload/
 
 ### Eclipse ###
 .metadata
