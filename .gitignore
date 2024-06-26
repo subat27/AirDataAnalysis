@@ -5,6 +5,10 @@ application.properties
 application-API-KEY.properties
 development.mv.db
 airdata/src/main/webapp/upload/
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3edca73e27614ef8bcb350d65e91294692c43e4d
 
 ### Eclipse ###
 .metadata

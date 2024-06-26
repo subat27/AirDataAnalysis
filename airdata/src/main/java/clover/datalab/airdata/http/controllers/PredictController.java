@@ -93,7 +93,6 @@ public class PredictController {
 		return input;
 	}
 	
-	
 	public JSONObject bypass(String uri, JSONObject jsonData, String option) {
 		
 		JSONObject responseJson = new JSONObject();
@@ -216,4 +215,5 @@ public class PredictController {
     }
 
 	
+
 }
