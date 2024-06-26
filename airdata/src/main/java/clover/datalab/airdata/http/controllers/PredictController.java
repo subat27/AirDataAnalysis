@@ -1,10 +1,14 @@
 package clover.datalab.airdata.http.controllers;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,10 +16,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import clover.datalab.airdata.utilities.Weather;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class PredictController {
+	
+	private final Weather weather;
+	private final ObjectMapper objectMapper;
+	
 	@Value("${pythonURL}")
 	public String pythonURL;
+	
+	private Map<String, Double> weatherData(String date, String localName) {
+		try {
+			String result = weather.weatherData(localName);
+			Map<String, Map<String, Double>> resultData = processJsonData(result);
+			return resultData.get((String)date);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	@GetMapping("/predict/show")
 	public String show() {
@@ -24,30 +50,49 @@ public class PredictController {
 	
 	@GetMapping("/predict/airCondition")
 	@ResponseBody
-	public String predictAirCondition() {
+	public String predictAirCondition(String date, String localName) {
+		System.out.println(date);
+		// 미세먼지 정보 호출 (??)
+		Map<String, Double> dustData = Map.of("PM10", 31.0, "PM25", 25.0);
+				
+		// 현재 기상정보 호출 (초단기실황 API 이용)
+		Map<String, Double> nowWeatherData = Map.of(
+					"REH", 40.0,
+					"WSD", 3.0,
+					"VEC", 270.0,
+					"PCP", 0.0,
+					"TMP", 26.0
+				);
 		
-		JSONObject input = new JSONObject();
-		input.put("미세먼지(PM10)", 11);
-		input.put("초미세먼지(PM25)", 3);
-		input.put("평균습도(%rh)", 49);
-		input.put("평균풍속(m/s)", 5);
-		input.put("최대풍속풍향(deg)", 359);
-		input.put("강수량(mm)", 0);
-		input.put("평균기온(℃)", 26);
-		input.put("최고기온(℃)", 26);
-		input.put("일교차", 11);
-		input.put("humid_nextDay", 46);
-		input.put("wv_nextDay", 0);
-		input.put("wd_nextDay", 196);
-		input.put("pop_nextDay", 0);
-		input.put("at_nextDay", 24);
-		input.put("ht_nextDay", 31);
-		input.put("td_nextDay", 14);
-		input.put("지역1", "서울");
+		// 예측할 날짜의 기상정보 호출
+		Map<String, Double> futureWeatherData = weatherData(date, localName);
+		
+		JSONObject input = setInput(dustData, nowWeatherData, futureWeatherData, localName);
 		JSONObject result = bypass(pythonURL, input, "POST");
 		
 		return result.toString();
 	}
+	
+	private JSONObject setInput(Map<String, Double> dustData, Map<String, Double> nowWeatherData, Map<String, Double> futureWeatherData, String localName) {
+		JSONObject input = new JSONObject();
+		input.put("미세먼지(PM10)", dustData.get("PM10"));											// 현재 미세먼지 농도
+		input.put("초미세먼지(PM25)", dustData.get("PM25"));										// 현재 초미세먼지 농도
+		input.put("평균습도(%rh)", nowWeatherData.get("REH"));										// 현재 평균습도
+		input.put("평균풍속(m/s)", nowWeatherData.get("WSD"));										// 현재 평균풍속
+		input.put("최대풍속풍향(deg)", nowWeatherData.get("VEC"));									// 현재 최대풍속풍향
+		input.put("강수량(mm)", nowWeatherData.get("PCP"));										// 현재 강수량
+		input.put("평균기온(℃)", nowWeatherData.get("TMP"));										// 현재 평균기온
+		input.put("humid_nextDay", futureWeatherData.get("REH"));								// 예측날짜 평균습도
+		input.put("wv_nextDay", futureWeatherData.get("WSD"));									// 예측날짜 평균풍속
+		input.put("wd_nextDay", futureWeatherData.get("VEC"));									// 예측날짜 최대풍속풍향
+		input.put("pop_nextDay", futureWeatherData.get("PCP"));									// 예측날짜 강수량
+		input.put("at_nextDay", futureWeatherData.get("TMP"));									// 예측날짜 평균기온
+		input.put("ht_nextDay", futureWeatherData.get("TMX"));									// 예측날짜 최고기온
+		input.put("td_nextDay", futureWeatherData.get("TMX") - futureWeatherData.get("TMN"));	// 예측날짜 일교차
+		input.put("지역1", localName);															// 예측 지역
+		return input;
+	}
+	
 	
 	public JSONObject bypass(String uri, JSONObject jsonData, String option) {
 		
@@ -71,8 +116,6 @@ public class PredictController {
 			OutputStreamWriter wr = new OutputStreamWriter(start_con.getOutputStream());
 			wr.write(jsonData.toString());
 			wr.flush();
-			
-			System.out.println(jsonData.toString());
 			
 			// 응답 받는 부분
 			StringBuilder start_sb = new StringBuilder();
@@ -99,5 +142,78 @@ public class PredictController {
 			return responseJson;
 		}
 	}
+	
+	public Map<String, Map<String, Double>> processJsonData(String jsonData) throws IOException {
+		JsonNode rootNode = objectMapper.readTree(jsonData);
+		Iterator<JsonNode> elements = rootNode.get("response").get("body").get("items").get("item").elements();
+		
+		Map<String, Map<String, SumCount>> intermediateResults = new HashMap<>();
+
+		System.out.println(elements);
+		
+        // Parse each element
+        while (elements.hasNext()) {
+            JsonNode element = elements.next();
+            String fcstDate = element.get("fcstDate").asText();
+            String category = element.get("category").asText();
+            String fcstValue = element.get("fcstValue").asText();
+
+            // Check if the fcstValue is a numeric value
+            if (isNumeric(fcstValue)) {
+                double value = Double.parseDouble(fcstValue);
+                intermediateResults.putIfAbsent(fcstDate, new HashMap<>());
+                Map<String, SumCount> categoryMap = intermediateResults.get(fcstDate);
+                categoryMap.putIfAbsent(category, new SumCount());
+                SumCount sumCount = categoryMap.get(category);
+                sumCount.add(value);
+            } else {
+            	double value = 0.0;
+                intermediateResults.putIfAbsent(fcstDate, new HashMap<>());
+                Map<String, SumCount> categoryMap = intermediateResults.get(fcstDate);
+                categoryMap.putIfAbsent(category, new SumCount());
+                SumCount sumCount = categoryMap.get(category);
+                sumCount.add(value);
+            }
+        }
+
+        // Calculate averages
+        Map<String, Map<String, Double>> result = new HashMap<>();
+        for (Map.Entry<String, Map<String, SumCount>> entry : intermediateResults.entrySet()) {
+            String fcstDate = entry.getKey();
+            Map<String, Double> averages = new HashMap<>();
+            for (Map.Entry<String, SumCount> categoryEntry : entry.getValue().entrySet()) {
+                String category = categoryEntry.getKey();
+                SumCount sumCount = categoryEntry.getValue();
+                averages.put(category, sumCount.getAverage());
+            }
+            result.put(fcstDate, averages);
+        }
+
+        return result;
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private static class SumCount {
+        private double sum = 0;
+        private int count = 0;
+
+        public void add(double value) {
+            sum += value;
+            count++;
+        }
+
+        public double getAverage() {
+            return (count == 0) ? 0 : sum / count;
+        }
+    }
+
 	
 }

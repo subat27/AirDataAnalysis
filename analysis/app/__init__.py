@@ -29,19 +29,17 @@ def apiTest():
     arg5 = param.get('최대풍속풍향(deg)')
     arg6 = param.get('강수량(mm)')
     arg7 = param.get('평균기온(℃)')
-    arg8 = param.get('최고기온(℃)')
-    arg9 = param.get('일교차')
-    arg10 = param.get('humid_nextDay')
-    arg11 = param.get('wv_nextDay')
-    arg12 = param.get('wd_nextDay')
-    arg13 = param.get('pop_nextDay')
-    arg14 = param.get('at_nextDay')
-    arg15 = param.get('ht_nextDay')
-    arg16 = param.get('td_nextDay')
+    arg8 = param.get('humid_nextDay')
+    arg9 = param.get('wv_nextDay')
+    arg10 = param.get('wd_nextDay')
+    arg11 = param.get('pop_nextDay')
+    arg12 = param.get('at_nextDay')
+    arg13 = param.get('ht_nextDay')
+    arg14 = param.get('td_nextDay')
     local = param.get('지역1')
     
     result = getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                     arg11, arg12, arg13, arg14, arg15, arg16, local)
+                     arg11, arg12, arg13, arg14, local)
 
     print(result)
 
@@ -51,7 +49,7 @@ if __name__ == "__main__" :
     app.run(host='127.0.0.1', port=5000)
 
 def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                     arg11, arg12, arg13, arg14, arg15, arg16, local) :
+                     arg11, arg12, arg13, arg14, local) :
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(3)
     if device == "cuda:0":
@@ -67,22 +65,20 @@ def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
         '최대풍속풍향(deg)' : [arg5],
         '강수량(mm)' : [arg6],
         '평균기온(℃)' : [arg7],
-        '최고기온(℃)' : [arg8],
-        '일교차' : [arg9],
-        'humid_nextDay' : [arg10], # 내일 습도
-        'wv_nextDay' : [arg11], # 내일 풍속
-        'wd_nextDay' : [arg12], # 내일 최대풍속풍향
-        'pop_nextDay' : [arg13], # 내일 강수량
-        'at_nextDay' : [arg14], # 내일 평균온도
-        'ht_nextDay' : [arg15], # 내일 최고온도
-        'td_nextDay' : [arg16]
+        'humid_nextDay' : [arg8], # 내일 습도
+        'wv_nextDay' : [arg9], # 내일 풍속
+        'wd_nextDay' : [arg10], # 내일 최대풍속풍향
+        'pop_nextDay' : [arg11], # 내일 강수량
+        'at_nextDay' : [arg12], # 내일 평균온도
+        'ht_nextDay' : [arg13], # 내일 최고온도
+        'td_nextDay' : [arg14]
     })
 
     X_act_ss = ss.fit_transform(X_act)
     X_act_tensors = torch.Tensor(X_act_ss)
     X_act_tensors_f = torch.reshape(X_act_tensors, (X_act_tensors.shape[0], 1, X_act_tensors.shape[1]))
 
-    model = LSTM(2, 16, 2, 1, X_act_tensors_f.shape[1])
+    model = LSTM(2, 14, 2, 1, X_act_tensors_f.shape[1])
     model.load_state_dict(torch.load("app/model/LSTM_MODEL_"+local+".pth"))
     model.eval()
 
@@ -105,8 +101,10 @@ class LSTM(nn.Module) :
 
         self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=num_layers, batch_first=True)
         
-        self.fc_1 = nn.Linear(hidden_size, 128)
-        self.fc = nn.Linear(128, num_classes)
+        self.fc_1 = nn.Linear(hidden_size, 256)
+        self.fc_2 = nn.Linear(256, 512)
+        self.fc_3 = nn.Linear(512, 256)
+        self.fc = nn.Linear(256, num_classes)
         self.relu = nn.ReLU()
 
     def forward(self, x) :
