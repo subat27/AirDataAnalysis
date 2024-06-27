@@ -4,37 +4,29 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <jsp:include page="../../_layouts/public/meta.jsp"/>
-    <jsp:include page="../../_layouts/public/link.jsp"/>
+    <jsp:include page="../../_layouts/user/meta.jsp"/>
+    <jsp:include page="../../_layouts/user/link.jsp"/>
     <title>Blue sky Wellness</title>
 </head>
-<body class="bg-light">
-    <div id="page-content--user" class="container user-form my-5">
-        <header class="pb-4">
-            <h2 class="fs-1">로그인</h2>
-            <p class="fs-8 mt-1 mb-0">요청하신 페이지는 관리자 권한이 있어야 합니다.</p>
-            <c:if test="${sessionScope.message}">
-                <small>${sessionScope.message}</small>
-                <c:remove var="message" scope="session"/>
-            </c:if>
-        </header>
-        <main>
-            <form:form method="post" action="/user/login">
-                <div class="my-3">
-                    <label for="username" class="form-label fs-8 mb-1">아이디</label>
-                    <input type="text" class="form-control form-control-lg" name="username" id="username" placeholder="아이디 입력">
-                </div>
-                <div class="my-3">
-                    <label for="password" class="form-label fs-8 mb-1">비밀번호</label>
-                    <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="비밀번호 입력">
-                </div>
-                <hr/>
-                <div class="my-3">
-                    <button type="submit" class="btn btn-lg btn-dark w-100">로그인</button>
-                </div>
-            </form:form>
-        </main>
-    </div>
-    <jsp:include page="../../_layouts/public/scripts.jsp"/>
+<body class="vh-100 bg-light d-flex flex-column">
+    <main class="form-signin w-100 m-auto">
+		<form:form method="post" action="/user/login">
+			<h1 class="h3 mb-3">관리자 로그인</h1>
+			<c:if test="${not empty sessionScope.message}">
+				<p>${sessionScope.message}</p>
+				<c:remove var="message" scope="session"/>
+			</c:if>
+			<div class="form-floating">
+			  	<input type="text" class="form-control" id="username" name="username" placeholder="아이디">
+				<label for="username">아이디</label>
+			</div>
+			<div class="form-floating">
+				<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+			  	<label for="password">비밀번호</label>
+			</div>
+		<button class="btn btn-dark w-100 py-2" type="submit">로그인</button>
+		</form:form>
+	</main>
+    <jsp:include page="../../_layouts/user/scripts.jsp"/>
 </body>
 </html>

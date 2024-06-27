@@ -19,108 +19,188 @@
     word-break: keep-all;
 }
 
-div#page-content--user.user-form {
-    max-width: 360px;
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
 }
-div#page-content--user.user-form * {
-    border-radius: 0 !important;
+@media (min-width: 768px) {
+	.bd-placeholder-img-lg {
+    	font-size: 3.5rem;
+  	}
 }
-div#page-content--user > header {
-    border-bottom: 2px solid #202020;
+.b-admin-divider {
+	width: 100%;
+	height: 3rem;
+	background-color: rgba(0, 0, 0, .1);
+	border: solid rgba(0, 0, 0, .15);
+	border-width: 1px 0;
+	box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
 }
-div#page-content--user > header > h2 {
-    font-weight: 500;
-    color: #191d1f;
+.b-admin-vr {
+	flex-shrink: 0;
+	width: 1.5rem;
+	height: 100vh;
 }
-div#page-content--user > header > p,
-div#page-content--user > main label.form-label {
-    margin: 0;
-    color: #888888;
+.bi {
+	vertical-align: -.125em;
+	fill: currentColor;
 }
-div#page-content--sub > header.page-subject {
-    color: #191d1f;
-    border-bottom: 2px solid #191d1f;
+.nav-scroller {
+	position: relative;
+	z-index: 2;
+	height: 2.75rem;
+	overflow-y: hidden;
+}
+.nav-scroller .nav {
+	display: flex;
+	flex-wrap: nowrap;
+	padding-bottom: 1rem;
+	margin-top: -1px;
+	overflow-x: auto;
+	text-align: center;
+	white-space: nowrap;
+	-webkit-overflow-scrolling: touch;
+}
+.btn-bd-primary {
+	--bd-violet-bg: #712cf9;
+	--bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+	
+	--bs-btn-font-weight: 600;
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var(--bd-violet-bg);
+	--bs-btn-border-color: var(--bd-violet-bg);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: #6528e0;
+	--bs-btn-hover-border-color: #6528e0;
+	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+	--bs-btn-active-color: var(--bs-btn-hover-color);
+	--bs-btn-active-bg: #5a23c8;
+	--bs-btn-active-border-color: #5a23c8;
+}
+.bd-mode-toggle {
+	z-index: 1500;
+}
+.bd-mode-toggle .dropdown-menu .active .bi {
+	display: block !important;
+}
+.bi {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+}
+@media (min-width: 768px) {
+  	.sidebar .offcanvas-lg {
+	    position: -webkit-sticky;
+	    position: sticky;
+	    top: 48px;
+  	}
+  	.navbar-search {
+    	display: block;
+	}
+}
+.sidebar .nav-link {
+	font-size: .875rem;
+	font-weight: 500;
+}
+.sidebar .nav-link.active {
+	color: #2470dc;
+}
+.sidebar-heading {
+	font-size: .75rem;
+}
+.navbar-brand {
+	padding-top: .75rem;
+	padding-bottom: .75rem;
+	background-color: rgba(0, 0, 0, .25);
+	box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+.navbar .form-control {
+	padding: .75rem 1rem;
 }
 
-div#navigation-wrapper > section.navigation {
-    margin: 6.4rem 0;
-}
-div#navigation-wrapper > section.navigation ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-div#navigation-wrapper > section.navigation ul a {
-    padding-bottom: 0.24rem;
-    color: #2b3035;
-    text-decoration: none;
-    transition: all 0.2s;
-}
-div#navigation-wrapper > section.navigation ul a:hover,
-div#navigation-wrapper > section.navigation ul a.active {
-    padding-bottom: 0.24rem;
-    border-bottom: 2px solid #2b3035;
-}
-div#navigation-wrapper > section.banner {
-    margin-top: 3.2rem;
-}
-div#navigation-wrapper > section.banner > div.banner-250p {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #eaeaea;
-    background-color: #f9f9f9;
-}
-div#navigation-wrapper > section.banner > div.banner-250p img {
-    width: 100%;
-    height: auto;
-    display: block;
+.tox-tinymce {
+	border-radius: 0 !important;
 }
 
 
-div#wrapper main#page-content--main > section#intro.intro {
-    width: 100%;
-    background-image: url('../images/main_intro.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+main.form-signin,
+main.form-signup {
+	max-width: 330px;
+	padding: 1rem;
 }
-div#wrapper main#page-content--main > section#intro.intro > img {
-    width: 100%;
-    height: auto;
-    display: block;
+main.form-signin h1,
+main.form-signup h1 {
+	font-weight: 700;
 }
-div#wrapper main#page-content--main > section#intro.intro > p > strong {
-    font-weight: 700;
-    color: #191d1f;
+main.form-signin p,
+main.form-signup p {
+	color: #888888;
 }
-
-
-h1.brand {
-    width: 100%;
-    height: 96px;
-    margin: 0;
-    padding: 0;
-    position: relative;
+main.form-signin .form-floating:focus-within,
+main.form-signup .form-floating:focus-within {
+	z-index: 2;
 }
-h1.brand > a.logo-default {
-    width: 100%;
-    height: 100%;
-    background-image: url('../images/logo_default.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    text-indent: -9999px;
-    position: absolute;
-    left: 0;
-    top: 0;
+main.form-signin input[name="username"],
+main.form-signup input[name="username"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+main.form-signin input[name="password"],
+main.form-signup input[name="name"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+main.form-signup input[name="password"],
+main.form-signup input[name="confirm"] {
+	margin: -1px 0;
+	border-radius: 0;
 }
 
-.fs-7 {
-    font-size: 0.96rem;
+div#page-public--main > main {
+	padding: 0;
 }
-.fs-8 {
-    font-size: 0.8rem;
+div#page-public--main > main > section.intro {
+	height: 96vh;
+	padding: 1.6rem;
+	box-sizing: border-box;
+	position: relative;
 }
-.fs-9 {
-    font-size: 0.72rem;
+div#page-public--main > main > section.intro > div.banner-image {
+	width: 100%;
+}
+div#page-public--main > main > section.intro > div.banner-image > img {
+	width: 100%;
+	height: 100vw;
+	border-radius: 4vw;
+	object-fit: cover;
+	object-position: center;
+	display: block;
+}
+@media (min-width: 768px) {
+	div#page-public--main > main > section.intro {
+		height: 88vh;
+		padding: 3.2rem;
+		position: relative;
+	}
+	div#page-public--main > main > section.intro > div.banner-image {
+		width: calc(50% - 3.2rem);
+		height: calc(100% - 6.4rem);
+		position: absolute;
+		right: 3.2rem;
+		top: 3.2rem;
+	}
+	div#page-public--main > main > section.intro > div.banner-image > img {
+		height: 100%;
+		border-radius: 2.4rem;
+	}
+}
+@media (min-width: 1366px) {
+	div#page-public--main > main {
+		padding-left: 264px;
+	}
 }
