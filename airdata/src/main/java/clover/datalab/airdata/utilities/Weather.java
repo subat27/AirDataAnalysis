@@ -17,6 +17,7 @@ public class Weather {
 	
 	public static final Map<String, String> LOCATION_MAP;
 	
+	// 시도별 위경도 좌표
 	static {
 		LOCATION_MAP = new HashMap<String, String>();
 		LOCATION_MAP.put("서울", "60,127");
@@ -39,17 +40,33 @@ public class Weather {
 		
 	}
 	
+	// 단기예보 API 호출
 	public String weatherData(String localName) throws Exception {
 		String[] position = getPosition(localName);
 		return common.getRestApi(nowDate(), position[0], position[1]);
 	}
 	
+	// 초단기실황 API 호출
+	public String nowWeatherData(String localName) throws Exception {
+		String[] position = getPosition(localName);
+		return common.getRestApi(nowDate(), nowHour(), position[0], position[1]);
+	}
+	
+	// 현재 날짜를 yyyyMMdd로 반환하는 함수
 	private String nowDate() {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return now.format(formatter);
 	}
+
+	// 현재 시간을 반환하는 함수
+	private String nowHour() {
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH");
+        return now.format(formatter) + "00";
+	}
 	
+	// 지역별 위경도 좌표를 배열로 반환하는 함수
 	private String[] getPosition(String localName) {
 		return LOCATION_MAP.get(localName).split(",");
 	}

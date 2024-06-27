@@ -42,6 +42,7 @@ public class Common {
         return paginatePosition;
     }
     
+    // 단기예보 조회
     public String getRestApi(String base_date, String nx, String ny) throws Exception {
     	String url = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?" +
     				"serviceKey=" + publicApiKey +
@@ -59,6 +60,25 @@ public class Common {
         return response.getBody();
     }
 
+    // 초단기실황 조회
+    public String getRestApi(String base_date, String base_time, String nx, String ny) throws Exception {
+    	String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?" +
+    				"serviceKey=" + publicApiKey +
+    				"&pageNo=1&numOfRows=1000&dataType=JSON" +
+    				"&base_time=" + base_time +
+    				"&base_date=" + base_date +
+    				"&nx=" + nx +
+    				"&ny=" + ny;
+    	
+    	URI uri = new URI(url);
+    	RestTemplate restTemplate = new RestTemplate();
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+    	
+    	ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+        return response.getBody();
+    }
+    
     public Map<String, Object> convertJsonData(String json) {
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, Object>>(){}.getType();

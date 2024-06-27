@@ -43,6 +43,19 @@ public class PredictController {
 		return null;
 	}
 	
+	private Map<String, Double> nowWeatherData(String localName){
+		
+		try {
+			String result = weather.nowWeatherData(localName);
+			return processJsonDataPresent(result);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	@GetMapping("/predict/show")
 	public String show() {
 		return "_pages/dust/predict";
@@ -50,25 +63,40 @@ public class PredictController {
 	
 	@GetMapping("/predict/airCondition")
 	@ResponseBody
-	public String predictAirCondition(String date, String localName) {
-		System.out.println(date);
+	public String predictAirCondition(String dates, String localName) { 
+		System.out.println(dates);
+		String[] dateList = dates.split(",");
+		JSONObject result = new JSONObject();
+		
 		// 미세먼지 정보 호출 (??)
-		Map<String, Double> dustData = Map.of("PM10", 31.0, "PM25", 25.0);
-				
-		// 현재 기상정보 호출 (초단기실황 API 이용)
-		Map<String, Double> nowWeatherData = Map.of(
-					"REH", 40.0,
-					"WSD", 3.0,
-					"VEC", 270.0,
-					"PCP", 0.0,
-					"TMP", 26.0
-				);
+		Map<String, Double> dustData = new HashMap<>();
+		dustData.put("PM10", 31.0);
+		dustData.put("PM25", 25.0);
+
+		// 현재 날씨 정보 호출
+		Map<String, Double> nowWeatherData = nowWeatherData(localName);
+		
+		for (String date : dateList) {
+			Map<String, Double> futureWeatherData = weatherData(date, localName);
+			
+			JSONObject input = setInput(dustData, nowWeatherData, futureWeatherData, localName);
+			JSONObject temp = bypass(pythonURL, input, "POST");
+			
+			JSONObject data = new JSONObject(temp.get("data").toString());
+			
+			dustData.put("PM10", Double.parseDouble(data.get("미세먼지").toString()));
+			dustData.put("PM25", Double.parseDouble(data.get("초미세먼지").toString()));
+			
+			result.put(date, temp);
+		}
 		
 		// 예측할 날짜의 기상정보 호출
-		Map<String, Double> futureWeatherData = weatherData(date, localName);
+//		Map<String, Double> futureWeatherData = weatherData(date, localName);
+//		
+//		JSONObject input = setInput(dustData, nowWeatherData, futureWeatherData, localName);
+//		JSONObject result = bypass(pythonURL, input, "POST");
 		
-		JSONObject input = setInput(dustData, nowWeatherData, futureWeatherData, localName);
-		JSONObject result = bypass(pythonURL, input, "POST");
+		System.out.println(result);
 		
 		return result.toString();
 	}
@@ -80,15 +108,14 @@ public class PredictController {
 		input.put("평균습도(%rh)", nowWeatherData.get("REH"));										// 현재 평균습도
 		input.put("평균풍속(m/s)", nowWeatherData.get("WSD"));										// 현재 평균풍속
 		input.put("최대풍속풍향(deg)", nowWeatherData.get("VEC"));									// 현재 최대풍속풍향
-		input.put("강수량(mm)", nowWeatherData.get("PCP"));										// 현재 강수량
-		input.put("평균기온(℃)", nowWeatherData.get("TMP"));										// 현재 평균기온
+		input.put("강수량(mm)", nowWeatherData.get("RN1"));										// 현재 강수량
+		input.put("평균기온(℃)", nowWeatherData.get("T1H"));										// 현재 평균기온
 		input.put("humid_nextDay", futureWeatherData.get("REH"));								// 예측날짜 평균습도
 		input.put("wv_nextDay", futureWeatherData.get("WSD"));									// 예측날짜 평균풍속
 		input.put("wd_nextDay", futureWeatherData.get("VEC"));									// 예측날짜 최대풍속풍향
 		input.put("pop_nextDay", futureWeatherData.get("PCP"));									// 예측날짜 강수량
 		input.put("at_nextDay", futureWeatherData.get("TMP"));									// 예측날짜 평균기온
 		input.put("ht_nextDay", futureWeatherData.get("TMX"));									// 예측날짜 최고기온
-		input.put("td_nextDay", futureWeatherData.get("TMX") - futureWeatherData.get("TMN"));	// 예측날짜 일교차
 		input.put("지역1", localName);															// 예측 지역
 		return input;
 	}
@@ -127,10 +154,11 @@ public class PredictController {
 				while ( (line = br.readLine()) != null) {
 					start_sb.append(line);
 				}
-				responseJson.put("data", start_sb);
+				responseJson.put("data", start_sb.toString());
 				responseJson.put("result", "SUCCESS");
 				br.close();
 				
+				start_con.disconnect();
 				return responseJson;
 			} else {
 				responseJson.put("result", "FAIL");
@@ -143,14 +171,32 @@ public class PredictController {
 		}
 	}
 	
+	// 초단기실황 API JSON 데이터 처리,
+	public Map<String, Double> processJsonDataPresent(String jsonData) throws IOException {
+		JsonNode rootNode = objectMapper.readTree(jsonData);
+		Iterator<JsonNode> elements = rootNode.get("response").get("body").get("items").get("item").elements();
+		
+		Map<String, Double> resultMap = new HashMap<>();
+		
+		while (elements.hasNext()) {
+			JsonNode element = elements.next();
+			String category = element.get("category").asText();
+			String obsrValue = element.get("obsrValue").asText();
+			
+			resultMap.put(category, Double.parseDouble(obsrValue));
+		}
+		
+		return resultMap;
+	}
+	
+	
+	// 단기예보 API JSON 데이터 처리
 	public Map<String, Map<String, Double>> processJsonData(String jsonData) throws IOException {
 		JsonNode rootNode = objectMapper.readTree(jsonData);
 		Iterator<JsonNode> elements = rootNode.get("response").get("body").get("items").get("item").elements();
 		
 		Map<String, Map<String, SumCount>> intermediateResults = new HashMap<>();
 
-		System.out.println(elements);
-		
         // Parse each element
         while (elements.hasNext()) {
             JsonNode element = elements.next();

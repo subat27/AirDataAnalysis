@@ -35,11 +35,10 @@ def apiTest():
     arg11 = param.get('pop_nextDay')
     arg12 = param.get('at_nextDay')
     arg13 = param.get('ht_nextDay')
-    arg14 = param.get('td_nextDay')
     local = param.get('지역1')
     
     result = getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                     arg11, arg12, arg13, arg14, local)
+                     arg11, arg12, arg13, local)
 
     print(result)
 
@@ -55,8 +54,6 @@ def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
     if device == "cuda:0":
         torch.cuda.manual_seed_all(3)
 
-    ss = StandardScaler()
-    
     X_act = pd.DataFrame({
         '미세먼지(PM10)' : [arg1],
         '초미세먼지(PM25)' : [arg2],
@@ -74,15 +71,16 @@ def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
         'td_nextDay' : [arg14]
     })
 
-    X_act_ss = ss.fit_transform(X_act)
+    ss = joblib.load("app/scaler/ss_"+local+".pkl")
+    ms = joblib.load("app/scaler/ms_"+local+".pkl")
+
+    X_act_ss = ss.transform(X_act)
     X_act_tensors = torch.Tensor(X_act_ss)
     X_act_tensors_f = torch.reshape(X_act_tensors, (X_act_tensors.shape[0], 1, X_act_tensors.shape[1]))
 
     model = LSTM(2, 14, 2, 1, X_act_tensors_f.shape[1])
     model.load_state_dict(torch.load("app/model/LSTM_MODEL_"+local+".pth"))
     model.eval()
-
-    ms = joblib.load("app/scaler/ms_"+local+".pkl")
 
     predict = model(X_act_tensors_f)
     predict = predict.data.numpy()
@@ -104,6 +102,8 @@ class LSTM(nn.Module) :
         self.fc_1 = nn.Linear(hidden_size, 256)
         self.fc_2 = nn.Linear(256, 512)
         self.fc_3 = nn.Linear(512, 256)
+        self.fc_4 = nn.Linear(256, 128)
+        self.fc_5 = nn.Linear(128, 256)
         self.fc = nn.Linear(256, num_classes)
         self.relu = nn.ReLU()
 
