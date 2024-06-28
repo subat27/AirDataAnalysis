@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Dust {
 	
-    public String getDataTime() {
+    public LocalDateTime getDataTime() {
         return this.dataTime;
     }
 
@@ -31,7 +31,7 @@ public class Dust {
     private String sidoName; // 시도명
 
     @Column(nullable = true, name = "data_time")
-    private String dataTime; // 측정일시
+    private LocalDateTime dataTime; // 측정일시
 
     @Column(nullable = true, name = "station_name")
     private String stationName; // 측정소명
