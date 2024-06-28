@@ -70,8 +70,8 @@ public class PredictController {
 		
 		// 미세먼지 정보 호출 (??)
 		Map<String, Double> dustData = new HashMap<>();
-		dustData.put("PM10", 31.0);
-		dustData.put("PM25", 25.0);
+		dustData.put("PM10", 41.0);
+		dustData.put("PM25", 30.0);
 
 		// 현재 날씨 정보 호출
 		Map<String, Double> nowWeatherData = nowWeatherData(localName);
@@ -81,7 +81,7 @@ public class PredictController {
 			
 			JSONObject input = setInput(dustData, nowWeatherData, futureWeatherData, localName);
 			JSONObject temp = bypass(pythonURL, input, "POST");
-			
+			System.out.println(temp);
 			JSONObject data = new JSONObject(temp.get("data").toString());
 			
 			dustData.put("PM10", Double.parseDouble(data.get("미세먼지").toString()));
@@ -89,12 +89,6 @@ public class PredictController {
 			
 			result.put(date, temp);
 		}
-		
-		// 예측할 날짜의 기상정보 호출
-//		Map<String, Double> futureWeatherData = weatherData(date, localName);
-//		
-//		JSONObject input = setInput(dustData, nowWeatherData, futureWeatherData, localName);
-//		JSONObject result = bypass(pythonURL, input, "POST");
 		
 		System.out.println(result);
 		

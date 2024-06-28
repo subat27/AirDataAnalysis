@@ -76,13 +76,6 @@
 			
 			console.log(today, tomorrow, tdat);
 			
-			/* $("#localSelector").change(function() {
-				$.getJSON('/predict/airCondition?date=' + today + '&localName='+ $(this).val(), function(data) {
-					$("#dust_10_td").html(JSON.parse(data.data)["미세먼지"]);
-					$("#dust_25_td").html(JSON.parse(data.data)["초미세먼지"]);
-				});
-			}); */
-			
 			$("#localSelector").change(function() {
 				$.getJSON('/predict/airCondition?dates=' + today + ','  + tomorrow + ','  + tdat + '&localName='+ $(this).val(), function(data) {
 					$("#dust_10_td").html(JSON.parse(data[today]["data"])["미세먼지"]);

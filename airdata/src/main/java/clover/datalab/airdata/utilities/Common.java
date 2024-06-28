@@ -69,7 +69,7 @@ public class Common {
     				"&base_date=" + base_date +
     				"&nx=" + nx +
     				"&ny=" + ny;
-    	
+    	System.out.println(url);
     	URI uri = new URI(url);
     	RestTemplate restTemplate = new RestTemplate();
     	HttpHeaders headers = new HttpHeaders();

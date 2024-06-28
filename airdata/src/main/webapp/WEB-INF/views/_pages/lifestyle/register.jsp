@@ -52,7 +52,6 @@
 		</div>
 	</main>
 	<jsp:include page="../../_layouts/public/scripts.jsp" />
-	<script src="https://cdn.tiny.cloud/1/${tinymce }/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 	<script>
 		tinymce.init({
 			selector : '.mytextarea', // TinyMCE를 적용할 textarea요소의 선택자 지정

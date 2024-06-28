@@ -37,8 +37,7 @@ def apiTest():
     arg13 = param.get('ht_nextDay')
     local = param.get('지역1')
     
-    result = getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                     arg11, arg12, arg13, local)
+    result = getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, local)
 
     print(result)
 
@@ -47,8 +46,7 @@ def apiTest():
 if __name__ == "__main__" :
     app.run(host='127.0.0.1', port=5000)
 
-def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                     arg11, arg12, arg13, arg14, local) :
+def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, local) :
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(3)
     if device == "cuda:0":
@@ -68,7 +66,6 @@ def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
         'pop_nextDay' : [arg11], # 내일 강수량
         'at_nextDay' : [arg12], # 내일 평균온도
         'ht_nextDay' : [arg13], # 내일 최고온도
-        'td_nextDay' : [arg14]
     })
 
     ss = joblib.load("app/scaler/ss_"+local+".pkl")
@@ -78,7 +75,7 @@ def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
     X_act_tensors = torch.Tensor(X_act_ss)
     X_act_tensors_f = torch.reshape(X_act_tensors, (X_act_tensors.shape[0], 1, X_act_tensors.shape[1]))
 
-    model = LSTM(2, 14, 2, 1, X_act_tensors_f.shape[1])
+    model = LSTM(2, 13, 2, 1, X_act_tensors_f.shape[1])
     model.load_state_dict(torch.load("app/model/LSTM_MODEL_"+local+".pth"))
     model.eval()
 
