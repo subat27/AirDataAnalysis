@@ -120,7 +120,6 @@ public class PredictController {
 		return input;
 	}
 	
-	
 	public JSONObject bypass(String uri, JSONObject jsonData, String option) {
 		
 		JSONObject responseJson = new JSONObject();
@@ -260,6 +259,5 @@ public class PredictController {
             return (count == 0) ? 0 : sum / count;
         }
     }
-
 	
 }
