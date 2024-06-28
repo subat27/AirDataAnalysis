@@ -10,41 +10,24 @@
 </head>
 <body>
 	<header>
-		<h2>수정요청</h2>
+		<h2>수정요청 확인</h2>
 		<p>${error}</p>
 	</header>
 	<main>
+		<hr>
 		<div class="m-5">
-			<form:form method="post" action="/edit/register/${lifestyleId }"
-				modelAttribute="editRequest" enctype="multipart/form-data">
-				<div class="my-3">
-					<form:label path="subject" cssClass="form-label">제목</form:label>
-					<form:input path="subject" cssClass="form-control form-control-lg" />
-					<form:errors path="subject" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-3">
-					<form:label path="name" cssClass="form-label">작성자명</form:label>
-					<form:input path="name" cssClass="form-control form-control-lg" />
-					<form:errors path="name" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-10">
-					<form:label path="content" cssClass="form-label">내용</form:label>
-					<form:textarea path="content"
-						cssClass="form-control form-control-lg mytextarea" />
-					<form:errors path="content" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-10">
-					<label class="form-label">수정사유</label>
-					<input name="reason" class="form-control form-control-lg" placeholder="수정 요청 이유를 입력해 주십시오." />
-					
-				</div>
-				<hr />
-				<div class="my-3">
-					<button type="submit" class="btn btn-lg btn-dark">수정요청</button>
-				</div>
-			</form:form>
+			<h3>${editRequest.subject }</h3>
+			<h5>${editRequest.name } 님 요청</h5>
+			<div> 수정사유 : ${editRequest.reason }</div>
+			<textarea readonly="readonly" class="mytextarea">
+				${editRequest.content }
+			</textarea>
+			<a href="/lifestyle/modify/${editRequest.id}" class="btn btn-primary">수정하러가기</a>
+			<a href="/edit/delete/${editRequest.id}" class="btn btn-primary">삭제</a>
+			
 		</div>
 	</main>
+
 	<jsp:include page="../../_layouts/public/scripts.jsp" />
 	<script src="https://cdn.tiny.cloud/1/${tinymce }/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 	<script>

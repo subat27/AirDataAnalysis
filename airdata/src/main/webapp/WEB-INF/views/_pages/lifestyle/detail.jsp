@@ -39,7 +39,7 @@
 						alt="thumbnail"></td>
 				</tr>
 			</table>
-			<a href="/lifestyle/modify/${lifestyle.id}" class="btn btn-primary">수정하기</a>
+			<a href="/edit/register/${lifestyle.id}" class="btn btn-primary">수정요청</a>
 		</div>
 	</main>
 

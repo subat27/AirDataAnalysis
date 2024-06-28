@@ -51,7 +51,7 @@ public class ProductController {
 	
 	@GetMapping("/admin/product")
 	public String inventory(
-		@RequestParam(name = "p", defaultValue = "0") int page,
+		@RequestParam(name = "p", defaultValue = "1") int page,
 		@RequestParam(name = "t", defaultValue = "") String searchType,
 		@RequestParam(name = "s", defaultValue = "") String searchWord,
 		Model model
