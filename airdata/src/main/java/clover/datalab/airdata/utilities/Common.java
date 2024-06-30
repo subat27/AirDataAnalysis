@@ -21,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Common {
 	
-	@Value("${publicApi}")
+	@Value("${publicApiKey}")
 	private String publicApiKey;
 	
     public static Map<String, Object> paginate(int currentPage, Page<?> items, String search, String type, String sort) {

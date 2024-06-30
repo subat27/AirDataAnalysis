@@ -5,7 +5,6 @@ application.properties
 application-API-KEY.properties
 development.mv.db
 airdata/src/main/webapp/upload/
-<<<<<<< HEAD
 airdata/*.db
 
 ### Eclipse ###
