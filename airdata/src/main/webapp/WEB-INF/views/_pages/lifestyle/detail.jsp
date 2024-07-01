@@ -17,29 +17,27 @@
 	</header>
 	<main>
 		<div class="m-5">
-			<table>
-				<tr>
-					<th>제목</th>
-					<td>${lifestyle.subject }</td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td>${lifestyle.content }</td>
-				</tr>
-				<tr>
-					<th>해시태그</th>
-					<td>${lifestyle.tags }</td>
-				</tr>
-				<tr>
-					<th>카테고리</th>
-					<td>${lifestyle.category }</td>
-				</tr>
-				<tr>
-					<th>썸네일</th>
-					<td><img src="${lifestyle.thumbnail }" onerror=""
-						alt="thumbnail"></td>
-				</tr>
-			</table>
+			<div class="my-3">
+				<label id="subject" class="form-label">제목</label>
+				<p class="form-control form-control-lg">${lifestyle.subject }</p>
+			</div>
+			<div class="my-10">
+				<label id="content" class="form-label">내용</label>
+				<textarea id="content" class="form-control form-control-lg mytextarea"
+						readonly="readonly">${lifestyle.subject }</textarea>
+			</div>
+			<div class="my-3">
+				<label id="tags" class="form-label">해시태그</label>
+				<p class="form-control form-control-lg">${lifestyle.tags }</p>
+			</div>
+			<div class="my-3">
+				<label id="category" class="form-label">카테고리</label>
+				<p class="form-control form-control-lg">${lifestyle.category }</p>
+			</div>
+			<div class="my-3">
+				<label id="category" class="form-label">썸네일</label>
+				<img src="${lifestyle.thumbnail }" onerror="" alt="thumbnail">
+			</div>
 			
 			<div class="row">
 				<div class="col-4">
