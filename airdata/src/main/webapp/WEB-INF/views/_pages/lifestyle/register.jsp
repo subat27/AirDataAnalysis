@@ -5,8 +5,6 @@
 <html lang="ko">
 <head>
 <jsp:include page="../../_layouts/public/meta.jsp" />
-<meta name="_csrf" content="${_csrf.token}" />
-<meta name="_csrf_header" content="${_csrf.headerName}" />
 <jsp:include page="../../_layouts/public/link.jsp" />
 <title>Blue sky Wellness</title>
 </head>
@@ -45,13 +43,12 @@
 							class="form-control form-control-lg"/>
 				</div>
 			</form:form>
-			<form id="imageUpload" action="/uploader" enctype="multipart/form-data" method="post">
-				<div class="my-3">
+			<div class="my-3">
+				<form id="imageUpload" action="/uploader" enctype="multipart/form-data" method="post">
 					<label for="image" class="form-label">썸네일</label>
-					<input type="file" name="file" id="image" class="form-control form-control-lg"
-						onchange="thumbnailUpload()"/>
-				</div>
-			</form>
+					<input type="file" name="file" id="image" class="form-control form-control-lg"/>
+				</form>
+			</div>
 			<hr />
 			<div class="my-3">
 				<button type="submit" form="registerForm" class="btn btn-lg btn-dark">라이프스타일 등록</button>
@@ -77,32 +74,39 @@
 		});	
 	</script>
 	<script>
-		function thumbnailUpload() {
-			let imgForm = document.getElementById("imageUpload");
-			let formData = new FormData(imgForm);
-			
-			let uri = '/uploader';
-			console.log(uri);
-			
-			$.ajax({
-				type: 'POST',
-				url: uri,
-				dataType: "text",
-				data: formData,				
-				processData: false,
-				contentType: false,
-				success: function(result){
-					console.log(result["test"]);
-					console.log(result.test);
-				},
-				error: function() {
-					console.log('통신실패');
-				},
-				complete: function() {
-					console.log("끝");
-				}
+		$(document).ready(function(){
+			$("#image").change(function(){
+				let imgForm = document.getElementById("imageUpload");
+				let formData = new FormData(imgForm);
+				
+				let token = $("meta[name='_csrf']").attr("content");
+				let header = $("meta[name='_csrf_header']").attr("content");
+				
+				let uri = '/uploader';
+				console.log(uri);
+				
+				$.ajax({
+					type: "post",
+					url: uri,
+					dataType: "json",
+					data: formData,
+					processData: false,
+					contentType: false,
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function(result){
+						$("#thumbnail").attr("value", result.location);
+					},
+					error: function() {
+						console.log('통신실패');
+					},
+					complete: function() {
+						console.log("끝");
+					}
+				});
 			});
-		}
+		});
 	
 	</script>
 </body>

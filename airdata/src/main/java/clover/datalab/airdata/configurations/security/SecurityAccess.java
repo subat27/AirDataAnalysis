@@ -4,6 +4,7 @@ public class SecurityAccess {
 
     public static String[] ACCESS_PUBLIC = {
         "/",
+        "/uploader",
         "/assets/**",
         "/vendors/**"
     };
@@ -14,6 +15,7 @@ public class SecurityAccess {
     };
 
     public static String[] ACCESS_ADMIN = {
+    	"/uploader",
         "/admin/**"
     };
 

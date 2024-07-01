@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import clover.datalab.airdata.entities.Lifestyle;
 import clover.datalab.airdata.http.forms.lifestyle.LifestyleForm;
@@ -34,18 +31,14 @@ public class LifestyleController {
 	// 라이프스타일 등록
 	@PostMapping("/lifestyle/register")
 	public String registerProcess(@ModelAttribute("lifestyle") @Valid LifestyleForm lifestyle,
-			@RequestPart(name = "thumbnail") MultipartFile thumbnail,
-			BindingResult bindingResult, Model model, MultipartHttpServletRequest mRequest) {
+			BindingResult bindingResult, Model model, String thumbnail) {
 		
 		try {
 			if (bindingResult.hasErrors()) {
 				return "_pages/lifestyle/register";
 			}
 			
-			String path = "";
-			path = mRequest.getServletContext().getRealPath(path);
-				
-			service.register(thumbnail, lifestyle, path);
+			service.register(lifestyle, thumbnail);
 			return "redirect:/lifestyle";
 		} catch (Exception e) {
 			model.addAttribute("error", e.toString());
@@ -94,16 +87,14 @@ public class LifestyleController {
 	// 라이프스타일 수정
 	@PostMapping("/lifestyle/modify/{id}")
 	public String modifyLifestyleProcess(@ModelAttribute("lifestyle") @Valid LifestyleForm lifestyle,
-			@RequestPart(name = "thumbnail") MultipartFile thumbnail, @PathVariable("id") Long id,
-			BindingResult bindingResult, Model model, MultipartHttpServletRequest mRequest) {
+			@PathVariable("id") Long id, String thumbnail, 
+			BindingResult bindingResult, Model model) {
 		
 		try {
 			if (bindingResult.hasErrors()) {
-				return "/lifestyle/moldify/" + id;
+				return "/lifestyle/modify/" + id;
 			}
-			String path = "";
-			path = mRequest.getServletContext().getRealPath(path);
-			service.modify(thumbnail, lifestyle, path, id);
+			service.modify(lifestyle, thumbnail, id);
 			return "redirect:/lifestyle/detail/" + id;
 		} catch (Exception e) {
 			model.addAttribute("error", e.toString());

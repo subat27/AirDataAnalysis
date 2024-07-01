@@ -1,6 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,7 +17,6 @@
 	</header>
 	<main>
 		<div class="m-5">
-
 			<table>
 				<tr>
 					<th>제목</th>
@@ -39,7 +40,15 @@
 						alt="thumbnail"></td>
 				</tr>
 			</table>
-			<a href="/edit/register/${lifestyle.id}" class="btn btn-primary">수정요청</a>
+			
+			<sec:authorize access="isAuthenticated()">
+				<a href="/lifestyle/modify/${lifestyle.id}" class="btn btn-primary">수정하기</a>
+			</sec:authorize>
+			<sec:authorize access="!isAuthenticated()">
+				<a href="/edit/register/${lifestyle.id}" class="btn btn-primary">수정요청</a>
+			</sec:authorize>
+			
+			
 		</div>
 	</main>
 

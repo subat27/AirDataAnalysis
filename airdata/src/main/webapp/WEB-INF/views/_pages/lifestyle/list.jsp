@@ -14,8 +14,8 @@
 	}
 
 	.card-text {
-		max-height: 6em;
-		line-height: 1.5em;
+		max-height: 4em;
+		line-height: 2em;
 		white-space: normal;
 		overflow: hidden;
 	}

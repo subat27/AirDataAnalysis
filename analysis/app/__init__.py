@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 import joblib
+import datetime
 
 
 app = Flask(__name__)
@@ -17,27 +18,12 @@ def hello_world():
 @app.route("/apiTest", methods=['POST'])
 def apiTest():
     print("apiTest IN")
-
+    
     param = request.get_json()
 
     print('apiTest param : ', param)
-    
-    arg1 = param.get("미세먼지(PM10)")
-    arg2 = param.get('초미세먼지(PM25)')
-    arg3 = param.get('평균습도(%rh)')
-    arg4 = param.get('평균풍속(m/s)')
-    arg5 = param.get('최대풍속풍향(deg)')
-    arg6 = param.get('강수량(mm)')
-    arg7 = param.get('평균기온(℃)')
-    arg8 = param.get('humid_nextDay')
-    arg9 = param.get('wv_nextDay')
-    arg10 = param.get('wd_nextDay')
-    arg11 = param.get('pop_nextDay')
-    arg12 = param.get('at_nextDay')
-    arg13 = param.get('ht_nextDay')
-    local = param.get('지역1')
-    
-    result = getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, local)
+        
+    result = getData(param)
 
     print(result)
 
@@ -46,44 +32,54 @@ def apiTest():
 if __name__ == "__main__" :
     app.run(host='127.0.0.1', port=5000)
 
-def getData(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, local) :
+def getData(param) :
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     torch.manual_seed(3)
     if device == "cuda:0":
         torch.cuda.manual_seed_all(3)
 
+    today = datetime.date.today()
+    tomorrow = today + datetime.timedelta(days=1)
+    tdat = today + datetime.timedelta(days=2)
+
+    arg1 = param.get(tomorrow.strftime("%Y%m%d"))
+    arg2 = param.get(tdat.strftime("%Y%m%d"))
+
     X_act = pd.DataFrame({
-        '미세먼지(PM10)' : [arg1],
-        '초미세먼지(PM25)' : [arg2],
-        '평균습도(%rh)' : [arg3],
-        '평균풍속(m/s)' : [arg4],
-        '최대풍속풍향(deg)' : [arg5],
-        '강수량(mm)' : [arg6],
-        '평균기온(℃)' : [arg7],
-        'humid_nextDay' : [arg8], # 내일 습도
-        'wv_nextDay' : [arg9], # 내일 풍속
-        'wd_nextDay' : [arg10], # 내일 최대풍속풍향
-        'pop_nextDay' : [arg11], # 내일 강수량
-        'at_nextDay' : [arg12], # 내일 평균온도
-        'ht_nextDay' : [arg13], # 내일 최고온도
+        '미세먼지(PM10)' : [arg1.get('미세먼지(PM10)'), arg2.get('미세먼지(PM10)')],
+        '초미세먼지(PM25)' : [arg1.get('초미세먼지(PM25)'), arg2.get('초미세먼지(PM25)')],
+        '평균습도(%rh)' : [arg1.get('평균습도(%rh)'), arg2.get('평균습도(%rh)')],
+        '평균풍속(m/s)' : [arg1.get('평균풍속(m/s)'), arg2.get('평균풍속(m/s)')],
+        '최대풍속풍향(deg)' : [arg1.get('최대풍속풍향(deg)'), arg2.get('최대풍속풍향(deg)')],
+        '강수량(mm)' : [arg1.get('강수량(mm)'), arg2.get('강수량(mm)')],
+        '평균기온(℃)' : [arg1.get('평균기온(℃)'), arg2.get('평균기온(℃)')],
+        'humid_nextDay' : [arg1.get('humid_nextDay'), arg2.get('humid_nextDay')], # 내일 습도
+        'wv_nextDay' : [arg1.get('wv_nextDay'), arg2.get('wv_nextDay')], # 내일 풍속
+        'wd_nextDay' : [arg1.get('wd_nextDay'), arg2.get('wd_nextDay')], # 내일 최대풍속풍향
+        'pop_nextDay' : [arg1.get('pop_nextDay'), arg2.get('pop_nextDay')], # 내일 강수량
+        'at_nextDay' : [arg1.get('at_nextDay'), arg2.get('at_nextDay')], # 내일 평균온도
+        'ht_nextDay' : [arg1.get('ht_nextDay'), arg2.get('ht_nextDay')] # 내일 최고온도
     })
 
-    ss = joblib.load("app/scaler/ss_"+local+".pkl")
-    ms = joblib.load("app/scaler/ms_"+local+".pkl")
+    ss = joblib.load("app/scaler/ss_"+arg1.get('지역1')+".pkl")
+    ms = joblib.load("app/scaler/ms_"+arg1.get('지역1')+".pkl")
 
     X_act_ss = ss.transform(X_act)
     X_act_tensors = torch.Tensor(X_act_ss)
     X_act_tensors_f = torch.reshape(X_act_tensors, (X_act_tensors.shape[0], 1, X_act_tensors.shape[1]))
 
     model = LSTM(2, 13, 2, 1, X_act_tensors_f.shape[1])
-    model.load_state_dict(torch.load("app/model/LSTM_MODEL_"+local+".pth"))
+    model.load_state_dict(torch.load("app/model/LSTM_MODEL_"+arg1.get('지역1')+".pth"))
     model.eval()
 
     predict = model(X_act_tensors_f)
     predict = predict.data.numpy()
     predict = ms.inverse_transform(predict)
     
-    return {"미세먼지" : str(predict[0][0]), "초미세먼지" : str(predict[0][1])}
+    print("predict : ", predict)
+
+    return {tomorrow.strftime("%Y%m%d") : {"PM10" : str(predict[0][0]), "PM25" : str(predict[0][1])},
+            tdat.strftime("%Y%m%d") : {"PM10" : str(predict[1][0]), "PM25" : str(predict[1][1])}}
 
 class LSTM(nn.Module) :
     def __init__(self, num_classes, input_size, hidden_size, num_layers, seq_length):

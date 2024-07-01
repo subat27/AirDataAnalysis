@@ -23,14 +23,11 @@ public class UploadController {
         Map<String, Object> result;
         Map<String, String> responseData = new HashMap<String, String>();
         String baseUrl = "https://subat27awsbucket.s3.ap-northeast-2.amazonaws.com/";
-        System.out.println("test");
 		try {
 			result = uploader.upload(file, "lifestyle");
 			responseData.put("location", baseUrl + result.get("uploadFileName").toString());
-			responseData.put("test", "성공");
 			return responseData;
 		} catch (IOException e) {
-			responseData.put("test", "실패");
 			return responseData;
 		}
 

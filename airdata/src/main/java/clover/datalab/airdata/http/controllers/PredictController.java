@@ -66,34 +66,43 @@ public class PredictController {
 	public String predictAirCondition(String dates, String localName) { 
 		System.out.println(dates);
 		String[] dateList = dates.split(",");
-		JSONObject result = new JSONObject();
 		
 		// 미세먼지 정보 호출 (??)
 		Map<String, Double> dustData = new HashMap<>();
-		dustData.put("PM10", 41.0);
-		dustData.put("PM25", 30.0);
+		dustData.put("PM10", 16.0);
+		dustData.put("PM25", 7.0);
 
 		// 현재 날씨 정보 호출
 		Map<String, Double> nowWeatherData = nowWeatherData(localName);
+		JSONObject input = new JSONObject();
 		
 		for (String date : dateList) {
 			Map<String, Double> futureWeatherData = weatherData(date, localName);
-			
-			JSONObject input = setInput(dustData, nowWeatherData, futureWeatherData, localName);
-			JSONObject temp = bypass(pythonURL, input, "POST");
-			System.out.println(temp);
-			JSONObject data = new JSONObject(temp.get("data").toString());
-			
-			dustData.put("PM10", Double.parseDouble(data.get("미세먼지").toString()));
-			dustData.put("PM25", Double.parseDouble(data.get("초미세먼지").toString()));
-			
-			result.put(date, temp);
+			input.put(date, setInput(dustData, nowWeatherData, futureWeatherData, localName));
 		}
 		
-		System.out.println(result);
+		JSONObject temp = bypass(pythonURL, input, "POST");
+		JSONObject data = new JSONObject(temp.get("data").toString());
 		
-		return result.toString();
+		data.put(dateList[0], dustData);
+		
+		return data.toString();
 	}
+	
+	@GetMapping("/predict/getWeather")
+	@ResponseBody
+	public String getWeatherInfo(String localName) {
+		Map<String, Double> nowWeatherData = nowWeatherData(localName);
+		JSONObject weatherInfo = new JSONObject();
+		weatherInfo.put("평균습도(%rh)", nowWeatherData.get("REH"));										// 현재 평균습도
+		weatherInfo.put("평균풍속(m/s)", nowWeatherData.get("WSD"));										// 현재 평균풍속
+		weatherInfo.put("최대풍속풍향(deg)", nowWeatherData.get("VEC"));									// 현재 최대풍속풍향
+		weatherInfo.put("강수량(mm)", nowWeatherData.get("RN1"));										// 현재 강수량
+		weatherInfo.put("평균기온(℃)", nowWeatherData.get("T1H"));
+		
+		return weatherInfo.toString();
+	}
+	
 	
 	private JSONObject setInput(Map<String, Double> dustData, Map<String, Double> nowWeatherData, Map<String, Double> futureWeatherData, String localName) {
 		JSONObject input = new JSONObject();

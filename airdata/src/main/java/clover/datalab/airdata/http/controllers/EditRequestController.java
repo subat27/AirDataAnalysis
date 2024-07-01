@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import clover.datalab.airdata.entities.EditRequest;
 import clover.datalab.airdata.entities.Lifestyle;
 import clover.datalab.airdata.http.forms.editrequest.EditRequestForm;
+import clover.datalab.airdata.http.forms.lifestyle.LifestyleForm;
 import clover.datalab.airdata.services.EditRequestService;
 import clover.datalab.airdata.services.LifestyleService;
 import jakarta.validation.Valid;
@@ -65,6 +67,29 @@ public class EditRequestController {
 			model.addAttribute("error", e.toString());
 		}
 		return "_pages/editrequest/detail";
+	}
+	
+	@GetMapping("/edit/modify/{editId}")
+	public String modify(@PathVariable("editId") Long editId, Model model) {
+		System.out.println("===========start=========");
+		EditRequest editRequest;
+		try {
+			editRequest = editService.findByEditRequestId(editId);
+			model.addAttribute("editRequest", editRequest);
+			System.out.println("result: " + editRequest.getContent());
+			
+			Lifestyle ls = editRequest.getLifestyle();
+			
+			model.addAttribute("lifestyle", new LifestyleForm(ls.getSubject(), ls.getContent(), ls.getTags(), ls.getCategory()));
+			model.addAttribute("thumbnail", ls.getThumbnail());
+			
+		} catch (Exception e) {
+			model.addAttribute("error", "데이터 처리 중 에러 발생");
+			e.printStackTrace();
+		}
+		
+		
+		return "_pages/editrequest/modify";
 	}
 	
 	@GetMapping("/edit/delete/{editId}")

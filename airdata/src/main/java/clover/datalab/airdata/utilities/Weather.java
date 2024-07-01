@@ -63,6 +63,7 @@ public class Weather {
 	private String nowHour() {
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH");
+		now = now.minusHours(1);
         return now.format(formatter) + "00";
 	}
 	

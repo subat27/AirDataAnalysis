@@ -11,6 +11,7 @@
 <body>
 	<select id="localSelector">
 		<option selected="selected">지역명</option>
+		<option>서울</option>
 		<option>강원</option>
 		<option>경기</option>
 		<option>경남</option>
@@ -19,7 +20,6 @@
 		<option>대구</option>
 		<option>대전</option>
 		<option>부산</option>
-		<option>서울</option>
 		<option>세종</option>
 		<option>울산</option>
 		<option>인천</option>
@@ -32,6 +32,23 @@
 
 	<div class="row">
 		<div class="col-10">
+			<h2>날씨 정보</h2>
+			<div class="row">
+				<div class="col-2">미세먼지</div>
+				<div class="col-10 row">
+					<div class="col-6"><label>미세먼지(PM10)</label></div>
+					<div class="col-6"><label>초미세먼지(PM25)</label></div>
+					<div class="col-6"><label class="dust_10_td"></label></div>
+					<div class="col-6"><label class="dust_25_td"></label></div>
+				</div>
+				
+			</div>
+			
+			
+		</div>
+	
+		<div class="col-10">
+			<h2>미세먼지 정보</h2>
 			<table class="table" >
 				<thead>
 					<tr>
@@ -44,24 +61,23 @@
 				<tbody>
 					<tr>
 						<td>미세먼지(PM10)</td>
-						<td><label id="dust_10_td"></label></td>
+						<td><label class="dust_10_td"></label></td>
 						<td><label id="dust_10_tm"></label></td>
 						<td><label id="dust_10_tdat"></label></td>
 					</tr>
 					<tr>
 						<td>초미세먼지(PM25)</td>
-						<td><label id="dust_25_td"></label></td>
+						<td><label class="dust_25_td"></label></td>
 						<td><label id="dust_25_tm"></label></td>
 						<td><label id="dust_25_tdat"></label></td>
 					</tr>
 				</tbody>
-
-
 			</table>
 		</div>
 	</div>
 
 	<jsp:include page="../../_layouts/public/scripts.jsp" />
+	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/scripts/predict.js"></script>
 	<script>
 		$(document).ready(function() {
 			const date = new Date();
@@ -78,22 +94,20 @@
 			
 			$("#localSelector").change(function() {
 				$.getJSON('/predict/airCondition?dates=' + today + ','  + tomorrow + ','  + tdat + '&localName='+ $(this).val(), function(data) {
-					$("#dust_10_td").html(JSON.parse(data[today]["data"])["미세먼지"]);
-					$("#dust_25_td").html(JSON.parse(data[today]["data"])["초미세먼지"]);
-					$("#dust_10_tm").html(JSON.parse(data[tomorrow]["data"])["미세먼지"]);
-					$("#dust_25_tm").html(JSON.parse(data[tomorrow]["data"])["초미세먼지"]);
-					$("#dust_10_tdat").html(JSON.parse(data[tdat]["data"])["미세먼지"]);
-					$("#dust_25_tdat").html(JSON.parse(data[tdat]["data"])["초미세먼지"]);
+					$("#dust_10_td").html(getAirCondition("PM10", data[today]["PM10"]));
+					$("#dust_25_td").html(getAirCondition("PM25", data[today]["PM25"]));
+					$("#dust_10_tm").html(getAirCondition("PM10", data[tomorrow]["PM10"]));
+					$("#dust_25_tm").html(getAirCondition("PM25", data[tomorrow]["PM25"]));
+					$("#dust_10_tdat").html(getAirCondition("PM10", data[tdat]["PM10"]));
+					$("#dust_25_tdat").html(getAirCondition("PM25", data[tdat]["PM25"]));
+				});
+				
+				$.getJSON('/predict/getWeather?localName='+$(this).val(), function(data){
+					
 				});
 			});
 		});
 		
-		function getDateString(date) {
-			const year = date.getFullYear();
-			const month = (date.getMonth() + 1).toString().padStart(2, '0');
-			const day = date.getDate().toString().padStart(2, '0');
-			return year + month + day;
-		}
 		
 	</script>
 </body>

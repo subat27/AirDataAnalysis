@@ -10,57 +10,47 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import clover.datalab.airdata.entities.Lifestyle;
 import clover.datalab.airdata.http.forms.lifestyle.LifestyleForm;
 import clover.datalab.airdata.repositories.LifestyleRepository;
 import clover.datalab.airdata.utilities.Common;
-import clover.datalab.airdata.utilities.FileUpload;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ILifestyleService implements LifestyleService {
 
-	private final FileUpload fileUpload;
 	private final LifestyleRepository repository;
 		
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void register(MultipartFile thumbnail, LifestyleForm form, String path) throws Exception {
-		
+	public void register(LifestyleForm form, String thumbnail) throws Exception {
 		try {
-			Map<String, Object> uploaded = fileUpload.upload(thumbnail, "\\upload", path);
-			
 			repository.save(
 					Lifestyle.builder().subject(form.getSubject())
 									   .content(form.getContent())
 									   .tags(form.getTags())
 									   .category(form.getCategory())
-									   .thumbnail(uploaded.get("uploadFileName").toString())
+									   .thumbnail(thumbnail)
 									   .build()
 			);
 		} catch (DataAccessException exception) {
 			throw new Exception("service: 데이터 처리 중 문제가 발생했습니다.");
-		} catch (IOException e) {
-			throw new IOException("파일 경로를 찾을수 없습니다.");
 		}
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void modify(MultipartFile thumbnail, LifestyleForm form, String path, Long id) throws Exception {
+	public void modify(LifestyleForm form, String thumbnail, Long id) throws Exception {
 		try {
-			Map<String, Object> uploaded = fileUpload.upload(thumbnail, "\\upload", path);
-			
 			Lifestyle orgLifestyle = repository.findById(id).orElseThrow(() -> new Exception("데이터 처리 중 문제가 발생했습니다."));
 			
 			orgLifestyle.setSubject(form.getSubject());
 			orgLifestyle.setContent(form.getContent());
 			orgLifestyle.setTags(form.getTags());
 			orgLifestyle.setCategory(form.getCategory());
-			orgLifestyle.setThumbnail(uploaded.get("uploadFileName").toString());
+			orgLifestyle.setThumbnail(thumbnail);
 			
 			repository.save(orgLifestyle);
 			
