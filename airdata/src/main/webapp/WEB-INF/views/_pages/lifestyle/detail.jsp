@@ -41,13 +41,24 @@
 				</tr>
 			</table>
 			
-			<sec:authorize access="isAuthenticated()">
-				<a href="/lifestyle/modify/${lifestyle.id}" class="btn btn-primary">수정하기</a>
-			</sec:authorize>
-			<sec:authorize access="!isAuthenticated()">
-				<a href="/edit/register/${lifestyle.id}" class="btn btn-primary">수정요청</a>
-			</sec:authorize>
-			
+			<div class="row">
+				<div class="col-4">
+					<a href="/lifestyle" class="btn btn-primary me-1">목록으로</a>
+					<sec:authorize access="isAuthenticated()">
+						<a href="/lifestyle/modify/${lifestyle.id}" class="btn btn-primary me-1">수정하기</a>
+						<a href="/lifestyle/delete/${lifestyle.id}" class="btn btn-primary me-1">삭제</a>
+					</sec:authorize>
+					<sec:authorize access="!isAuthenticated()">
+						<a href="/edit/register/${lifestyle.id}" class="btn btn-primary me-1">수정요청</a>
+						<a href="/edit/register" class="btn btn-primary me-1">등록신청</a>
+					</sec:authorize>
+				</div>
+				<div class="col-4"></div>
+				<div class="col-4 d-flex justify-content-end">
+					<button id="previousBtn" class="btn btn-primary me-1">이전으로</button>
+					
+				</div>
+			</div>
 			
 		</div>
 	</main>

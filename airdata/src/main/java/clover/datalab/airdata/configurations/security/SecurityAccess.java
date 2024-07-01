@@ -6,11 +6,12 @@ public class SecurityAccess {
         "/",
         "/uploader",
         "/assets/**",
-        "/vendors/**"
+        "/vendors/**",
+        "/edit/**",
     };
 
     public static String[] ACCESS_GUEST = {
-        "/user/login",
+    	"/user/login",
         "/user/register",
     };
 

@@ -10,7 +10,7 @@
 </head>
 <body>
 	<header>
-		<h2>수정요청 확인</h2>
+		<h2>${action }요청 확인</h2>
 		<p>${error}</p>
 	</header>
 	<main>
@@ -18,11 +18,11 @@
 		<div class="m-5">
 			<h3>${editRequest.subject }</h3>
 			<h5>${editRequest.name } 님 요청</h5>
-			<div> 수정사유 : ${editRequest.reason }</div>
+			<div> ${action }사유 : ${editRequest.reason }</div>
 			<textarea readonly="readonly" class="mytextarea">
 				${editRequest.content }
 			</textarea>
-			<a href="/edit/modify/${editRequest.id}" class="btn btn-primary">수정하러가기</a>
+			<a href="/edit/modify/${editRequest.id}" class="btn btn-primary">${action }하러가기</a>
 			<a href="/edit/delete/${editRequest.id}" class="btn btn-primary">삭제</a>
 			
 		</div>

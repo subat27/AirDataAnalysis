@@ -41,10 +41,7 @@
 					<div class="col-6"><label class="dust_10_td"></label></div>
 					<div class="col-6"><label class="dust_25_td"></label></div>
 				</div>
-				
 			</div>
-			
-			
 		</div>
 	
 		<div class="col-10">

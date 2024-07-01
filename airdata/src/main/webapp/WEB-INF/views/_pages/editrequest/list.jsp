@@ -2,6 +2,7 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ taglib prefix="fmt" uri='http://java.sun.com/jsp/jstl/fmt'%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -21,7 +22,7 @@
 			</div>
 			<div class="row m-5">
 				<c:forEach items="${items.content }" var="editRequest">
-					<div class="col p-2">
+					<div class="col-12 p-2">
 						<div class="row">
 							<div class="col-6 d-flex">
 								<p>작성자: ${editRequest.name }<p>
@@ -70,9 +71,6 @@
 
 		<div class="row m-5">
 			<div class="col-6 d-flex justify-content-start">
-				<a class="btn btn-primary" href="/lifestyle/register">등록신청</a>
-			</div>
-			<div class="col-6 d-flex justify-content-end">
 				<a class="btn btn-primary" href="/">이전으로</a>
 			</div>
 		</div>

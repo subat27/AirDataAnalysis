@@ -30,14 +30,14 @@
 					<form:errors path="content" cssClass="invalid-feedback d-block" />
 				</div>
 				<div class="my-10">
-					<label for="editRequest" class="form-label">수정요청 내용</label>
+					<label for="editRequest" class="form-label">${action}요청 내용</label>
 					<textarea id="editRequest"
 						class="form-control form-control-lg mytextarea">
 						<p>${editRequest.name} 님 요청</p>
 						<hr>
-						<p>수정사유 : ${editRequest.reason}</p>
+						<p>${action}사유 : ${editRequest.reason}</p>
 						<hr>
-						<p>수정내용</p>
+						<p>${action}내용</p>
 						${editRequest.content }</textarea>
 				</div>
 				<div class="my-3">
@@ -56,7 +56,7 @@
 				</div>
 				<hr />
 				<div class="my-3">
-					<button type="submit" class="btn btn-lg btn-dark">라이프스타일 수정</button>
+					<button type="submit" class="btn btn-lg btn-dark">라이프스타일 ${action}</button>
 				</div>
 			</form:form>
 		</div>

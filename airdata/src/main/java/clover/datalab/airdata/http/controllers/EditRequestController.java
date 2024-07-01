@@ -25,12 +25,22 @@ public class EditRequestController {
 	private final EditRequestService editService;
 	private final LifestyleService lifestyleService;
 	
+	@GetMapping("/edit/register")
+	public String insertNew(Model model) {
+		model.addAttribute("editRequest", new EditRequestForm());
+		model.addAttribute("actionName", "등록");
+		model.addAttribute("action", "/edit/register");
+		return "_pages/editrequest/register";
+	}
+	
 	@GetMapping("/edit/register/{lifestyleId}")
 	public String insert(Model model, @PathVariable("lifestyleId") Long lifestyleId) {
 		try {
 			Lifestyle ls = lifestyleService.findByLifestyleId(lifestyleId);
 			model.addAttribute("lifestyleId", lifestyleId);
 			model.addAttribute("editRequest", new EditRequestForm(ls.getSubject(), "", ls.getContent(), ""));
+			model.addAttribute("actionName", "수정");
+			model.addAttribute("action", "/edit/register/");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
@@ -52,6 +62,23 @@ public class EditRequestController {
 		}
 	}
 	
+	@PostMapping("/edit/register")
+	public String insertNew(@ModelAttribute("editRequest") @Valid EditRequestForm editRequest,
+			BindingResult bindingResult, Model model) {
+		try {
+			
+			if(bindingResult.hasErrors()) {
+				return "_pages/editrequest/register";
+			}			
+			editService.register(editRequest, null);
+			return "redirect:/lifestyle"; 
+		} catch (Exception e) {
+			model.addAttribute("error", e.toString());
+			return "_pages/editrequest/register";
+		}
+		
+	}
+	
 	@GetMapping("/edit/list")
 	public String list(@RequestParam(name = "page", defaultValue = "1") Integer page, Model model) {
 		model.addAllAttributes(editService.findAllEditRequest(page));
@@ -62,7 +89,13 @@ public class EditRequestController {
 	@GetMapping("/edit/detail/{editId}")
 	public String detail(@PathVariable("editId") Long editId, Model model) {
 		try {
-			model.addAttribute("editRequest", editService.findByEditRequestId(editId));
+			EditRequest editRequest = editService.findByEditRequestId(editId);
+			model.addAttribute("editRequest", editRequest);
+			if (editRequest.getLifestyle() == null) {
+				model.addAttribute("action", "등록");	
+			} else {
+				model.addAttribute("action", "수정");
+			}
 		} catch (Exception e) {
 			model.addAttribute("error", e.toString());
 		}
@@ -71,17 +104,20 @@ public class EditRequestController {
 	
 	@GetMapping("/edit/modify/{editId}")
 	public String modify(@PathVariable("editId") Long editId, Model model) {
-		System.out.println("===========start=========");
 		EditRequest editRequest;
 		try {
 			editRequest = editService.findByEditRequestId(editId);
 			model.addAttribute("editRequest", editRequest);
-			System.out.println("result: " + editRequest.getContent());
-			
 			Lifestyle ls = editRequest.getLifestyle();
-			
-			model.addAttribute("lifestyle", new LifestyleForm(ls.getSubject(), ls.getContent(), ls.getTags(), ls.getCategory()));
-			model.addAttribute("thumbnail", ls.getThumbnail());
+			if (ls == null) {
+				model.addAttribute("lifestyle", new LifestyleForm());
+				model.addAttribute("thumbnail", "");
+				model.addAttribute("action", "등록");
+			} else {
+				model.addAttribute("lifestyle", new LifestyleForm(ls.getSubject(), ls.getContent(), ls.getTags(), ls.getCategory()));
+				model.addAttribute("thumbnail", ls.getThumbnail());
+				model.addAttribute("action", "수정");
+			}
 			
 		} catch (Exception e) {
 			model.addAttribute("error", "데이터 처리 중 에러 발생");

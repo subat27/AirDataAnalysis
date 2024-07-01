@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -102,10 +103,15 @@
 				</div>
 			</c:if>
 		</div>
-
+		
 		<div class="row m-5">
 			<div class="col-6 d-flex justify-content-start">
-				<a class="btn btn-primary" href="/lifestyle/register">등록신청</a>
+				<sec:authorize access="isAuthenticated()">
+					<a class="btn btn-primary" href="/lifestyle/register">등록하기</a>
+				</sec:authorize>
+				<sec:authorize access="!isAuthenticated()">
+					<a class="btn btn-primary" href="/edit/register">등록신청</a>
+				</sec:authorize>
 			</div>
 			<div class="col-6 d-flex justify-content-end">
 				<a class="btn btn-primary" href="/">이전으로</a>

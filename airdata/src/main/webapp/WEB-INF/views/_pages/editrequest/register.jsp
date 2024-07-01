@@ -10,12 +10,12 @@
 </head>
 <body>
 	<header>
-		<h2>수정요청</h2>
+		<h2>${actionName } 요청</h2>
 		<p>${error}</p>
 	</header>
 	<main>
 		<div class="m-5">
-			<form:form method="post" action="/edit/register/${lifestyleId }"
+			<form:form method="post" action="${action }${lifestyleId }"
 				modelAttribute="editRequest" enctype="multipart/form-data">
 				<div class="my-3">
 					<form:label path="subject" cssClass="form-label">제목</form:label>
@@ -34,56 +34,32 @@
 					<form:errors path="content" cssClass="invalid-feedback d-block" />
 				</div>
 				<div class="my-10">
-					<label class="form-label">수정사유</label>
-					<input name="reason" class="form-control form-control-lg" placeholder="수정 요청 이유를 입력해 주십시오." />
+					<label class="form-label">${actionName }사유</label>
+					<input name="reason" class="form-control form-control-lg" placeholder="${actionName } 요청 이유를 입력해 주십시오." />
 					
 				</div>
 				<hr />
 				<div class="my-3">
-					<button type="submit" class="btn btn-lg btn-dark">수정요청</button>
+					<button type="submit" class="btn btn-lg btn-dark">${actionName }요청</button>
 				</div>
 			</form:form>
 		</div>
 	</main>
 	<jsp:include page="../../_layouts/public/scripts.jsp" />
+	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/scripts/modules.js"></script>
 	<script>
 		tinymce.init({
 			selector : '.mytextarea', // TinyMCE를 적용할 textarea요소의 선택자 지정
-			plugins: 'image code',
-			toolbar: "undo redo | link image | code",
-			image_title: true,
+			license_key : 'gpl',
+			images_upload_url: '/uploader',
+			plugins: 'image',
+			statusbar: false,
+			promotion: false,
 			automatic_uploads: true,
-			file_picker_types: 'file image media',
-			file_picker_callback: (cb, value, meta) => {
-				const input = document.createElement('input');
-			    input.setAttribute('type', 'file');
-			    input.setAttribute('accept', 'image/*');
-		
-			    input.addEventListener('change', (e) => {
-			      const file = e.target.files[0];
-		
-			      const reader = new FileReader();
-			      reader.addEventListener('load', () => {
-			        /*
-			          Note: Now we need to register the blob in TinyMCEs image blob
-			          registry. In the next release this part hopefully won't be
-			          necessary, as we are looking to handle it internally.
-			        */
-			        const id = 'blobid' + (new Date()).getTime();
-			        const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-			        const base64 = reader.result.split(',')[1];
-			        const blobInfo = blobCache.create(id, file, base64);
-			        blobCache.add(blobInfo);
-		
-			        /* call the callback and populate the Title field with the file name */
-			        cb(blobInfo.blobUri(), { title: file.name });
-			      });
-			      reader.readAsDataURL(file);
-			    });
-		
-			    input.click();
-			  },
-			  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'		
+			menu: {
+				edit: {title: 'Edit', items: 'undo, redo, selectall, image'}
+			},
+			images_upload_handler: editor_imageUploader
 		});	
 	</script>
 </body>
