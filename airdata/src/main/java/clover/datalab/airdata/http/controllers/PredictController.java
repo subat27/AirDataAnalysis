@@ -93,11 +93,11 @@ public class PredictController {
 	public String getWeatherInfo(String localName) {
 		Map<String, Double> nowWeatherData = nowWeatherData(localName);
 		JSONObject weatherInfo = new JSONObject();
-		weatherInfo.put("평균습도(%rh)", nowWeatherData.get("REH"));										// 현재 평균습도
-		weatherInfo.put("평균풍속(m/s)", nowWeatherData.get("WSD"));										// 현재 평균풍속
-		weatherInfo.put("최대풍속풍향(deg)", nowWeatherData.get("VEC"));									// 현재 최대풍속풍향
-		weatherInfo.put("강수량(mm)", nowWeatherData.get("RN1"));										// 현재 강수량
-		weatherInfo.put("평균기온(℃)", nowWeatherData.get("T1H"));
+		weatherInfo.put("humid", nowWeatherData.get("REH"));										// 현재 평균습도
+		weatherInfo.put("wind_speed", nowWeatherData.get("WSD"));										// 현재 평균풍속
+		weatherInfo.put("wind_direction", nowWeatherData.get("VEC"));									// 현재 최대풍속풍향
+		weatherInfo.put("rainfall", nowWeatherData.get("RN1"));										// 현재 강수량
+		weatherInfo.put("temperature", nowWeatherData.get("T1H"));
 		
 		return weatherInfo.toString();
 	}

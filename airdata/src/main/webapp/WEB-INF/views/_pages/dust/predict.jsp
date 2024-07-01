@@ -31,7 +31,7 @@
 	</select>
 
 	<div class="row">
-		<div class="col-10">
+		<div class="col-10  mb-5">
 			<h2>날씨 정보</h2>
 			<div class="row">
 				<div class="col-2">미세먼지</div>
@@ -41,9 +41,26 @@
 					<div class="col-6"><label class="dust_10_td"></label></div>
 					<div class="col-6"><label class="dust_25_td"></label></div>
 				</div>
+				<div class="col-2">날씨</div>
+				<div class="col-10 row">
+					<div class="col-4"><label>평균기온</label></div>
+					<div class="col-4"><label>평균습도</label></div>
+					<div class="col-4"><label>강수</label></div>
+					<div class="col-4"><label id="temperature"></label></div>
+					<div class="col-4"><label id="humid"></label></div>
+					<div class="col-4"><label id="rainfall"></label></div>
+				</div>
+				<div class="col-2"></div>
+				<div class="col-10 row">
+					<div class="col-4"><label>풍속</label></div>
+					<div class="col-4"><label>풍향</label></div>
+					<div class="col-4"></div>
+					<div class="col-4"><label id="wind_speed"></label></div>
+					<div class="col-4"><label id="wind_direction"></label></div>
+				</div>
 			</div>
 		</div>
-	
+		
 		<div class="col-10">
 			<h2>미세먼지 정보</h2>
 			<table class="table" >
@@ -91,8 +108,8 @@
 			
 			$("#localSelector").change(function() {
 				$.getJSON('/predict/airCondition?dates=' + today + ','  + tomorrow + ','  + tdat + '&localName='+ $(this).val(), function(data) {
-					$("#dust_10_td").html(getAirCondition("PM10", data[today]["PM10"]));
-					$("#dust_25_td").html(getAirCondition("PM25", data[today]["PM25"]));
+					$(".dust_10_td").html(getAirCondition("PM10", data[today]["PM10"]));
+					$(".dust_25_td").html(getAirCondition("PM25", data[today]["PM25"]));
 					$("#dust_10_tm").html(getAirCondition("PM10", data[tomorrow]["PM10"]));
 					$("#dust_25_tm").html(getAirCondition("PM25", data[tomorrow]["PM25"]));
 					$("#dust_10_tdat").html(getAirCondition("PM10", data[tdat]["PM10"]));
@@ -100,7 +117,11 @@
 				});
 				
 				$.getJSON('/predict/getWeather?localName='+$(this).val(), function(data){
-					
+					$("#temperature").html(data["temperature"] + "℃");
+					$("#humid").html(data["humid"] + "%");
+					$("#rainfall").html(data["rainfall"] + "mm");
+					$("#wind_speed").html(data["wind_speed"] + "m/s");
+					$("#wind_direction").html(data["wind_direction"] + "°");
 				});
 			});
 		});
