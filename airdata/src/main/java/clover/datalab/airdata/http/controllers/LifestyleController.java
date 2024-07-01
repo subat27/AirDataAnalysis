@@ -81,7 +81,6 @@ public class LifestyleController {
 			model.addAttribute("error", "데이터 처리 중 문제가 발생했습니다.");
 		}
 		return "_pages/lifestyle/modify";
-		
 	}
 	
 	// 라이프스타일 수정

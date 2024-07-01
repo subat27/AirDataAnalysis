@@ -9,56 +9,67 @@
 <title>Blue sky Wellness</title>
 </head>
 <body>
-	<header>
-		<h2>라이프스타일 수정</h2>
-		<p>${error}</p>
-	</header>
-	<main>
-		<div class="m-5">
-			<form:form method="post" modelAttribute="lifestyle"
-				enctype="multipart/form-data" id="modifyForm">
-				<div class="my-3">
-					<form:label path="subject" cssClass="form-label">제목</form:label>
-					<form:input path="subject" cssClass="form-control form-control-lg" />
-					<form:errors path="subject" cssClass="invalid-feedback d-block" />
+	<div id="wrapper" class="container-fluid">
+		<div class="row">
+			<jsp:include page="../../_layouts/public/sidebar.jsp" />
+			<div id="page-content--sub"
+				class="col-12 col-lg-9 col-xxl-10 offset-lg-3 offset-xxl-2 p-3">
+				<header class="page-subject">
+					<h2>라이프스타일 수정</h2>
+					<p>${error}</p>
+				</header>
+				<div class="row">
+					<div class="m-5">
+						<form:form method="post" modelAttribute="lifestyle"
+							enctype="multipart/form-data" id="modifyForm">
+							<div class="my-3">
+								<form:label path="subject" cssClass="form-label">제목</form:label>
+								<form:input path="subject"
+									cssClass="form-control form-control-lg" />
+								<form:errors path="subject" cssClass="invalid-feedback d-block" />
+							</div>
+							<div class="my-10">
+								<form:label path="content" cssClass="form-label">내용</form:label>
+								<form:textarea path="content"
+									cssClass="form-control form-control-lg mytextarea" />
+								<form:errors path="content" cssClass="invalid-feedback d-block" />
+							</div>
+							<div class="my-3">
+								<form:label path="tags" cssClass="form-label">해시태그</form:label>
+								<form:input path="tags" cssClass="form-control form-control-lg" />
+								<form:errors path="tags" cssClass="invalid-feedback d-block" />
+							</div>
+							<div class="my-3">
+								<form:label path="category" cssClass="form-label">카테고리</form:label>
+								<form:input path="category"
+									cssClass="form-control form-control-lg" />
+								<form:errors path="category" cssClass="invalid-feedback d-block" />
+							</div>
+							<div class="my-3">
+								<img src="${thumbnail }" onerror="" alt="thumbnail"> <input
+									type="hidden" id="thumbnail" name="thumbnail"
+									value="${thumbnail }" />
+							</div>
+						</form:form>
+						<div class="my-3">
+							<form id="imageUpload" action="/uploader"
+								enctype="multipart/form-data" method="post">
+								<label for="image" class="form-label">썸네일</label> <input
+									type="file" name="file" id="image"
+									class="form-control form-control-lg" value=${thumbnail } />
+							</form>
+						</div>
+						<hr />
+						<div class="my-3">
+							<button type="submit" form="modifyForm"
+								class="btn btn-lg btn-dark">라이프스타일 수정</button>
+							<button id="previousBtn" class="btn btn-lg btn-primary me-1">이전으로</button>
+						</div>
+					</div>
 				</div>
-				<div class="my-10">
-					<form:label path="content" cssClass="form-label">내용</form:label>
-					<form:textarea path="content"
-						cssClass="form-control form-control-lg mytextarea" />
-					<form:errors path="content" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-3">
-					<form:label path="tags" cssClass="form-label">해시태그</form:label>
-					<form:input path="tags" cssClass="form-control form-control-lg" />
-					<form:errors path="tags" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-3">
-					<form:label path="category" cssClass="form-label">카테고리</form:label>
-					<form:input path="category" cssClass="form-control form-control-lg" />
-					<form:errors path="category" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-3">
-					<img src="${thumbnail }" onerror="" alt="thumbnail"> <input
-						type="hidden" id="thumbnail" name="thumbnail"
-						value="${thumbnail }" />
-				</div>
-			</form:form>
-			<div class="my-3">
-				<form id="imageUpload" action="/uploader"
-					enctype="multipart/form-data" method="post">
-					<label for="image" class="form-label">썸네일</label> <input
-						type="file" name="file" id="image"
-						class="form-control form-control-lg" value=${thumbnail }/>
-				</form>
-			</div>
-			<hr />
-			<div class="my-3">
-				<button type="submit" form="modifyForm" class="btn btn-lg btn-dark">라이프스타일
-					수정</button>
 			</div>
 		</div>
-	</main>
+	</div>
 	<jsp:include page="../../_layouts/public/scripts.jsp" />
 	<script>
 		tinymce.init({

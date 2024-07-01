@@ -56,7 +56,7 @@ public class PredictController {
 		return null;
 	}
 	
-	@GetMapping("/predict/show")
+	@GetMapping("/information")
 	public String show() {
 		return "_pages/dust/predict";
 	}

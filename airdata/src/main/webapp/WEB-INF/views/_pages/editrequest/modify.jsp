@@ -9,58 +9,71 @@
 <title>Blue sky Wellness</title>
 </head>
 <body>
-	<header>
-		<h2>라이프스타일 등록</h2>
-		<p>${error}</p>
-	</header>
-	<main>
-		<div class="m-5">
-			<form:form method="post"
-				action="/lifestyle/modify/${editRequest.lifestyle.id}"
-				modelAttribute="lifestyle" enctype="multipart/form-data">
-				<div class="my-3">
-					<form:label path="subject" cssClass="form-label">제목</form:label>
-					<form:input path="subject" cssClass="form-control form-control-lg" />
-					<form:errors path="subject" cssClass="invalid-feedback d-block" />
+	<div id="wrapper" class="container-fluid">
+		<div class="row">
+			<jsp:include page="../../_layouts/public/sidebar.jsp" />
+			<div id="page-content--sub"
+				class="col-12 col-lg-9 col-xxl-10 offset-lg-3 offset-xxl-2 p-3">
+				<header class="page-subject">
+					<h2>라이프스타일 등록</h2>
+					<p>${error}</p>
+				</header>
+				<div class="row">
+					<div class="m-5">
+						<form:form method="post"
+							action="/lifestyle/modify/${editRequest.lifestyle.id}"
+							modelAttribute="lifestyle" enctype="multipart/form-data">
+							<div class="my-3">
+								<form:label path="subject" cssClass="form-label">제목</form:label>
+								<form:input path="subject"
+									cssClass="form-control form-control-lg" />
+								<form:errors path="subject" cssClass="invalid-feedback d-block" />
+							</div>
+							<div class="my-10">
+								<form:label path="content" cssClass="form-label">원본 내용</form:label>
+								<form:textarea path="content"
+									cssClass="form-control form-control-lg mytextarea" />
+								<form:errors path="content" cssClass="invalid-feedback d-block" />
+							</div>
+							<div class="my-10">
+								<label for="editRequest" class="form-label">${action}요청
+									내용</label>
+								<textarea id="editRequest"
+									class="form-control form-control-lg mytextarea">
+									<p>${editRequest.name} 님 요청</p>
+									<hr>
+									<p>${action}사유 : ${editRequest.reason}</p>
+									<hr>
+									<p>${action}내용</p>
+									${editRequest.content }
+								</textarea>
+							</div>
+							<div class="my-3">
+								<form:label path="tags" cssClass="form-label">해시태그</form:label>
+								<form:input path="tags" cssClass="form-control form-control-lg" />
+								<form:errors path="tags" cssClass="invalid-feedback d-block" />
+							</div>
+							<div class="my-3">
+								<form:label path="category" cssClass="form-label">카테고리</form:label>
+								<form:input path="category"
+									cssClass="form-control form-control-lg" />
+								<form:errors path="category" cssClass="invalid-feedback d-block" />
+							</div>
+							<div class="my-3">
+								<input type="hidden" id="thumbnail" name="thumbnail"
+									class="form-control form-control-lg" value="${thumbnail }" />
+							</div>
+							<hr />
+							<div class="my-3">
+								<button type="submit" class="btn btn-lg btn-dark">라이프스타일 ${action}</button>
+								<button id="previousBtn" class="btn btn-lg btn-primary me-1">이전으로</button>
+							</div>
+						</form:form>
+					</div>
 				</div>
-				<div class="my-10">
-					<form:label path="content" cssClass="form-label">원본 내용</form:label>
-					<form:textarea path="content"
-						cssClass="form-control form-control-lg mytextarea" />
-					<form:errors path="content" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-10">
-					<label for="editRequest" class="form-label">${action}요청 내용</label>
-					<textarea id="editRequest"
-						class="form-control form-control-lg mytextarea">
-						<p>${editRequest.name} 님 요청</p>
-						<hr>
-						<p>${action}사유 : ${editRequest.reason}</p>
-						<hr>
-						<p>${action}내용</p>
-						${editRequest.content }</textarea>
-				</div>
-				<div class="my-3">
-					<form:label path="tags" cssClass="form-label">해시태그</form:label>
-					<form:input path="tags" cssClass="form-control form-control-lg" />
-					<form:errors path="tags" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-3">
-					<form:label path="category" cssClass="form-label">카테고리</form:label>
-					<form:input path="category" cssClass="form-control form-control-lg" />
-					<form:errors path="category" cssClass="invalid-feedback d-block" />
-				</div>
-				<div class="my-3">
-					<input type="hidden" id="thumbnail" name="thumbnail"
-						class="form-control form-control-lg" value="${thumbnail }" />
-				</div>
-				<hr />
-				<div class="my-3">
-					<button type="submit" class="btn btn-lg btn-dark">라이프스타일 ${action}</button>
-				</div>
-			</form:form>
+			</div>
 		</div>
-	</main>
+	</div>
 	<jsp:include page="../../_layouts/public/scripts.jsp" />
 
 	<script type="text/javascript"
