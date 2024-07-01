@@ -18,25 +18,17 @@
 	<main>
 		<div class="m-5">
 			<div class="my-3">
-				<label id="subject" class="form-label">제목</label>
-				<p class="form-control form-control-lg">${lifestyle.subject }</p>
+				<h2 class="">${lifestyle.subject }</h2>
+			</div>
+			<div class="my-3">
+				<h6 style="color: grey;">${lifestyle.category } | ${lifestyle.tags }</h6>
+			</div>
+			<div class="my-3">
+				<img src="${lifestyle.thumbnail }" style="object-fit:cover;" onerror="" alt="thumbnail">
 			</div>
 			<div class="my-10">
-				<label id="content" class="form-label">내용</label>
 				<textarea id="content" class="form-control form-control-lg mytextarea"
-						readonly="readonly">${lifestyle.subject }</textarea>
-			</div>
-			<div class="my-3">
-				<label id="tags" class="form-label">해시태그</label>
-				<p class="form-control form-control-lg">${lifestyle.tags }</p>
-			</div>
-			<div class="my-3">
-				<label id="category" class="form-label">카테고리</label>
-				<p class="form-control form-control-lg">${lifestyle.category }</p>
-			</div>
-			<div class="my-3">
-				<label id="category" class="form-label">썸네일</label>
-				<img src="${lifestyle.thumbnail }" onerror="" alt="thumbnail">
+						readonly="readonly">${lifestyle.content }</textarea>
 			</div>
 			
 			<div class="row">
@@ -62,5 +54,21 @@
 	</main>
 
 	<jsp:include page="../../_layouts/public/scripts.jsp" />
+	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/scripts/modules.js"></script>
+	<script>
+		tinymce.init({
+			selector : '.mytextarea', // TinyMCE를 적용할 textarea요소의 선택자 지정
+			license_key : 'gpl',
+			images_upload_url: '/uploader',
+			plugins: 'image',
+			statusbar: false,
+			promotion: false,
+			automatic_uploads: true,
+			menu: {
+				edit: {title: 'Edit', items: 'undo, redo, selectall, image'}
+			},
+			images_upload_handler: editor_imageUploader
+		});	
+	</script>
 </body>
 </html>
