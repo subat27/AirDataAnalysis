@@ -38,10 +38,7 @@
 					<form:input path="category" cssClass="form-control form-control-lg" />
 					<form:errors path="category" cssClass="invalid-feedback d-block" />
 				</div>
-				<div class="my-3">
-					<input type="hidden" id="thumbnail" name="thumbnail"
-							class="form-control form-control-lg"/>
-				</div>
+				<input type="hidden" id="thumbnail" name="thumbnail"/>
 			</form:form>
 			<div class="my-3">
 				<form id="imageUpload" action="/uploader" enctype="multipart/form-data" method="post">
