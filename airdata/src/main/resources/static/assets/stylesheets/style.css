@@ -19,6 +19,10 @@
     word-break: keep-all;
 }
 
+html, body {
+	background-color: #f8f8f8;
+}
+
 .bd-placeholder-img {
 	font-size: 1.125rem;
 	text-anchor: middle;
@@ -161,6 +165,55 @@ main.form-signup input[name="confirm"] {
 	border-radius: 0;
 }
 
+div#page-public--main {
+	width: 100vw;
+	height: 100vh;
+
+	background-repeat: no-repeat;
+	background-position: center top;
+
+}
+div#page-public > aside.sidebar {
+	width: 240px;
+	height: 100vh;
+	padding: 8px;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-color: #ffffff;
+}
+div#page-public > aside.sidebar > section.brand {
+	width: 224px;
+	height: 224px;
+	position: relative;
+}
+div#page-public > aside.sidebar > section.brand > h1.logo-white {
+	width: 160px;
+	height: 160px;
+	margin: 0;
+	background-image: url('../images/logo_vertical_default.svg');
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	text-indent: -9999px;
+	display: block;
+}
+div#page-public > aside.sidebar > section.brand > h1.logo-white > a {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+div#page-public > aside.sidebar > section.navigation {
+	width: 160px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
 div#page-public--main > main {
 	padding: 0;
 }
@@ -202,5 +255,191 @@ div#page-public--main > main > section.intro > div.banner-image > img {
 @media (min-width: 1366px) {
 	div#page-public--main > main {
 		padding-left: 264px;
+	}
+}
+
+/* ========================================================
+ * 일반사용자용 컨텐츠 영역 박스
+ ======================================================== */
+main#public-content.public-content {
+	width: 100vw;
+	min-height: 100vh;
+	padding: 16px 16px 88px 16px;
+}
+@media (min-width: 768px) {
+	main#public-content.public-content {
+		padding: 32px 32px 32px calc(64px + 144px);
+	}
+}
+@media (min-width: 1280px) {
+	main#public-content.public-content {
+		padding: 32px 32px 32px calc(64px + 184px);
+	}
+}
+
+
+/* ========================================================
+ * 일반사용자용 메뉴바 영역
+ * 모바일 : ~768px, 태블릿 : ~1280px, PC: 1280px~
+ ======================================================== */
+nav#public-navigation.public-navigation {
+	width: 100vw;
+	height: 72px;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	border-top-left-radius: 16px;
+	border-top-right-radius: 16px;
+	background-color: #ffffff;
+	box-shadow: 0 0 16px 0 rgba(0,0,0,0.08);
+}
+nav#public-navigation.public-navigation > div.brand,
+nav#public-navigation.public-navigation > div.footer {
+	display: none;
+}
+nav#public-navigation > ul.nav > li > a {
+	width: 25vw;
+	height: 72px;
+	padding-top: 4px;
+	box-sizing: border-box;
+	display: block;
+	overflow: hidden;
+	text-align: center;
+	text-decoration: none !important;
+	transition: all 0.3s;
+}
+nav#public-navigation > ul.nav > li > a:hover > i,
+nav#public-navigation > ul.nav > li > a:hover > span,
+nav#public-navigation > ul.nav > li > a:focus > i,
+nav#public-navigation > ul.nav > li > a:hover > span {
+	color: #0b5ed7 !important;
+	transition: all 0.3s;
+}
+nav#public-navigation > ul.nav > li > a > i {
+	width: 100%;
+	height: 20px;
+	margin-bottom: 12px;
+	font-size: 20px;
+	display: block;
+	color: #191d1f;
+}
+nav#public-navigation > ul.nav > li > a > span {
+	font-size: 11px;
+	display: block;
+	color: #343434;
+}
+@media (min-width: 768px) {
+	nav#public-navigation.public-navigation {
+		width: 144px;
+		height: calc(100vh - 64px);
+		position: fixed;
+		left: 32px;
+		bottom: 32px;
+		border-radius: 16px;
+		background-color: #ffffff;
+		box-shadow: 0 0 16px 0 rgba(0,0,0,0.08);
+	}
+	nav#public-navigation.public-navigation > div.brand,
+	nav#public-navigation.public-navigation > div.footer {
+		display: block;
+	}
+	nav#public-navigation.public-navigation > div.brand {
+		padding: 24px 8px;
+		border-bottom: 1px solid #ededed;
+	}
+	nav#public-navigation.public-navigation > div.brand > h1.logo {
+		width: 136px;
+		height: 136px;
+		background-image: url('../images/logo_vertical_default.svg');
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+		text-indent: -9999px;
+		display: block;
+	}
+	nav#public-navigation.public-navigation > div.brand > h1.logo > a {
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+	nav#public-navigation > ul.nav {
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(calc(-50% - 24px));
+	}
+	nav#public-navigation > ul.nav > li > a {
+		width: 144px;
+		height: inherit;
+		margin: 8px 0;
+	}
+	nav#public-navigation > ul.nav > li > a > i {
+		width: 100%;
+		height: 28px;
+		margin-bottom: 16px;
+		font-size: 28px;
+		display: block;
+		color: #191d1f;
+	}
+	nav#public-navigation > ul.nav > li > a > span {
+		font-size: 12px;
+		display: block;
+		color: #343434;
+	}
+	nav#public-navigation.public-navigation > div.footer {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	}
+	nav#public-navigation.public-navigation > div.footer > a > img {
+		width: 144px;
+		height: 144px;
+		border-radius: 16px;
+		object-fit: cover;
+		object-position: center;
+	}
+	nav#public-navigation.public-navigation > div.footer > p {
+		margin: 0;
+		padding: 16px;
+		font-size: 12px;
+		color: #787878;
+	}
+}
+@media (min-width: 1280px) {
+	nav#public-navigation.public-navigation {
+		width: 184px;
+		height: calc(100vh - 64px);
+		position: fixed;
+		left: 32px;
+		bottom: 32px;
+		border-radius: 16px;
+		background-color: #ffffff;
+		box-shadow: 0 0 16px 0 rgba(0,0,0,0.08);
+	}
+	nav#public-navigation.public-navigation > div.brand,
+	nav#public-navigation.public-navigation > div.footer {
+		display: block;
+	}
+	nav#public-navigation.public-navigation > div.brand {
+		padding: 24px 8px;
+		border-bottom: 1px solid #ededed;
+	}
+	nav#public-navigation.public-navigation > div.brand > h1.logo {
+		width: 160px;
+		height: 160px;
+	}
+	nav#public-navigation > ul.nav > li > a {
+		width: 184px;
+		margin: 8px 0;
+	}
+	nav#public-navigation > ul.nav > li > a > i {
+		margin-bottom: 8px;
+	}
+	nav#public-navigation > ul.nav > li > a > span {
+		font-size: 13px;
+	}
+	nav#public-navigation.public-navigation > div.footer > a > img {
+		width: 184px;
+		height: 184px;
 	}
 }
