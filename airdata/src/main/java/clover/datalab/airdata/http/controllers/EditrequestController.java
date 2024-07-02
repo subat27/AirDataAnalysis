@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import clover.datalab.airdata.entities.EditRequest;
 import clover.datalab.airdata.entities.Lifestyle;
@@ -78,14 +79,14 @@ public class EditrequestController {
 		
 	}
 	
-	@GetMapping("/edit/list")
+	@GetMapping("/admin/edit/list")
 	public String list(@RequestParam(name = "page", defaultValue = "1") Integer page, Model model) {
 		model.addAllAttributes(editService.findAllEditRequest(page));
 		
 		return "_pages/editrequest/list";
 	}
 	
-	@GetMapping("/edit/detail/{editId}")
+	@GetMapping("/admin/edit/detail/{editId}")
 	public String detail(@PathVariable("editId") Long editId, Model model) {
 		try {
 			EditRequest editRequest = editService.findByEditRequestId(editId);
@@ -101,7 +102,7 @@ public class EditrequestController {
 		return "_pages/editrequest/detail";
 	}
 	
-	@GetMapping("/edit/modify/{editId}")
+	@GetMapping("/admin/edit/modify/{editId}")
 	public String modify(@PathVariable("editId") Long editId, Model model) {
 		EditRequest editRequest;
 		try {
@@ -111,11 +112,13 @@ public class EditrequestController {
 			if (ls == null) {
 				model.addAttribute("lifestyle", new LifestyleForm());
 				model.addAttribute("thumbnail", "");
-				model.addAttribute("action", "등록");
+				model.addAttribute("actionName", "등록");
+				model.addAttribute("action", "/admin/lifestyle/register");
 			} else {
 				model.addAttribute("lifestyle", new LifestyleForm(ls.getSubject(), ls.getContent(), ls.getTags(), ls.getCategory()));
 				model.addAttribute("thumbnail", ls.getThumbnail());
-				model.addAttribute("action", "수정");
+				model.addAttribute("actionName", "수정");
+				model.addAttribute("action", "/admin/lifestyle/modify"+ls.getId());
 			}
 			
 		} catch (Exception e) {
@@ -127,13 +130,25 @@ public class EditrequestController {
 		return "_pages/editrequest/modify";
 	}
 	
-	@GetMapping("/edit/delete/{editId}")
+	@GetMapping("/admin/edit/delete/{editId}")
 	public String delete(@PathVariable("editId") Long editId) {
 		try {
 			editService.remove(editId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/edit/list";
+		return "redirect:/admin/edit/list";
+	}
+	
+	@PostMapping("/admin/edit/delete/{editId}")
+	@ResponseBody
+	public String deleteAjax(@PathVariable("editId") Long editId) {
+		try {
+			editService.remove(editId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+		return "success";
 	}
 }

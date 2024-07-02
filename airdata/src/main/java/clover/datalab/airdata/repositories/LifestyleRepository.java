@@ -1,6 +1,9 @@
 package clover.datalab.airdata.repositories;
 
 import clover.datalab.airdata.entities.Lifestyle;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,9 +21,11 @@ public interface LifestyleRepository extends JpaRepository<Lifestyle, Long> {
                    "                           SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10) numbers " +
                    "              WHERE CHAR_LENGTH(e.tags) - CHAR_LENGTH(REPLACE(e.tags, ',', '')) >= numbers.n - 1) " +
                    "        AS temp WHERE temp.value IN (:searchList)) AS match_count " +
-                   "FROM lifestyle e " +
+                   "FROM lifestyles e " +
                    "ORDER BY match_count DESC",
             nativeQuery = true)
-    List<Lifestyle> sortRecommendTags(@Param("searchList") List<String> searchList);
+    Page<Lifestyle> sortRecommendTags(@Param("searchList") List<String> searchList, Pageable pageable);
+    
+    Page<Lifestyle> findByCategoryContaining(String category, Pageable pageable);
 
 }

@@ -46,7 +46,7 @@
 									</div>
 									<div class="card_footer">
 										<a class="link-dark link-underline-opacity-0"
-											href="/edit/detail/${editRequest.id }">${editRequest.subject }</a>
+											href="/admin/edit/detail/${editRequest.id }">${editRequest.subject }</a>
 									</div>
 									<hr>
 								</div>
@@ -60,18 +60,18 @@
 								<ul class="pagination justify-content-center">
 									<c:if test="${currentPage gt 1 }">
 										<li class="page-item"><a
-											href="/lifestyle?page=${currentPage-1 }" class="page-link">이전</a></li>
+											href="/admin/edit/list?page=${currentPage-1 }" class="page-link">이전</a></li>
 									</c:if>
 
 									<c:forEach var="page" begin="${start }" end="${end }">
-										<li class="page-item"><a href="/lifestyle?page=${page }"
+										<li class="page-item"><a href="/admin/edit/list?page=${page }"
 											class="page-link <c:if test="${page eq currentPage }">active</c:if>">${page }</a>
 										</li>
 									</c:forEach>
 
 									<c:if test="${currentPage lt totalPages }">
 										<li class="page-item"><a
-											href="/lifestyle?page=${currentPage-1 }" class="page-link">다음</a></li>
+											href="/admin/edit/list?page=${currentPage-1 }" class="page-link">다음</a></li>
 									</c:if>
 
 								</ul>

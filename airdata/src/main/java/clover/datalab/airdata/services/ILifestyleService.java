@@ -1,6 +1,7 @@
 package clover.datalab.airdata.services;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -79,7 +80,17 @@ public class ILifestyleService implements LifestyleService {
 		int pagePerCount = 12;
 		Pageable pageable = PageRequest.of(page-1, pagePerCount, Sort.by(Sort.Direction.DESC, sort));
 		
-		Page<Lifestyle> lifestyles = repository.findAll(pageable);
+		Page<Lifestyle> lifestyles = null;
+		
+		if(type.equals("tags") && !search.isBlank()) {
+			lifestyles = repository.sortRecommendTags(Arrays.asList(search.split(",")), pageable);
+		} else if(type.equals("category") && !search.isBlank()) {
+			lifestyles = repository.findByCategoryContaining(search, pageable);
+		} else {
+			lifestyles = repository.findAll(pageable);
+		}
+		
+		
 		
 		return Common.paginate(page, lifestyles, search, type, sort);
 	}
