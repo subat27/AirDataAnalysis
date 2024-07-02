@@ -42,7 +42,7 @@ public class Uploader {
 		meta.setContentLength(file.getSize());
 		meta.setContentType(file.getContentType());
 		
-		s3Client.putObject("subat27awsbucket", uploadFileName, file.getInputStream(), meta);
+		s3Client.putObject("blueskywellness", uploadFileName, file.getInputStream(), meta);
 		
 		response.put("originalFileName", file.getOriginalFilename());
 		response.put("uploadFileName", uploadFileName);

@@ -22,10 +22,10 @@ public class UploadController {
     public Map<String, String> uploadImage(@RequestParam("file") MultipartFile file) {
         Map<String, Object> result;
         Map<String, String> responseData = new HashMap<String, String>();
-        String baseUrl = "https://subat27awsbucket.s3.ap-northeast-2.amazonaws.com/";
+        String baseUrl = "https://blueskywellness.s3.amazonaws.com/";
         
 		try {
-			result = uploader.upload(file, "lifestyle");
+			result = uploader.upload(file, "/products");
 			responseData.put("location", baseUrl + result.get("uploadFileName").toString());
 
 			return responseData;
