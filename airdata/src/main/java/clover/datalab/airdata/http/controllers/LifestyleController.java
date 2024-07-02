@@ -21,14 +21,14 @@ public class LifestyleController {
 	private final LifestyleService service;
 
 	// 라이프스타일 등록 페이지로 이동
-	@GetMapping("/lifestyle/register")
+	@GetMapping("/admin/lifestyle/register")
 	public String register(Model model) {
 		model.addAttribute("lifestyle", new LifestyleForm());
 		return "_pages/lifestyle/register";
 	}
 
 	// 라이프스타일 등록
-	@PostMapping("/lifestyle/register")
+	@PostMapping("/admin/lifestyle/register")
 	public String registerProcess(@ModelAttribute("lifestyle") @Valid LifestyleForm lifestyle,
 			BindingResult bindingResult, Model model, String thumbnail) {
 		
@@ -70,7 +70,7 @@ public class LifestyleController {
 	}
 
 	// 라이프스타일 수정 페이지로 이동
-	@GetMapping("/lifestyle/modify/{id}")
+	@GetMapping("/admin/lifestyle/modify/{id}")
 	public String modifyLifestyle(Model model, @PathVariable("id") Long id) {
 		try {
 			Lifestyle ls = service.findByLifestyleId(id);
@@ -83,7 +83,7 @@ public class LifestyleController {
 	}
 	
 	// 라이프스타일 수정
-	@PostMapping("/lifestyle/modify/{id}")
+	@PostMapping("/admin/lifestyle/modify/{id}")
 	public String modifyLifestyleProcess(@ModelAttribute("lifestyle") @Valid LifestyleForm lifestyle,
 			@PathVariable("id") Long id, String thumbnail, 
 			BindingResult bindingResult, Model model) {
@@ -102,7 +102,7 @@ public class LifestyleController {
 	}
 	
 	// 라이프스타일 삭제
-	@GetMapping("/lifestyle/delete/{id}")
+	@GetMapping("/admin/lifestyle/delete/{id}")
 	public String deleteLifestyle(@PathVariable("id") Long id, Model model) {
 		try {
 			service.remove(id);

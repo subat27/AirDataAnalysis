@@ -27,8 +27,8 @@
 						<textarea readonly="readonly" class="mytextarea">
 							${editRequest.content }
 						</textarea>
-						<a href="/edit/modify/${editRequest.id}" class="btn btn-primary">${action }하러가기</a>
-						<a href="/edit/delete/${editRequest.id}" class="btn btn-primary">삭제</a>
+						<a href="/admin/edit/modify/${editRequest.id}" class="btn btn-primary">${action }하러가기</a>
+						<a href="/admin/edit/delete/${editRequest.id}" class="btn btn-primary">삭제</a>
 						<button id="previousBtn" class="btn btn-primary me-1">이전으로</button>
 					</div>
 				</div>

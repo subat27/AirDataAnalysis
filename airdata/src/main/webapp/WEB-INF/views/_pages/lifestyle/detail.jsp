@@ -38,8 +38,8 @@
 					<div class="col-4">
 						<a href="/lifestyle" class="btn btn-primary me-1">목록으로</a>
 						<sec:authorize access="isAuthenticated()">
-							<a href="/lifestyle/modify/${lifestyle.id}" class="btn btn-primary me-1">수정하기</a>
-							<a href="/lifestyle/delete/${lifestyle.id}" class="btn btn-primary me-1">삭제</a>
+							<a href="/admin/lifestyle/modify/${lifestyle.id}" class="btn btn-primary me-1">수정하기</a>
+							<a href="/admin/lifestyle/delete/${lifestyle.id}" class="btn btn-primary me-1">삭제</a>
 						</sec:authorize>
 						<sec:authorize access="!isAuthenticated()">
 							<a href="/edit/register/${lifestyle.id}" class="btn btn-primary me-1">수정요청</a>

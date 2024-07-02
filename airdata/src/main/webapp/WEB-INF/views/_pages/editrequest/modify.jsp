@@ -20,8 +20,7 @@
 				</header>
 				<div class="row">
 					<div class="m-5">
-						<form:form method="post"
-							action="/lifestyle/modify/${editRequest.lifestyle.id}"
+						<form:form method="post" action="${action }" id="myform"
 							modelAttribute="lifestyle" enctype="multipart/form-data">
 							<div class="my-3">
 								<form:label path="subject" cssClass="form-label">제목</form:label>
@@ -36,15 +35,15 @@
 								<form:errors path="content" cssClass="invalid-feedback d-block" />
 							</div>
 							<div class="my-10">
-								<label for="editRequest" class="form-label">${action}요청
+								<label for="editRequest" class="form-label">${actionName}요청
 									내용</label>
 								<textarea id="editRequest"
 									class="form-control form-control-lg mytextarea">
 									<p>${editRequest.name} 님 요청</p>
 									<hr>
-									<p>${action}사유 : ${editRequest.reason}</p>
+									<p>${actionName}사유 : ${editRequest.reason}</p>
 									<hr>
-									<p>${action}내용</p>
+									<p>${actionName}내용</p>
 									${editRequest.content }
 								</textarea>
 							</div>
@@ -63,12 +62,18 @@
 								<input type="hidden" id="thumbnail" name="thumbnail"
 									class="form-control form-control-lg" value="${thumbnail }" />
 							</div>
-							<hr />
-							<div class="my-3">
-								<button type="submit" class="btn btn-lg btn-dark">라이프스타일 ${action}</button>
-								<button id="previousBtn" class="btn btn-lg btn-primary me-1">이전으로</button>
-							</div>
 						</form:form>
+						<div class="my-3">
+							<form id="imageUpload" action="/uploader" enctype="multipart/form-data" method="post">
+								<label for="image" class="form-label">썸네일</label>
+								<input type="file" name="file" id="image" value="${thumbnail }" class="form-control form-control-lg" />
+							</form>
+						</div>
+						<hr />
+						<div class="my-3">
+							<button type="submit" form="myform" class="btn btn-lg btn-dark">라이프스타일 ${actionName}</button>
+							<button id="previousBtn" class="btn btn-lg btn-primary me-1">이전으로</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -94,6 +99,60 @@
 				}
 			},
 			images_upload_handler : editor_imageUploader
+		});
+	</script>
+	<script>
+		$(document).ready(function(){
+			$("#myform").submit(function(event){
+				event.preventDefault();
+				
+				let token = $("meta[name='_csrf']").attr("content");
+				let header = $("meta[name='_csrf_header']").attr("content");
+				let uri = '/admin/edit/delete/${editRequest.id}'
+				
+				$.ajax({
+					type: 'post',
+					url: uri,
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(result) {
+						event.target.submit();	
+					}
+				});
+			});
+			
+			$("#image").change(function() {
+				let imgForm = document.getElementById("imageUpload");
+				let formData = new FormData(imgForm);
+
+				let token = $("meta[name='_csrf']").attr("content");
+				let header = $("meta[name='_csrf_header']").attr("content");
+
+				let uri = '/uploader';
+				console.log(uri);
+
+				$.ajax({
+					type : "post",
+					url : uri,
+					dataType : "json",
+					data : formData,
+					processData : false,
+					contentType : false,
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(result) {
+						$("#thumbnail").attr("value", result.location);
+					},
+					error : function() {
+						console.log('통신실패');
+					},
+					complete : function() {
+						console.log("끝");
+					}
+				});
+			});
 		});
 	</script>
 </body>

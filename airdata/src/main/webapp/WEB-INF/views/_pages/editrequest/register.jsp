@@ -43,7 +43,6 @@
 								<label class="form-label my-2">${actionName }사유</label>
 								<input name="reason" class="form-control form-control-lg"
 									placeholder="${actionName } 요청 이유를 입력해 주십시오." />
-
 							</div>
 							<hr />
 							<div class="my-3">

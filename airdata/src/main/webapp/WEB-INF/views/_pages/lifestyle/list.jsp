@@ -33,7 +33,7 @@
 					<p>${error}</p>
 				</header>
 				<div class="row">
-					<form:form method="get" action="/lifestyle/list">
+					<form:form method="get" action="/lifestyle">
 						<div class="row m-5">
 							<div class="col-8 col-md-3">
 								<label for="type" class="form-label d-md-none">카테고리명</label> <select

@@ -20,7 +20,7 @@
 				</header>
 				<div class="row">
 					<div class="m-5">
-						<form:form method="post" action="/lifestyle/register"
+						<form:form method="post" action="/admin/lifestyle/register"
 							modelAttribute="lifestyle" enctype="multipart/form-data"
 							id="registerForm">
 							<div class="my-3">
