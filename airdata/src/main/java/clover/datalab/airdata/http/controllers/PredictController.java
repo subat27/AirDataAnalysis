@@ -66,10 +66,10 @@ public class PredictController {
 	public String predictAirCondition(String dates, String localName) { 
 		String[] dateList = dates.split(",");
 		
-		// 미세먼지 정보 호출 (??)
+		// 미세먼지 정보 호출하는 API 구현 완료 후 교체
 		Map<String, Double> dustData = new HashMap<>();
-		dustData.put("PM10", 16.0);
-		dustData.put("PM25", 7.0);
+		dustData.put("PM10", 26.0);
+		dustData.put("PM25", 16.0);
 
 		// 현재 날씨 정보 호출
 		Map<String, Double> nowWeatherData = nowWeatherData(localName);
@@ -196,32 +196,26 @@ public class PredictController {
 		
 		Map<String, Map<String, SumCount>> intermediateResults = new HashMap<>();
 
-        // Parse each element
+        // 카테고리별 관측값을 String으로 파싱
         while (elements.hasNext()) {
             JsonNode element = elements.next();
             String fcstDate = element.get("fcstDate").asText();
             String category = element.get("category").asText();
             String fcstValue = element.get("fcstValue").asText();
 
-            // Check if the fcstValue is a numeric value
+            // 관측값의 합계
+            double value = 0.0;
             if (isNumeric(fcstValue)) {
-                double value = Double.parseDouble(fcstValue);
-                intermediateResults.putIfAbsent(fcstDate, new HashMap<>());
-                Map<String, SumCount> categoryMap = intermediateResults.get(fcstDate);
-                categoryMap.putIfAbsent(category, new SumCount());
-                SumCount sumCount = categoryMap.get(category);
-                sumCount.add(value);
-            } else {
-            	double value = 0.0;
-                intermediateResults.putIfAbsent(fcstDate, new HashMap<>());
-                Map<String, SumCount> categoryMap = intermediateResults.get(fcstDate);
-                categoryMap.putIfAbsent(category, new SumCount());
-                SumCount sumCount = categoryMap.get(category);
-                sumCount.add(value);
+                value = Double.parseDouble(fcstValue);
             }
+            intermediateResults.putIfAbsent(fcstDate, new HashMap<>());
+            Map<String, SumCount> categoryMap = intermediateResults.get(fcstDate);
+            categoryMap.putIfAbsent(category, new SumCount());
+            SumCount sumCount = categoryMap.get(category);
+            sumCount.add(value);
         }
 
-        // Calculate averages
+        // 관측값의 평균을 구함
         Map<String, Map<String, Double>> result = new HashMap<>();
         for (Map.Entry<String, Map<String, SumCount>> entry : intermediateResults.entrySet()) {
             String fcstDate = entry.getKey();
