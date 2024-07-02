@@ -1,39 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div id="navigation-wrapper" class="d-flex flex-column p-5">
-    <section class="brand">
-        <h1 class="brand">
-            <a href="${pageContext.request.contextPath}" class="logo-default">the Blue sky wellness</a>
+<nav id="public-navigation" class="public-navigation">
+    <div class="brand">
+        <h1 class="logo">
+            <a href="${pageContext.request.contextPath}/">
+                Blue sky wellness
+            </a>
         </h1>
-    </section>
-    <section class="navigation">
-        <nav>
-            <ul>
-                <li class="nav-item my-2">
-                    <a href="${pageContext.request.contextPath}/">처음으로</a>
-                </li>
-                <li class="nav-item my-2">
-                    <a href="${pageContext.request.contextPath}/information">미세먼지 예보</a>
-                </li>
-                <li class="nav-item my-2">
-                    <a href="${pageContext.request.contextPath}/lifestyle">라이프 스타일</a>
-                </li>
-                <li class="nav-item my-2">
-                    <a href="${pageContext.request.contextPath}/products">추천 상품</a>
-                </li>
-            </ul>
-        </nav>
-    </section>
-    <section class="footer">
-        <p class="m-0 fs-9">
-            Copyright&copy;2024 네잎클로버 데이터랩.
+    </div>
+    <ul class="nav list-unstyled m-0 p-0">
+        <li class="nav-item my-2">
+            <a href="${pageContext.request.contextPath}/information">
+                <i class="bi bi-cloud-haze2"></i>
+                <span>미세먼지 예보</span>
+            </a>
+        </li>
+        <li class="nav-item my-2">
+            <a href="${pageContext.request.contextPath}/lifestyle">
+                <i class="bi bi-cup-hot"></i>
+                <span>라이프 스타일</span>
+            </a>
+        </li>
+        <li class="nav-item my-2">
+            <a href="${pageContext.request.contextPath}/products">
+                <i class="bi bi-cart4"></i>
+                <span>추천 상품</span>
+            </a>
+        </li>
+    </ul>
+    <div class="footer">
+        <a href="${pageContext.request.contextPath}/">
+            <img src="${pageContext.request.contextPath}/assets/images/banner_250p.jpg" alt=""/>
+        </a>
+        <p>
+            Copyright &copy; 2024 네잎클로버 데이터랩.<br/>
             All rights reserved.
         </p>
-    </section>
-    <section class="banner">
-        <div class="banner-250p">
-            <a href="#">
-                <img src="${pageContext.request.contextPath}/assets/images/banner_250p.jpg" alt="banner-240p"/>
-            </a>
-        </div>
-    </section>
-</div>
+    </div>
+</nav>
