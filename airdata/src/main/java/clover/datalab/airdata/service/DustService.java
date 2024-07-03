@@ -1,10 +1,8 @@
 package clover.datalab.airdata.service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,24 +36,6 @@ public class DustService {
         }
 
         return result;
-    }
-	
-	
-    /**
-     * 최신 Dust 데이터를 조회합니다.
-     *
-     * @return 최신 Dust 데이터
-     */
-    // 현재 날짜와 시간에 해당하는 최신 미세먼지 데이터 가져오기
-    public Dust findLatestDustDataByDateTime() {
-        LocalDateTime currentDateTime = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0); // 분, 초, 나노초를 0으로 설정하여 시간 단위로 자름
-        
-        // DustRepository에 정의된 메서드를 사용하여 시간별로 최신 데이터를 가져옵니다.
-        return dRepository.findTopByDataTimeBeforeOrderByDataTimeDesc(currentDateTime);
-    }
-	
-    public List<Object[]> getAveragePmValuesBySido() {
-        return dRepository.findAveragePmValuesBySido();
     }
 	
 	public void insertItems(String jsonString) {

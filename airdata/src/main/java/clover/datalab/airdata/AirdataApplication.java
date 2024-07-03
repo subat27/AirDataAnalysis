@@ -9,5 +9,5 @@ public class AirdataApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AirdataApplication.class, args);
 	}
-
+	
 }

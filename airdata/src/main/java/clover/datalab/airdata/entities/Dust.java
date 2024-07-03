@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -19,19 +19,27 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Dust {
 	
-    public LocalDateTime getDataTime() {
+    public String getDataTime() {
         return this.dataTime;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 고유번호(ID, 자동생성)
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private Date timestamp; // 데이터가 저장된 시간
+    
+    @UpdateTimestamp
+    private Date updated; // 수정일자 (자동생성)
 
     @Column(nullable = true, name = "sido_name")
     private String sidoName; // 시도명
 
     @Column(nullable = true, name = "data_time")
-    private LocalDateTime dataTime; // 측정일시
+    private String dataTime; // 측정일시
 
     @Column(nullable = true, name = "station_name")
     private String stationName; // 측정소명
@@ -53,12 +61,5 @@ public class Dust {
 
     @Column(nullable = true, name = "pm25_grade")
     private String pm25Grade1h; // 초미세먼지 등급
-    
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime created; // 등록일자 (자동생성)
-
-    @UpdateTimestamp
-    private LocalDateTime updated; // 수정일자 (자동생성)
 
 }

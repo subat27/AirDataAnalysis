@@ -23,13 +23,12 @@ import static clover.datalab.airdata.configurations.security.SecurityAccess.*;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
-	  @Bean
-	  @ConditionalOnProperty(name = "spring.h2.console.enabled",havingValue = "true")
-	  public WebSecurityCustomizer configureH2ConsoleEnable() {
-	    return web -> web.ignoring()
-	        .requestMatchers(PathRequest.toH2Console());
-	  }
+    
+	@Bean
+	@ConditionalOnProperty(name = "spring.h2.console.enabled", havingValue = "true")
+	public WebSecurityCustomizer configureH2ConsoleEnable() {
+		return web -> web.ignoring().requestMatchers(PathRequest.toH2Console());
+	}
 	
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -45,7 +44,7 @@ public class SecurityConfiguration {
                    .requestMatchers(ACCESS_PUBLIC).permitAll()
                    .requestMatchers(ACCESS_GUEST).anonymous()
                    .requestMatchers(ACCESS_ADMIN).hasAuthority("ADMIN")
-                   .requestMatchers("/dust/sido").permitAll() // "/dust/sido" 허용
+                   .requestMatchers("/dust/pm").permitAll() // "/dust/pm" 허용
                    .requestMatchers("/dust/pm-avg").permitAll() // "/dust/pm-avg" 허용
                    .anyRequest().authenticated();
         }).formLogin(login -> {
