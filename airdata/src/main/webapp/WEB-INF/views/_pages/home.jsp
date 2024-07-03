@@ -359,6 +359,8 @@
         </main>
     </div>
     <jsp:include page="../_layouts/public/scripts.jsp"/>
-    <jsp:include page="../_layouts/public/map_main.jsp"/>
+    <jsp:include page="../_layouts/public/pm_avg.jsp">
+    	<jsp:param value="${averagePmValues}" name="averagePmValues"/>
+    </jsp:include>
 </body>
 </html>

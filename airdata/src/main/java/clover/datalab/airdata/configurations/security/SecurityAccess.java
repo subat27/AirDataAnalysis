@@ -4,6 +4,7 @@ public class SecurityAccess {
 
     public static String[] ACCESS_PUBLIC = {
         "/",
+        "/dust/insert",
         "/assets/**",
         "/vendors/**"
     };
