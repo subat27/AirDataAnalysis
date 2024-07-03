@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="org.json.JSONObject" %>
-<%@ page import="org.json.JSONArray" %>
+
 <!DOCTYPE html>
 <html>
 <head>
