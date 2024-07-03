@@ -119,6 +119,8 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31c799a3e6c57bcc8d12337698e4159a"></script>
     <script>
+    	const serverJsonData = `${jsonPmValues}`;
+    
         $(function() { // document ready 시 실행될 함수
             const container = document.querySelector('main#page-content--main > section#map.map'); // 지도를 표시할 div 
             const options = {

@@ -43,7 +43,6 @@ public class DustService {
 		JSONArray jsonArray = jsonObject.getJSONObject("response").getJSONObject("body")
 				.getJSONArray(("items"));
 		
-		System.out.println(jsonArray);
         ObjectMapper mapper = new ObjectMapper();
         for (Object o : jsonArray) {
         	try {

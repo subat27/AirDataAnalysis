@@ -17,8 +17,8 @@ import clover.datalab.airdata.entities.Dust;
 public interface DustRepository extends JpaRepository<Dust, Long>{
     
 	@Query("SELECT d.sidoName, AVG(CASE WHEN d.pm10Value <> '-' AND CAST(d.pm10Value AS double) <= 500 THEN CAST(d.pm10Value AS double) ELSE NULL END), " +
-		       "AVG(CASE WHEN d.pm25Value <> '-' AND CAST(d.pm25Value AS double) <= 500 THEN CAST(d.pm25Value AS double) ELSE NULL END) " +
-		       "FROM Dust d GROUP BY d.sidoName")
+		   "AVG(CASE WHEN d.pm25Value <> '-' AND CAST(d.pm25Value AS double) <= 500 THEN CAST(d.pm25Value AS double) ELSE NULL END) " +
+		   "FROM Dust d GROUP BY d.sidoName")
 		List<Object[]> getAvgPmValuesBySido();
 	
     @Modifying

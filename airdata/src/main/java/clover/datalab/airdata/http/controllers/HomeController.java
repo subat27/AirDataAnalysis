@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.google.gson.Gson;
+
 import clover.datalab.airdata.service.DustService;
 
 @Controller
@@ -19,6 +21,9 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
     	Map<String, String> averagePmValues = dService.getAvgPmValuesBySido();
+    	Gson gson = new Gson();
+        String json = gson.toJson(averagePmValues);
+        model.addAttribute("jsonPmValues", json);
         model.addAttribute("averagePmValues", averagePmValues);
         return "_pages/home";
     }
