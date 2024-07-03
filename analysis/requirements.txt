@@ -3,5 +3,6 @@ pandas
 scikit-learn
 torch
 python=3.9.7
+numpy=1.24.1
 #flask-sqlalchemy
 #sqlalchedmy

@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <title>시도별 평균 미세먼지 및 초미세먼지 농도</title>
     <style>
-    	.overlaybox { border-radius: 30px; position: relative; width: 100px; height: 50px; background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat; padding: 15px 10px; }
+    	.overlaybox { border-radius: 30px; position: relative; width: 150px; height: 100px; background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat; padding: 15px 10px; }
         .overlaybox .boxtitle { text-align: center; color: #fff; font-size: 16px; font-weight: bold; margin-bottom: 8px; }
         .good { background-color: #87CEEB; } /* 하늘색 */
         .normal { background-color: #98FB98; } /* 연두색 */
@@ -116,12 +116,14 @@
     %>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/scripts/predict.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31c799a3e6c57bcc8d12337698e4159a"></script>
     <script>
     	const serverJsonData = `${jsonPmValues}`;
     
-    	console.log(serverJsonData);
-        $(function() { // document ready 시 실행될 함수
+    	console.log(JSON.parse(serverJsonData));
+    	
+    	$(function() { // document ready 시 실행될 함수
             const container = document.querySelector('main#public-content > section#public-main--map > div'); // 지도를 표시할 div 
             const options = {
                 center: new daum.maps.LatLng(36.6358, 127.4911), // 지도의 중심좌표: 충북
@@ -140,15 +142,18 @@
                 $.each(data, function(index, val) {
                     coordinates = val.geometry.coordinates;
                     name = val.properties.CTP_KOR_NM;
-
-                    displayMap(coordinates, name);
+                    var value = JSON.parse(serverJsonData)[name].split(",");
+                    var pm10 = value[0];
+                    var pm25 = value[1].trim();
+                    
+                    displayMap(coordinates, name, pm10, pm25);
                 });
             });
 
             var polygons = []; // 전역변수
 
             // 대한민국 지도 폴리곤
-            function displayMap(coordinates, name) {
+            function displayMap(coordinates, name, pm10, pm25) {
                 var path = [];
                 var points = [];
                 var pathArr = [];
@@ -182,17 +187,19 @@
                     });
                     var content = '<div class="overlaybox">';
                     content += ' <div class="boxtitle">' + name + '</div> ';
+                    content += ' <div class="boxtitle">미세먼지 : ' + getAirCondition("PM10", parseInt(pm10)) + '</div> ';
+                    content += ' <div class="boxtitle">초미세먼지 : ' + getAirCondition("PM25", parseInt(pm25)) + '</div> ';
                     content += '</div>';
 
                     customOverlay.setContent(content);
-                    customOverlay.setPosition(mouseEvent.latLng);
+                    //customOverlay.setPosition(mouseEvent.latLng);
                     customOverlay.setMap(map);
                 });
 
-                // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 동작한다.
+               /*  // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 동작한다.
                 daum.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
                     console.log('mousemove 이벤트');
-                });
+                }); */
 
                 // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 색을 변경하고, 커스텀오버레이를 변경한다.
                 // 커스텀 오버레이를 지도에서 제거합니다 
