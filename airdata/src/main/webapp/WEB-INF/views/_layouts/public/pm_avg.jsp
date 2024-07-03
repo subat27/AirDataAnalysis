@@ -120,8 +120,9 @@
     <script>
     	const serverJsonData = `${jsonPmValues}`;
     
+    	console.log(serverJsonData);
         $(function() { // document ready 시 실행될 함수
-            const container = document.querySelector('main#page-content--main > section#map.map'); // 지도를 표시할 div 
+            const container = document.querySelector('main#public-content > section#public-main--map > div'); // 지도를 표시할 div 
             const options = {
                 center: new daum.maps.LatLng(36.6358, 127.4911), // 지도의 중심좌표: 충북
                 level: 13 // 지도의 확대 레벨
