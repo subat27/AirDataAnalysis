@@ -1,4 +1,4 @@
-package clover.datalab.airdata.controllers;
+package clover.datalab.airdata.http.controllers;
 
 import java.util.Map;
 
