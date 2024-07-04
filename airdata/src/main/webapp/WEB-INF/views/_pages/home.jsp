@@ -44,8 +44,8 @@
                 </div>
             </section>
             <section id="public-main--map" class="content-section public-main--map">
-                	<div id="map-view"></div>
-            	</section>
+               	<div id="map-view"></div>
+           	</section>
             <section id="public-main--dust" class="content-section section-padding public-main--dust">
                 <jsp:include page="../_layouts/public/pm_avg.jsp">
 			    	<jsp:param value="${averagePmValues}" name="averagePmValues"/>

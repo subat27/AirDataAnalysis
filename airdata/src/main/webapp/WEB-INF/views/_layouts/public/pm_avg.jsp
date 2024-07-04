@@ -193,7 +193,7 @@
 
                 daum.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
                     console.log('mousemove 이벤트');
-                }); */
+                });
 
                 daum.maps.event.addListener(polygon, 'mouseout', function() {
                     polygon.setOptions({
