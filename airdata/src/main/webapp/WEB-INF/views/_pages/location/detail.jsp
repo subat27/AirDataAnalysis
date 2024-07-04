@@ -31,7 +31,7 @@
 				
 				<div class="row">
 					<div class="col-4">
-						<a href="/location" class="btn btn-primary me-1">목록으로</a>
+						<a href="/location/list" class="btn btn-primary me-1">목록으로</a>
 					</div>
 					<div class="col-4"></div>
 					<div class="col-4 d-flex justify-content-end">

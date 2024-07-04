@@ -112,6 +112,8 @@
 					},
 					success : function(result) {
 						$("#thumbnail").attr("value", result.location);
+						console.log($("#thumbnail").attr("value"));
+						console.log(result.location);
 						console.log("성공");
 					},
 					error : function() {

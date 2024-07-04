@@ -33,7 +33,7 @@ public class LocationController {
 			@RequestParam(name = "sort", defaultValue = "id") String sort,
 			Model model) {
 		
-		model.addAttribute("locations", service.findLocations(page, perPage, search, sort));
+		model.addAllAttributes(service.findLocations(page, perPage, search, sort));
 		
 		return "_pages/location/list";
 	}

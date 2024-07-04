@@ -47,7 +47,7 @@
 							<hr />
 							<div class="my-3">
 								<button type="submit" class="btn btn-lg btn-dark">${actionName }요청</button>
-								<button id="previousBtn" class="btn btn-lg btn-primary me-1">이전으로</button>
+								<a href="/lifestyle/detail/${lifestyleId }" class="btn btn-lg btn-primary me-1">이전으로</a>
 							</div>
 							
 						</form:form>

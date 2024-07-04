@@ -7,6 +7,19 @@
     <jsp:include page="../../_layouts/public/meta.jsp"/>
     <jsp:include page="../../_layouts/public/link.jsp"/>
     <title>Blue sky Wellness</title>
+	<style>
+	.card-img-top {
+		object-fit: cover;
+		height: 15rem;
+	}
+	
+	.card-text {
+		max-height: 4em;
+		line-height: 2em;
+		white-space: normal;
+		overflow: hidden;
+	}
+	</style>
 </head>
 <body>
 <div id="wrapper" class="container-fluid">
@@ -22,8 +35,11 @@
 							<c:forEach items="${items.content }" var="location">
 								<div class="col-lg-3 col-md-4 col-sm-6 p-2">
 									<div class="card h-100">
+										<img class="card-img-top" src="${location.thumbnail }"
+											alt="thumbnail"
+											onerror="this.onerror=null; this.src='/assets/images/noImage.png'">
 										<div class="card-body">
-											<h5 class="card-title">${location.title }</h5>
+											<h5 class="card-title">${location.name }</h5>
 											<div class="card-text">${location.address }</div>
 										</div>
 										<div class="card_footer">

@@ -33,6 +33,28 @@
 					<textarea id="content" class="form-control form-control-lg mytextarea"
 							readonly="readonly">${lifestyle.content }</textarea>
 				</div>
+				<hr>
+				<div class="my-3">
+					<h2 class="">이런 상품은 어떠세요?</h2>
+				</div>
+				<c:forEach items="${lifestyle.products }" var="product">
+					<div class="card border-light-subtle">
+						<div class="card-body overflow-hidden">
+							<img src="https://blueskywellness.s3.amazonaws.com/${product.thumbnail}" alt=""/>
+						</div>
+                        <div class="card-footer border-light-subtle">
+							<strong class="product-name">${product.subject }</strong> |
+							<span class="price">
+								${product.price }
+								<small>원</small>
+							</span>
+							<div>
+								<p>${product.content }</p>
+							</div>
+							<a href="${product.link }" class="nav-link">구매하러 가기 +</a>
+						</div>
+					</div>
+				</c:forEach>
 				
 				<div class="row">
 					<div class="col-4">
