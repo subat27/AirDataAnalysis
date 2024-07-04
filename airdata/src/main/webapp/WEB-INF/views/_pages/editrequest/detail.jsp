@@ -43,8 +43,6 @@
 		tinymce.init({
 			selector : '.mytextarea', // TinyMCE를 적용할 textarea요소의 선택자 지정
 			license_key : 'gpl',
-			images_upload_url : '/uploader',
-			plugins : 'image',
 			statusbar : false,
 			promotion : false,
 			automatic_uploads : true,
@@ -54,7 +52,9 @@
 					items : 'undo, redo, selectall, image'
 				}
 			},
-			images_upload_handler : editor_imageUploader
+			readonly: true,
+			toolbar: false,
+			menubar: false
 		});
 	</script>
 </body>

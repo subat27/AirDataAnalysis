@@ -141,7 +141,7 @@
 					$("#humid").html(data["humid"] + " %");
 					$("#rainfall").html(data["rainfall"] + " mm");
 					$("#wind_speed").html(data["wind_speed"] + " m/s");
-					$("#wind_direction").html(data["wind_direction"] + " °");
+					$("#wind_direction").html(getWindDirection(parseInt(data["wind_direction"])));
 				});
 			});
 		});

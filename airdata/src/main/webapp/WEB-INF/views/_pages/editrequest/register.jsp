@@ -47,7 +47,17 @@
 							<hr />
 							<div class="my-3">
 								<button type="submit" class="btn btn-lg btn-dark">${actionName }요청</button>
-								<a href="/lifestyle/detail/${lifestyleId }" class="btn btn-lg btn-primary me-1">이전으로</a>
+								
+								 <c:choose>
+								 	<c:when test="${actionName eq '수정'}">
+										<a href="/lifestyle/detail/${lifestyleId }" class="btn btn-lg btn-primary me-1">이전으로</a>								 	
+								 	</c:when>
+								 	<c:otherwise>
+								 		<a href="/lifestyle" class="btn btn-lg btn-primary me-1">이전으로</a>
+								 	</c:otherwise>
+								 </c:choose>
+								
+								
 							</div>
 							
 						</form:form>

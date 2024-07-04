@@ -72,7 +72,7 @@
 						<hr />
 						<div class="my-3">
 							<button type="submit" form="myform" class="btn btn-lg btn-dark">라이프스타일 ${actionName}</button>
-							<button id="previousBtn" class="btn btn-lg btn-primary me-1">이전으로</button>
+							<a href="/lifestyle" class="btn btn-lg btn-primary me-1">이전으로</a>
 						</div>
 					</div>
 				</div>

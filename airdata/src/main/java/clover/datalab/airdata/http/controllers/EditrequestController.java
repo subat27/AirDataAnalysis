@@ -118,7 +118,7 @@ public class EditrequestController {
 				model.addAttribute("lifestyle", new LifestyleForm(ls.getSubject(), ls.getContent(), ls.getTags(), ls.getCategory()));
 				model.addAttribute("thumbnail", ls.getThumbnail());
 				model.addAttribute("actionName", "수정");
-				model.addAttribute("action", "/admin/lifestyle/modify"+ls.getId());
+				model.addAttribute("action", "/admin/lifestyle/modify/"+ls.getId());
 			}
 			
 		} catch (Exception e) {

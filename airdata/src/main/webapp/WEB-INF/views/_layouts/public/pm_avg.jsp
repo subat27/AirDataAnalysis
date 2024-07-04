@@ -57,11 +57,11 @@
                             String pm10Class = getAirQualityClass10(pm10Value);
                             String pm25Class = getAirQualityClass25(pm25Value);
                 %>
-                <tr>
+                <tr class="dustData">
                     <td><%= sido %></td>
-                    <td><%= pm10Value %></td>
+                    <td><%= pm10Value %> ㎍/㎥</td>
                     <td class="<%= pm10Class %>"><%= pm10Grade %></td>
-                    <td><%= pm25Value %></td>
+                    <td><%= pm25Value %> ㎍/㎥</td>
                     <td class="<%= pm25Class %>"><%= pm25Grade %></td>
                 </tr>
                 <% 
