@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 */airdata/target/
-=======
 # Created by https://www.toptal.com/developers/gitignore/api/eclipse,java,windows,macos,maven,python,flask
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse,java,windows,macos,maven,python,flask
 
@@ -436,9 +434,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-<<<<<<< HEAD
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java,windows,macos,maven,python,flask
-=======
-# End of https://www.toptal.com/developers/gitignore/api/eclipse,java,windows,macos,maven,python,flask
->>>>>>> 53df92ebc8490226700ef620de69126165ffd7bc
->>>>>>> 81dd364487cc9ccf5e76d69dd293e12b45071683
