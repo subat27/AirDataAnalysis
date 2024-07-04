@@ -10,9 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductForm {
+	
+	private String lifestyle;
 
 	@NotBlank(message = "필수 입력 항목입니다.")
-	@Pattern(regexp = "^[a-zA-Z0-9가-힣 ]", message = "한글, 영문, 숫자만 입력 가능합니다.")
+	@Pattern(regexp = "^[a-zA-Z0-9가-힣 ]*$", message = "한글, 영문, 숫자만 입력 가능합니다.")
 	@Size(min = 1, max = 100, message = "100자까지 입력 가능합니다.")
 	private String subject;
 	
@@ -30,7 +32,5 @@ public class ProductForm {
 	
 	@NotBlank(message = "필수 입력 항목입니다.")
 	private String link;
-	
-	private String thumbnail;
 	
 }

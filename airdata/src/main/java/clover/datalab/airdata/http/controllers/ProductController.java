@@ -1,5 +1,7 @@
 package clover.datalab.airdata.http.controllers;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import clover.datalab.airdata.entities.Product;
 import clover.datalab.airdata.http.forms.ProductForm;
+import clover.datalab.airdata.services.LifestyleService;
 import clover.datalab.airdata.services.ProductService;
+import clover.datalab.airdata.utilities.Uploader;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -21,20 +26,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductController {
 	
+	private final Uploader uploader;
+	
 	private final ProductService service;
+	private final LifestyleService lifestyleService;
 	
 	@GetMapping("/admin/product/add")
 	public String add(Model model) {
 		model.addAttribute("product", new ProductForm());
 		model.addAttribute("action", "/admin/product");
 		model.addAttribute("actionName", "등록");
+		model.addAttribute("lifestyles", lifestyleService.findAllItems());
 		return "_pages/admin/product/update";
 	}
 	
 	@PostMapping("/admin/product")
 	public String addProcess(
 		@ModelAttribute("product") @Valid ProductForm product,
-		@RequestPart("thumbnail") MultipartFile thumbnail,
+		@RequestParam(value = "thumbnail") MultipartFile thumbnail,
 		BindingResult bindingResult,
 		Model model
 	) {
@@ -42,7 +51,9 @@ public class ProductController {
 			if (bindingResult.hasErrors()) {
 				return "_pages/admin/product/update";
 			}
-			service.register(product, null); // 라이프스타일 기능 완성 시 수정 필요!
+			Map<String, Object> uploaded = uploader.upload(thumbnail, "/thumbnails");
+			String image = uploaded.get("uploadFileName").toString();
+			service.register(product, lifestyleService.findByLifestyleId(Long.valueOf(product.getLifestyle())), image);
 			return "redirect:/admin/product";
 		} catch (Exception exception) {
 			model.addAttribute("error", exception.getMessage());
@@ -66,8 +77,12 @@ public class ProductController {
 		@PathVariable("id") Long id, Model model
 	) {
 		try {
-			model.addAttribute("product", service.currentItem(id));
+			Product item = service.currentItem(id);
+			
+			model.addAttribute("product", item);
 			model.addAttribute("action", "/admin/product/update/" + id);
+			model.addAttribute("currentLifestyle", item.getLifestyle().getId());
+			model.addAttribute("lifestyles", lifestyleService.findAllItems());
 			model.addAttribute("actionName", "수정");
 			return "_pages/admin/product/update";
 		} catch (Exception exception) {
@@ -79,6 +94,7 @@ public class ProductController {
 	public String updateDetailProcess(
 		@PathVariable("id") Long id,
 		@ModelAttribute("product") @Valid ProductForm product,
+		@RequestParam(value = "thumbnail") MultipartFile thumbnail,
 		BindingResult bindingResult,
 		Model model
 	) {
@@ -86,7 +102,15 @@ public class ProductController {
 			if (bindingResult.hasErrors()) {
 				return "_pages/admin/product/update";
 			}
-			service.update(product, null, id); // 라이프스타일 기능 완성 시 수정 필요!
+			
+			String uploadedImage = "";
+			
+			if (thumbnail != null) {
+				Map<String, Object> uploaded = uploader.upload(thumbnail, "/thumbnails");
+				uploadedImage = uploaded.get("uploadFileName").toString();
+			}
+
+			service.update(product, lifestyleService.findByLifestyleId(Long.valueOf(product.getLifestyle())), id, uploadedImage); 
 			return "redirect:/admin/product/" + id;
 		} catch (Exception exception) {
 			return "redirect:/admin/product";

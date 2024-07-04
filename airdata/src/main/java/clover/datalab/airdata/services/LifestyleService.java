@@ -1,5 +1,6 @@
 package clover.datalab.airdata.services;
 
+import java.util.List;
 import java.util.Map;
 
 import clover.datalab.airdata.entities.Lifestyle;
@@ -11,4 +12,5 @@ public interface LifestyleService {
 	void remove(Long id) throws Exception;
 	Lifestyle findByLifestyleId(Long id) throws Exception;
 	Map<String, Object> findLifestyles(int page, int perPage, String search, String type, String sort);
+	List<Lifestyle> findAllItems();
 }

@@ -23,13 +23,13 @@ public class IProductService implements ProductService {
 	
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void register(ProductForm form, Lifestyle lifestyle) {
+    public void register(ProductForm form, Lifestyle lifestyle, String thumbnail) {
     	repository.save(
     		Product.builder().subject(form.getSubject())
 			    			 .content(form.getContent())
 			    			 .price(form.getPrice())
 			    			 .tags(form.getTags())
-			    			 .thumbnail(form.getThumbnail())
+			    			 .thumbnail(thumbnail)
 			    			 .category(form.getCategory())
 			    			 .link(form.getLink())
 			    			 .lifestyle(lifestyle)
@@ -39,13 +39,18 @@ public class IProductService implements ProductService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(ProductForm form, Lifestyle lifestyle, Long id) throws Exception {
+    public void update(ProductForm form, Lifestyle lifestyle, Long id, String thumbnail) throws Exception {
     	Product product = currentItem(id);
+    	String image = product.getThumbnail();
+    	
+    	if (!thumbnail.isBlank()) {
+    		image = thumbnail;
+    	}
     	
     	product.setSubject(form.getSubject());
     	product.setContent(form.getContent());
     	product.setCategory(form.getCategory());
-    	product.setThumbnail(form.getThumbnail());
+    	product.setThumbnail(image);
     	product.setPrice(form.getPrice());
     	product.setTags(form.getTags()); 
     	product.setLink(form.getLink());

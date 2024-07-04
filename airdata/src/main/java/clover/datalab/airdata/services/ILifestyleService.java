@@ -2,6 +2,7 @@ package clover.datalab.airdata.services;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -92,6 +93,11 @@ public class ILifestyleService implements LifestyleService {
 		
 		
 		return Common.paginate(page, lifestyles, search, type, sort);
+	}
+	
+	@Override
+	public List<Lifestyle> findAllItems() {
+		return repository.findAll();
 	}
 
 }

@@ -20,7 +20,32 @@
 			        </div>
 			        <div class="row">
 			        	<div class="col-12">
-			        		<form:form method="post" action="${action}" modelAttribute="product">
+			        		<form:form method="post" action="${action}" modelAttribute="product" enctype="multipart/form-data">
+			        			<div class="row">
+			        				<div class="col-12 mb-4">
+			        					<label for="lifestyle" class="form-label">해당 라이프스타일</label>
+			        					<select id="lifestyle" name="lifestyle" class="form-select">
+				        					<c:choose>
+				        						<c:when test="${actionName eq '등록'}">
+					        						<c:forEach var="ls" items="${lifestyles}">
+					        							<option value="${ls.id}">${ls.subject}</option>
+					        						</c:forEach>
+				        						</c:when>
+				        						<c:otherwise>
+				        							<c:forEach var="ls" items="${lifestyles}">
+				        								<option value="${ls.id}" <c:if test="${ls.id eq currentLifestyle}"></c:if>>${ls.subject}</option>
+				        							</c:forEach>
+				        						</c:otherwise>
+			        						</c:choose>
+			        					</select>
+			        				</div>
+			        			</div>
+			        			<div class="row">
+				        			<div class="col-12 mb-4">
+				        				<label for="thumbnail" class="form-label">섬네일</label>
+				        				<input type="file" name="thumbnail" id="thumbnail" class="form-control form-control-lg rounded-0">
+				        			</div>
+			        			</div>
 				        		<div class="row">
 				        			<div class="col-12 mb-4">
 				        				<form:label path="subject" cssClass="form-label">상품명</form:label>
