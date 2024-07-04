@@ -10,5 +10,5 @@ public interface LifestyleService {
 	void modify(LifestyleForm form, String thumbnail, Long id) throws Exception;
 	void remove(Long id) throws Exception;
 	Lifestyle findByLifestyleId(Long id) throws Exception;
-	Map<String, Object> findLifestyles(int page, String search, String type, String sort);
+	Map<String, Object> findLifestyles(int page, int perPage, String search, String type, String sort);
 }

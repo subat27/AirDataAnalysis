@@ -11,17 +11,18 @@
     <style>
         .overlaybox { border-radius: 30px; position: relative; width: 100px; height: 50px; background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat; padding: 15px 10px; }
         .overlaybox .boxtitle { text-align: center; color: #fff; font-size: 16px; font-weight: bold; margin-bottom: 8px; }
-        .good { background-color: #87CEEB; } /* 하늘색 */
-        .normal { background-color: #98FB98; } /* 연두색 */
-        .bad { background-color: #FFD700; } /* 연노랑색 */
-        .very-bad { background-color: #FF69B4; } /* 주홍색 */
+        td.good { background-color: #87CEEB; } /* 하늘색 */
+        td.normal { background-color: #98FB98; } /* 연두색 */
+        td.bad { background-color: #FFD700; } /* 연노랑색 */
+        td.very-bad { background-color: #FF69B4; } /* 주홍색 */
+        .dustData {text-align: center;}
     </style>
 </head>
 <body>
     <div>
-        <table border="1">
+        <table class="table m-3" border="1" >
             <thead>
-                <tr>
+                <tr class="dustData">
                     <th>시도명</th>
                     <th>미세먼지 농도</th>
                     <th>등급</th>
@@ -118,6 +119,7 @@
     %>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/scripts/predict.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31c799a3e6c57bcc8d12337698e4159a"></script>
     <script>
         $(function() {
@@ -185,13 +187,13 @@
                     var content = '<div class="overlaybox">';
                     content += ' <div class="boxtitle">' + name + '</div> ';
                     customOverlay.setContent(content);
-                    customOverlay.setPosition(mouseEvent.latLng);
+                    //customOverlay.setPosition(mouseEvent.latLng);
                     customOverlay.setMap(map);
                 });
 
                 daum.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
                     console.log('mousemove 이벤트');
-                });
+                }); */
 
                 daum.maps.event.addListener(polygon, 'mouseout', function() {
                     polygon.setOptions({

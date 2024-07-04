@@ -50,11 +50,12 @@ public class LifestyleController {
 	@GetMapping("/lifestyle")
 	public String listLifestyle(
 			@RequestParam(name = "page", defaultValue = "1") Integer page,
+			@RequestParam(name = "perPage", defaultValue = "12") Integer perPage,
 			@RequestParam(name = "search", defaultValue = "") String search,
 			@RequestParam(name = "type", defaultValue = "") String type,
 			@RequestParam(name = "sort", defaultValue = "id") String sort,
 			Model model) {
-		model.addAllAttributes(service.findLifestyles(page, search, type, sort));
+		model.addAllAttributes(service.findLifestyles(page, perPage, search, type, sort));
 		return "_pages/lifestyle/list";
 	}
 	

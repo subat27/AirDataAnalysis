@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import clover.datalab.airdata.service.DustService;
 import clover.datalab.airdata.utilities.Weather;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,7 @@ public class PredictController {
 	
 	private final Weather weather;
 	private final ObjectMapper objectMapper;
+	private final DustService dService;
 	
 	@Value("${pythonURL}")
 	public String pythonURL;
@@ -49,7 +51,6 @@ public class PredictController {
 			String result = weather.nowWeatherData(localName);
 			return processJsonDataPresent(result);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -68,8 +69,9 @@ public class PredictController {
 		
 		// 미세먼지 정보 호출하는 API 구현 완료 후 교체
 		Map<String, Double> dustData = new HashMap<>();
-		dustData.put("PM10", 26.0);
-		dustData.put("PM25", 16.0);
+		String[] values = dService.getAvgPmValuesBySido().get(localName).split(",");
+		dustData.put("PM10", Double.valueOf(values[0]));
+		dustData.put("PM25", Double.valueOf(values[1]));
 
 		// 현재 날씨 정보 호출
 		Map<String, Double> nowWeatherData = nowWeatherData(localName);

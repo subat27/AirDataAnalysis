@@ -83,20 +83,25 @@ public class Weather {
     // 단기예보 API 호출
  	public String weatherData(String localName) throws Exception {
  		String[] position = getPosition(localName);
- 		return getRestApi(nowDate(), position[0], position[1]);
+ 		return getRestApi(nowDate(""), position[0], position[1]);
  	}
  	
  	// 초단기실황 API 호출
  	public String nowWeatherData(String localName) throws Exception {
  		String[] position = getPosition(localName);
- 		return getRestApi(nowDate(), nowHour(), position[0], position[1]);
+ 		return getRestApi(nowDate("now"), nowHour(), position[0], position[1]);
  	}
  	
  	// 현재 날짜를 yyyyMMdd로 반환하는 함수
- 	private String nowDate() {
+ 	private String nowDate(String type) {
  		LocalDateTime now = LocalDateTime.now();
  		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-         return now.format(formatter);
+ 		if(!type.equals("now") && now.getHour() < 5) {
+ 			now = now.minusDays(1);
+ 			System.out.println("after: " + now);
+ 		}
+ 		System.out.println("format: "+now.format(formatter));
+        return now.format(formatter);
  	}
 
  	// 현재 시간을 반환하는 함수
