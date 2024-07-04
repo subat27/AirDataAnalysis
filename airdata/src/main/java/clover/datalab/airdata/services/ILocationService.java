@@ -31,6 +31,8 @@ public class ILocationService implements LocationService {
 		orgLocation.setName(location.getName());
 		orgLocation.setAddress(location.getAddress());
 		orgLocation.setTags(location.getTags());
+		orgLocation.setCategory(location.getCategory());
+		orgLocation.setThumbnail(location.getThumbnail());
 		
 		repository.save(orgLocation);
 	}
