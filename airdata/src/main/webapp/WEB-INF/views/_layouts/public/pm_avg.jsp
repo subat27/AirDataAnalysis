@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="com.google.gson.Gson" %>
 
 <!DOCTYPE html>
 <html>
@@ -8,7 +9,7 @@
     <meta charset="UTF-8">
     <title>시도별 평균 미세먼지 및 초미세먼지 농도</title>
     <style>
-    	.overlaybox { border-radius: 30px; position: relative; width: 100px; height: 50px; background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat; padding: 15px 10px; }
+        .overlaybox { border-radius: 30px; position: relative; width: 100px; height: 50px; background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat; padding: 15px 10px; }
         .overlaybox .boxtitle { text-align: center; color: #fff; font-size: 16px; font-weight: bold; margin-bottom: 8px; }
         .good { background-color: #87CEEB; } /* 하늘색 */
         .normal { background-color: #98FB98; } /* 연두색 */
@@ -30,8 +31,10 @@
             </thead>
             <tbody>
                 <% 
-                    // averagePmValues 변수에 대한 처리
                     Map<String, String> averagePmValues = (Map<String, String>) request.getAttribute("averagePmValues");
+                    Gson gson = new Gson();
+                    String jsonPmValues = gson.toJson(averagePmValues);
+                    
                     if (averagePmValues != null) {
                         for (Map.Entry<String, String> entry : averagePmValues.entrySet()) {
                             String sido = entry.getKey();
@@ -46,11 +49,11 @@
                             String pm25Class = getAirQualityClass25(pm25Value);
                 %>
                 <tr>
-                    <td><%= sido %></td> <!-- 시도명 -->
-                    <td><%= pm10Value %></td> <!-- 평균 미세먼지 농도 -->
-                    <td class="<%= pm10Class %>"><%= pm10Grade %></td> <!-- 미세먼지 등급 -->
-                    <td><%= pm25Value %></td> <!-- 평균 초미세먼지 농도 -->
-                    <td class="<%= pm25Class %>"><%= pm25Grade %></td> <!-- 초미세먼지 등급 -->
+                    <td><%= sido %></td>
+                    <td><%= pm10Value %></td>
+                    <td class="<%= pm10Class %>"><%= pm10Grade %></td>
+                    <td><%= pm25Value %></td>
+                    <td class="<%= pm25Class %>"><%= pm25Grade %></td>
                 </tr>
                 <% 
                         }
@@ -60,7 +63,6 @@
         </table>
     </div>
     
-    <%-- 미세먼지, Java 코드로 등급에 따른 CSS 클래스 반환 --%>
     <%!
         String getAirQualityClass10(String value) {
             double pmValue = Double.parseDouble(value);
@@ -118,16 +120,18 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31c799a3e6c57bcc8d12337698e4159a"></script>
     <script>
-        $(function() { // document ready 시 실행될 함수
-            const container = document.querySelector('main#page-content--main > section#map.map'); // 지도를 표시할 div 
+        $(function() {
+            const container = document.querySelector('div#map-view');
             const options = {
-                center: new daum.maps.LatLng(36.6358, 127.4911), // 지도의 중심좌표: 충북
-                level: 13 // 지도의 확대 레벨
+                center: new daum.maps.LatLng(35.7, 127.6911),
+                level: 13
             };
 
             container.setAttribute('style', 'width:100%;height:560px;');
             let map = new daum.maps.Map(container, options);
             let customOverlay = new daum.maps.CustomOverlay({});
+
+            const pmValues = <%= jsonPmValues %>;
 
             $.getJSON('/json/gson.json', function(geojson) {
                 var data = geojson.features;
@@ -138,18 +142,18 @@
                     coordinates = val.geometry.coordinates;
                     name = val.properties.CTP_KOR_NM;
 
-                    displayMap(coordinates, name);
+                    var pm10Value = pmValues[name].split(",")[0];
+                    displayMap(coordinates, name, pm10Value);
                 });
             });
 
-            var polygons = []; // 전역변수
+            var polygons = [];
 
-            // 대한민국 지도 폴리곤
-            function displayMap(coordinates, name) {
+            function displayMap(coordinates, name, pm10Value) {
                 var path = [];
                 var points = [];
                 var pathArr = [];
-                
+
                 $.each(coordinates[0], function(index, coordinate) {
                     var point = new Object();
                     point.x = coordinate[1];
@@ -159,19 +163,20 @@
                     pathArr.push([coordinate[1], coordinate[0]]);
                 });
 
-                // 다각형을 생성합니다
+                var fillColor = getPolygonColor(pm10Value);
+
                 var polygon = new daum.maps.Polygon({
-                    map: map, // 다각형을 표시할 지도 객체
+                    map: map,
                     path: path,
                     strokeWeight: 2,
                     strokeColor: '#004c80',
                     strokeOpacity: 0.8,
-                    fillColor: '#fff',
+                    fillColor: fillColor,
                     fillOpacity: 0.7
                 });
 
                 polygons.push(polygon);
-                overlaySet(name, points, polygon);
+                overlaySet(name, pm10Value, points, polygon);
 
                 daum.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
                     polygon.setOptions({
@@ -179,34 +184,25 @@
                     });
                     var content = '<div class="overlaybox">';
                     content += ' <div class="boxtitle">' + name + '</div> ';
-                    content += '</div>';
-
                     customOverlay.setContent(content);
                     customOverlay.setPosition(mouseEvent.latLng);
                     customOverlay.setMap(map);
                 });
 
-                // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 동작한다.
                 daum.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
                     console.log('mousemove 이벤트');
                 });
 
-                // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 색을 변경하고, 커스텀오버레이를 변경한다.
-                // 커스텀 오버레이를 지도에서 제거합니다 
                 daum.maps.event.addListener(polygon, 'mouseout', function() {
                     polygon.setOptions({
-                        fillColor: '#fff'
+                        fillColor: fillColor
                     });
                     customOverlay.setMap(null);
-                    overlaySet(name, points, polygon);
+                    overlaySet(name, pm10Value, points, polygon);
                 });
 
-                // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 해당 지역 확대을 확대한다.
                 daum.maps.event.addListener(polygon, 'click', function() {
-                    // 현재 지도 레벨에서 2레벨 확대한 레벨
                     var level = map.getLevel() - 2;
-
-                    // 지도를 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다
                     map.setLevel(level, {
                         anchor: centerMap(points),
                         animate: {
@@ -216,7 +212,6 @@
                 });
             }
 
-            // centroid 알고리즘 (폴리곤 중심좌표 구하기 위함)
             function centerMap(points) {
                 var i, j, len, p1, p2, f, area, x, y;
 
@@ -234,24 +229,53 @@
                 return new daum.maps.LatLng(x / area, y / area);
             }
 
-            function overlaySet(name, points, polygon) {
-                var content = '<div class="area" style="font-weight:bold; font-size:13px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">' + name + '</div>';
+            function overlaySet(name, pm10Value, points, polygon) {
+                var content = '<div class="area" style="font-weight:bold; font-size:13px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; text-align: center; background-color: rgba(255, 255, 255, 0.7); border-radius: 30px; padding: 5px;">' 
+                    + '<div>' + name + '</div>' 
+                    + '<div>' + pm10Value + '</div>' 
+                    + '</div>';
 
-                // 커스텀 오버레이가 표시될 위치입니다 
                 var position = centerMap(points);
 
-                // 커스텀 오버레이를 생성합니다
-                customOverlay = new daum.maps.CustomOverlay({
+                // 각 지역별 위치 조정
+                if (name === '서울') {
+                    position = new daum.maps.LatLng(position.getLat(), position.getLng() + 0.02); // 서울을 오른쪽으로 조정
+                } else if (name === '경기') {
+                    position = new daum.maps.LatLng(position.getLat(), position.getLng() + 0.25); // 경기를 더 오른쪽으로 조정
+                } else if (name === '세종') {
+                    position = new daum.maps.LatLng(position.getLat() + 0.1, position.getLng()); // 세종을 약간 위로 조정
+                } else if (name === '대전') {
+                    position = new daum.maps.LatLng(position.getLat() - 0.1, position.getLng()); // 대전을 약간 아래로 조정
+                } else if (name === '울산') {
+                    position = new daum.maps.LatLng(position.getLat() + 0.1, position.getLng()); // 세종을 약간 위로 조정
+                } else if (name === '부산') {
+                    position = new daum.maps.LatLng(position.getLat() - 0.1, position.getLng()); // 대전을 약간 아래로 조정
+                } else if (name === '전남') {
+                    position = new daum.maps.LatLng(position.getLat(), position.getLng() + 0.25); // 전남을 더 오른쪽으로 조정
+                }
+
+                var customOverlay = new daum.maps.CustomOverlay({
                     position: position,
                     content: content,
-                    xAnchor: 0.3,
-                    yAnchor: 0.91
+                    xAnchor: 0.5,
+                    yAnchor: 0.5  // 기본값인 0.5로 설정하여 조정
                 });
 
-                // 커스텀 오버레이를 지도에 표시합니다
                 customOverlay.setMap(map);
             }
 
+            function getPolygonColor(pm10Value) {
+                let pm10Val = parseFloat(pm10Value);
+                if (pm10Val <= 30) {
+                    return '#87CEEB';
+                } else if (pm10Val <= 80) {
+                    return '#98FB98';
+                } else if (pm10Val <= 150) {
+                    return '#FFD700';
+                } else {
+                    return '#FF69B4';
+                }
+            }
         });
     </script>
 </body>
