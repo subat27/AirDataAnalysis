@@ -38,6 +38,9 @@ public class Location {
 
     @Column(nullable = true)
     private String tags;		// 태그
+    
+    @Column(nullable = false)
+    private String category; // 카테고리명(일반 한글 형태의 문자열)
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

@@ -8,5 +8,5 @@ public interface LocationService {
 	void register(Location location);
 	void modify(Location location);
 	Location findByLocationId(Long id);
-	Map<String, Object> findLocations(int page, String search, String sort);
+	Map<String, Object> findLocations(int page, int perPage, String search, String sort);
 }

@@ -23,11 +23,12 @@ public class LocationController {
 	@GetMapping("/location/list")
 	public String listLocation(
 			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "perPage", defaultValue = "12") int perPage,
 			@RequestParam(name = "search", defaultValue = "") String search,
-			@RequestParam(name = "type", defaultValue = "") String type,
+			@RequestParam(name = "sort", defaultValue = "") String sort,
 			Model model) {
 		
-		model.addAttribute("locations", service.findLocations(page, search, type));
+		model.addAttribute("locations", service.findLocations(page, perPage, search, sort));
 		
 		return "_pages/location/list";
 	}

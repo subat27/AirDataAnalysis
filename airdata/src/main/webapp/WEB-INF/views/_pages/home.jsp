@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -50,313 +51,153 @@
 			    	<jsp:param value="${averagePmValues}" name="averagePmValues"/>
 			    </jsp:include>
             </section>
+            
             <section id="public-main--product" class="content-section section-padding public-main--lifestyle">
                 <div class="subject">
                     <strong>이런 상품은 어떠세요?</strong>
                 </div>
+                
                 <ul class="row m-0 p-0 list-unstyled">
-                    <li class="col-12 col-md-6 col-xl-4">
-                       <div class="card border-light-subtle">
-                           <div class="card-body overflow-hidden">
-                               <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                           </div>
-                           <div class="card-footer border-light-subtle">
-                               <span class="category">카테고리명</span>
-                               <strong class="product-name">상품명</strong>
-                               <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                               <a href="#" class="nav-link">구매하러 가기 +</a>
-                           </div>
-                       </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
+                	<c:choose>
+                		<c:when test="${empty products.items.content }">
+							<c:forEach begin="0" end="5" step="1">
+			                	<li class="col-12 col-md-6 col-xl-4">
+			                        <div class="card border-light-subtle">
+			                            <div class="card-body overflow-hidden">
+			                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                            </div>
+			                            <div class="card-footer border-light-subtle">
+			                                <span class="category">카테고리명</span>
+			                                <strong class="product-name">상품명</strong>
+			                                <span class="price">
+			                                   <strong>1,234,567</strong>
+			                                   <small>원</small>
+			                               </span>
+			                                <a href="#" class="nav-link">구매하러 가기 +</a>
+			                            </div>
+			                        </div>
+			                    </li>
+			                </c:forEach>
+		                </c:when>
+                		<c:otherwise>
+                			<c:forEach items="${products.items.content }" var="product">
+		                		<li class="col-12 col-md-6 col-xl-4">
+			                       <div class="card border-light-subtle">
+			                           <div class="card-body overflow-hidden">
+			                               <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                           </div>
+			                           <div class="card-footer border-light-subtle">
+			                               <span class="category">${product.category }</span>
+			                               <strong class="product-name">${product.subject }</strong>
+			                               <span class="price">
+			                                   <strong>${product.price }</strong>
+			                                   <small>원</small>
+			                               </span>
+			                               <a href="${product.link }" class="nav-link">구매하러 가기 +</a>
+			                           </div>
+			                       </div>
+			                    </li>
+		                	</c:forEach>
+                		</c:otherwise>
+                	</c:choose>
                 </ul>
             </section>
+            
             <section id="public-main--place" class="content-section section-padding public-main--lifestyle">
                 <div class="subject">
                     <strong>오늘같은 날 추천하는 장소에요.</strong>
                 </div>
                 <ul class="row m-0 p-0 list-unstyled">
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
+                	<c:choose>
+                		<c:when test="${empty locations.items.content }">
+							<c:forEach begin="0" end="5" step="1">
+			                	<li class="col-12 col-md-6 col-xl-4">
+			                        <div class="card border-light-subtle">
+			                            <div class="card-body overflow-hidden">
+			                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                            </div>
+			                            <div class="card-footer border-light-subtle">
+			                                <span class="category">카테고리명</span>
+			                                <strong class="product-name">상품명</strong>
+			                                <span class="price">
+			                                   <strong>1,234,567</strong>
+			                                   <small>원</small>
+			                               </span>
+			                                <a href="#" class="nav-link">구매하러 가기 +</a>
+			                            </div>
+			                        </div>
+			                    </li>
+			                </c:forEach>
+		                </c:when>
+                		<c:otherwise>
+                			<c:forEach items="${locations.items.content }" var="location">
+		                		<li class="col-12 col-md-6 col-xl-4">
+			                        <div class="card border-light-subtle">
+			                            <div class="card-body overflow-hidden">
+			                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                            </div>
+			                            <div class="card-footer border-light-subtle">
+			                                <span class="category">${location.category }</span>
+			                                <strong class="product-name">${location.name }</strong>
+			                                <span class="price">
+			                                   ${location.address }
+			                               </span>
+			                                <a href="/location/detail/${location.id }" class="nav-link">자세히 보기</a>
+			                            </div>
+			                        </div>
+			                    </li>
+		                	</c:forEach>
+                		</c:otherwise>
+                	</c:choose>
                 </ul>
             </section>
+            
             <section id="public-main--lifestyle" class="content-section section-padding public-main--lifestyle">
                 <div class="subject">
                     <strong>오늘은 이걸 해 보세요!</strong>
                 </div>
                 <ul class="row m-0 p-0 list-unstyled">
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-12 col-md-6 col-xl-4">
-                        <div class="card border-light-subtle">
-                            <div class="card-body overflow-hidden">
-                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
-                            </div>
-                            <div class="card-footer border-light-subtle">
-                                <span class="category">카테고리명</span>
-                                <strong class="product-name">상품명</strong>
-                                <span class="price">
-                                   <strong>1,234,567</strong>
-                                   <small>원</small>
-                               </span>
-                                <a href="#" class="nav-link">구매하러 가기 +</a>
-                            </div>
-                        </div>
-                    </li>
+                	<c:choose>
+                		<c:when test="${empty lifestyles.items.content }">
+							<c:forEach begin="0" end="5" step="1">
+			                	<li class="col-12 col-md-6 col-xl-4">
+			                        <div class="card border-light-subtle">
+			                            <div class="card-body overflow-hidden">
+			                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                            </div>
+			                            <div class="card-footer border-light-subtle">
+			                                <span class="category">카테고리명</span>
+			                                <strong class="product-name">상품명</strong>
+			                                <span class="price">
+			                                   <strong>1,234,567</strong>
+			                                   <small>원</small>
+			                               </span>
+			                                <a href="#" class="nav-link">구매하러 가기 +</a>
+			                            </div>
+			                        </div>
+			                    </li>
+			                </c:forEach>
+		                </c:when>
+                		<c:otherwise>
+                			<c:forEach items="${lifestyles.items.content }" var="lifestyle">
+			                	<li class="col-12 col-md-6 col-xl-4">
+			                        <div class="card border-light-subtle">
+			                            <div class="card-body overflow-hidden">
+			                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                            </div>
+			                            <div class="card-footer border-light-subtle">
+			                                <span class="category">${lifestyle.category }</span>
+			                                <strong class="product-name">${lifestyle.subject }</strong>
+			                                <span class="price">
+			                                   ${lifestyle.tags }
+			                               </span>
+			                                <a href="/lifestyle/detail/${lifestyle.id }" class="nav-link">자세히 보기</a>
+			                            </div>
+			                        </div>
+			                    </li>
+			                </c:forEach>
+                		</c:otherwise>
+                	</c:choose>
                 </ul>
             </section>
         </main>

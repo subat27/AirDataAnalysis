@@ -76,9 +76,8 @@ public class ILifestyleService implements LifestyleService {
 	}
 
 	@Override
-	public Map<String, Object> findLifestyles(int page, String search, String type, String sort) {
-		int pagePerCount = 12;
-		Pageable pageable = PageRequest.of(page-1, pagePerCount, Sort.by(Sort.Direction.DESC, sort));
+	public Map<String, Object> findLifestyles(int page, int perPage, String search, String type, String sort) {
+		Pageable pageable = PageRequest.of(page-1, perPage, Sort.by(Sort.Direction.DESC, sort));
 		
 		Page<Lifestyle> lifestyles = null;
 		

@@ -41,9 +41,8 @@ public class ILocationService implements LocationService {
 	}
 
 	@Override
-	public Map<String, Object> findLocations(int page, String search, String sort) {
-		int pagePerCount = 12;
-		Pageable pageable = PageRequest.of(page-1, pagePerCount, Sort.by(Sort.Direction.DESC, sort));
+	public Map<String, Object> findLocations(int page, int perPage, String search, String sort) {
+		Pageable pageable = PageRequest.of(page-1, perPage, Sort.by(Sort.Direction.DESC, sort));
 		Page<Location> locations = repository.findAll(pageable);
 		return Common.paginate(page, locations, search, search, sort);
 	}
