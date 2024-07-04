@@ -84,7 +84,7 @@
 		                		<li class="col-12 col-md-6 col-xl-4">
 			                       <div class="card border-light-subtle">
 			                           <div class="card-body overflow-hidden">
-			                               <img src="${product.thumbnail} alt=""/>
+			                               <img src="https://blueskywellness.s3.amazonaws.com/${product.thumbnail}" alt=""/>
 			                           </div>
 			                           <div class="card-footer border-light-subtle">
 			                               <span class="category">${product.category }</span>
@@ -134,7 +134,7 @@
 		                		<li class="col-12 col-md-6 col-xl-4">
 			                        <div class="card border-light-subtle">
 			                            <div class="card-body overflow-hidden">
-			                                <img src="${location.thumbnail} alt=""/>
+			                                <img src="${location.thumbnail}" alt=""/>
 			                            </div>
 			                            <div class="card-footer border-light-subtle">
 			                                <span class="category">${location.category }</span>

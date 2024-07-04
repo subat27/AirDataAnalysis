@@ -20,34 +20,46 @@
 				</header>
 				<div class="row">
 					<div class="m-5">
-						<form method="post" action="/admin/location/insert" enctype="multipart/form-data" id="registerForm">
+						<form:form method="post" action="/location/insert"
+							modelAttribute="location" enctype="multipart/form-data"
+							id="insertForm">
 							<div class="my-3">
-								<label for="name" class="form-label">장소명</label>
-								<input id="name" class="form-control form-control-lg" />
+								<form:label path="name" cssClass="form-label">장소명</form:label>
+								<form:input path="name"
+									cssClass="form-control form-control-lg" />
+								<form:errors path="name" cssClass="invalid-feedback d-block" />
 							</div>
 							<div class="my-3">
-								<label for="address" class="form-label">주소</label>
-								<input id="address" class="form-control form-control-lg" />
+								<form:label path="address" cssClass="form-label">주소</form:label>
+								<form:input path="address"
+									cssClass="form-control form-control-lg" />
+								<form:errors path="address" cssClass="invalid-feedback d-block" />
 							</div>
 							<div class="my-3">
-								<label for="tags" class="form-label">태그</label>
-								<input id="tags" class="form-control form-control-lg" />
+								<form:label path="tags" cssClass="form-label">해시태그</form:label>
+								<form:input path="tags" cssClass="form-control form-control-lg" />
+								<form:errors path="tags" cssClass="invalid-feedback d-block" />
 							</div>
 							<div class="my-3">
-								<label for="category" class="form-label">카테고리</label>
-								<input id="category" class="form-control form-control-lg" />
+								<form:label path="category" cssClass="form-label">카테고리</form:label>
+								<form:input path="category"
+									cssClass="form-control form-control-lg" />
+								<form:errors path="category" cssClass="invalid-feedback d-block" />
 							</div>
-							<div class="my-3">
-								<label for="thumbnail" class="form-label">썸네일</label>
-								<input id="thumbnail" class="form-control form-control-lg" />
-							</div>
-						</form>
+							<input type="hidden" id="thumbnail" name="thumbnail" />
+						</form:form>
+						<div class="my-3">
+							<form id="imageUpload" action="/uploader" enctype="multipart/form-data" method="post">
+								<label for="image" class="form-label">썸네일</label>
+								<input type="file" name="file" id="image" class="form-control form-control-lg" />
+							</form>
+						</div>
 						<hr />
 						<div class="my-3">
-							<button type="submit" form="registerForm"
-								class="btn btn-lg btn-dark">장소 등록</button>
+							<button type="submit" form="insertForm" class="btn btn-lg btn-dark">장소 등록</button>
 							<button id="previousBtn" class="btn btn-lg btn-primary me-1">이전으로</button>
 						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -100,6 +112,7 @@
 					},
 					success : function(result) {
 						$("#thumbnail").attr("value", result.location);
+						console.log("성공");
 					},
 					error : function() {
 						console.log('통신실패');

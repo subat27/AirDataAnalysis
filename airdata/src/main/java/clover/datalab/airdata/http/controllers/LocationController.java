@@ -2,13 +2,18 @@ package clover.datalab.airdata.http.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import clover.datalab.airdata.entities.Location;
+import clover.datalab.airdata.http.forms.LocationForm;
+import clover.datalab.airdata.http.forms.lifestyle.LifestyleForm;
 import clover.datalab.airdata.services.LocationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -36,14 +41,26 @@ public class LocationController {
 	}
 	
 	@GetMapping("/location/insert")
-	public String insertLocation() {
+	public String insertLocation(Model model) {
+		model.addAttribute("location", new LocationForm());
 		return "_pages/location/insert";
 	}
 	
 	@PostMapping("/location/insert")
-	public String insertLocation(Location location) {
-		service.register(location);
-		return "redirect:/location/list";
+	public String insertLocation(@ModelAttribute("location") @Valid LocationForm location,
+			BindingResult bindingResult, Model model, String thumbnail) {
+		
+		try {
+			if (bindingResult.hasErrors()) {
+				return "_pages/location/insert";
+			}
+			service.register(location, thumbnail);
+			return "redirect:/location/list";
+		} catch (Exception e) {
+			model.addAttribute("error", e.toString());
+
+			return "_pages/location/insert";
+		}
 	}
 	
 }
