@@ -17,9 +17,7 @@
                     </a>
                 </h1>
             </section>
-            <section id="public-main--map" class="content-section public-main--map">
-                <div id="map-view"></div>
-            </section>
+            
             <section id="public-main--intro" class="content-section public-main--intro">
                 <div class="text">
                     <p>
@@ -44,8 +42,13 @@
                     <img src="${pageContext.request.contextPath}/assets/images/main_intro.jpg" alt="블루스카이 웰니스에 오신 것을 환영합니다."/>
                 </div>
             </section>
+            <section id="public-main--map" class="content-section public-main--map">
+                	<div id="map-view"></div>
+            	</section>
             <section id="public-main--dust" class="content-section section-padding public-main--dust">
-                미세먼지 정보
+                <jsp:include page="../_layouts/public/pm_avg.jsp">
+			    	<jsp:param value="${averagePmValues}" name="averagePmValues"/>
+			    </jsp:include>
             </section>
             <section id="public-main--product" class="content-section section-padding public-main--lifestyle">
                 <div class="subject">
@@ -359,8 +362,5 @@
         </main>
     </div>
     <jsp:include page="../_layouts/public/scripts.jsp"/>
-    <jsp:include page="../_layouts/public/pm_avg.jsp">
-    	<jsp:param value="${averagePmValues}" name="averagePmValues"/>
-    </jsp:include>
 </body>
 </html>

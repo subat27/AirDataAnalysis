@@ -10,17 +10,18 @@
     <style>
     	.overlaybox { border-radius: 30px; position: relative; width: 150px; height: 100px; background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat; padding: 15px 10px; }
         .overlaybox .boxtitle { text-align: center; color: #fff; font-size: 16px; font-weight: bold; margin-bottom: 8px; }
-        .good { background-color: #87CEEB; } /* 하늘색 */
-        .normal { background-color: #98FB98; } /* 연두색 */
-        .bad { background-color: #FFD700; } /* 연노랑색 */
-        .very-bad { background-color: #FF69B4; } /* 주홍색 */
+        td.good { background-color: #87CEEB; } /* 하늘색 */
+        td.normal { background-color: #98FB98; } /* 연두색 */
+        td.bad { background-color: #FFD700; } /* 연노랑색 */
+        td.very-bad { background-color: #FF69B4; } /* 주홍색 */
+        .dustData {text-align: center;}
     </style>
 </head>
 <body>
     <div>
-        <table border="1">
+        <table class="table m-3" border="1" >
             <thead>
-                <tr>
+                <tr class="dustData">
                     <th>시도명</th>
                     <th>미세먼지 농도</th>
                     <th>등급</th>
@@ -45,7 +46,7 @@
                             String pm10Class = getAirQualityClass10(pm10Value);
                             String pm25Class = getAirQualityClass25(pm25Value);
                 %>
-                <tr>
+                <tr class="dustData">
                     <td><%= sido %></td> <!-- 시도명 -->
                     <td><%= pm10Value %></td> <!-- 평균 미세먼지 농도 -->
                     <td class="<%= pm10Class %>"><%= pm10Grade %></td> <!-- 미세먼지 등급 -->

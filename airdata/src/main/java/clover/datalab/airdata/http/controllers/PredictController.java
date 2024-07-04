@@ -51,7 +51,6 @@ public class PredictController {
 			String result = weather.nowWeatherData(localName);
 			return processJsonDataPresent(result);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

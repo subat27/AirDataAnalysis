@@ -59,7 +59,6 @@ public class Weather {
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-		System.out.println(response.getBody());
 	    return response.getBody();
 	}
 	
