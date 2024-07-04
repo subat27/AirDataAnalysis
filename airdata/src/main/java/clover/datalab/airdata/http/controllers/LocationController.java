@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import clover.datalab.airdata.entities.Location;
 import clover.datalab.airdata.http.forms.LocationForm;
-import clover.datalab.airdata.http.forms.lifestyle.LifestyleForm;
 import clover.datalab.airdata.services.LocationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -7,7 +7,6 @@ import clover.datalab.airdata.http.forms.MemberPasswordUpdateForm;
 import clover.datalab.airdata.http.forms.MemberRegisterForm;
 import clover.datalab.airdata.http.validators.ServerValidator;
 import clover.datalab.airdata.services.MemberService;
-import clover.datalab.airdata.utilities.Common;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

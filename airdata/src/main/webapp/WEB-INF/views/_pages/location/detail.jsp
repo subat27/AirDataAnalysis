@@ -15,15 +15,30 @@
                 <h2>장소</h2>
             </header>
             <div class="row">
-				<div class="my-3">
-					<h2>${location.name }</h2>
+            	<div class="my-3">
+					<h2 class="">${location.name }</h2>
 				</div>
 				<div class="my-3">
-					<h6 style="color: grey;">${lifestyle.tags }</h6>
+					<h6 style="color: grey;">${location.category } | ${location.tags }</h6>
+				</div>
+				
+				<div class="my-3">
+					<img src="${location.thumbnail }" style="width:100%; height:auto; object-fit:cover;" onerror="" alt="thumbnail">
 				</div>
 				<div class="my-3">
 					<p>${location.address }</p>
 				</div>
+				
+				<div class="row">
+					<div class="col-4">
+						<a href="/location" class="btn btn-primary me-1">목록으로</a>
+					</div>
+					<div class="col-4"></div>
+					<div class="col-4 d-flex justify-content-end">
+						<button id="previousBtn" class="btn btn-primary me-1">이전으로</button>
+					</div>
+				</div>
+            
             </div>
         </div>
     </div>
