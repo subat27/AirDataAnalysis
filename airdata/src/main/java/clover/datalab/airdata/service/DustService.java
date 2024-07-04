@@ -46,12 +46,12 @@ public class DustService {
         ObjectMapper mapper = new ObjectMapper();
         for (Object o : jsonArray) {
         	try {
-            Dust dust = mapper.readValue(o.toString(), Dust.class);
-            dRepository.save(dust);
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
-	}	
-}
+	            Dust dust = mapper.readValue(o.toString(), Dust.class);
+	            dRepository.save(dust);
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	        }
+		}	
+	}
 	
 }

@@ -16,6 +16,14 @@
         td.bad { background-color: #FFD700; } /* 연노랑색 */
         td.very-bad { background-color: #FF69B4; } /* 주홍색 */
         .dustData {text-align: center;}
+        #legend { position: absolute; bottom: 5px; right: 50px; background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; font-size: 14px; z-index: 1000; /* 범례의 z-index를 지도보다 큰 값으로 설정 */}
+		.legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+		.legend-color { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+		
+		.good-color { background-color: #87CEEB; } /* 하늘색 */
+		.normal-color { background-color: #98FB98; } /* 연두색 */
+		.bad-color { background-color: #FFD700; } /* 연노랑색 */
+		.very-bad-color { background-color: #FF69B4; } /* 주홍색 */
     </style>
 </head>
 <body>
@@ -49,7 +57,7 @@
                             String pm10Class = getAirQualityClass10(pm10Value);
                             String pm25Class = getAirQualityClass25(pm25Value);
                 %>
-                <tr class="dustData">
+                <tr>
                     <td><%= sido %></td>
                     <td><%= pm10Value %></td>
                     <td class="<%= pm10Class %>"><%= pm10Grade %></td>
@@ -117,7 +125,22 @@
             }
         }
     %>
-
+	
+	<!-- 지도 우측의 범례 -->
+	<div id="legend">
+	   <div class="legend-item">
+	      <span class="legend-color good-color"></span> 좋음 (0 - 30)
+	   </div>
+	   <div class="legend-item">
+	      <span class="legend-color normal-color"></span> 보통 (31 - 80)
+	   </div>
+	   <div class="legend-item">
+	      <span class="legend-color bad-color"></span> 나쁨 (81 - 150)
+	   </div>
+	   <div class="legend-item">
+	      <span class="legend-color very-bad-color"></span> 매우나쁨 (151 - )
+	   </div>
+	</div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/scripts/predict.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31c799a3e6c57bcc8d12337698e4159a"></script>

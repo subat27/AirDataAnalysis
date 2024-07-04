@@ -27,7 +27,7 @@
 					<h6 style="color: grey;">${lifestyle.category } | ${lifestyle.tags }</h6>
 				</div>
 				<div class="my-3">
-					<img src="${lifestyle.thumbnail }" style="object-fit:cover;" onerror="" alt="thumbnail">
+					<img src="${lifestyle.thumbnail }" style="width:100%; height:auto; object-fit:cover;" onerror="" alt="thumbnail">
 				</div>
 				<div class="my-10">
 					<textarea id="content" class="form-control form-control-lg mytextarea"

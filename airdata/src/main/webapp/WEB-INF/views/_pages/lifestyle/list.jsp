@@ -111,7 +111,7 @@
 					<div class="row d-flex justify-content-center">
 						<div class="col-5 d-flex justify-content-start">
 							<sec:authorize access="isAuthenticated()">
-								<a class="btn btn-primary" href="/lifestyle/register">등록하기</a>
+								<a class="btn btn-primary" href="/admin/lifestyle/register">등록하기</a>
 							</sec:authorize>
 							<sec:authorize access="!isAuthenticated()">
 								<a class="btn btn-primary" href="/edit/register">등록신청</a>

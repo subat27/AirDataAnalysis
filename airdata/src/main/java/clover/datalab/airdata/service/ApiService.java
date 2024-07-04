@@ -7,14 +7,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ApiService {
 
+	@Value("${publicApiKey}")
+	private String publicApiKey;
+	
 	// 미세먼지 호출
 	public String getDustData() throws IOException {
-		StringBuilder urlBuilder = new StringBuilder("https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=TvnUtHEJfx9JxlEKfOdIFZ%2BM1YZucQfdWYHvqyxyOZD1ZqgdMoXdJHOnYCdjqakcrs%2BbBLSvMlsaYvsQQLf2FQ%3D%3D&returnType=json&numOfRows=1000&pageNo=1&sidoName=%EC%A0%84%EA%B5%AD&ver=1.4"); /* URL */
+		StringBuilder urlBuilder = new StringBuilder("https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=V%2FQ4Ujh%2BVO%2FzK3DgjulnF4DfwzZ4leRZ5YpkF2QzVGmNLU1CrSN%2FnaEdALrEgxibx8DfuwoNIP6cDj9SyTUOeQ%3D%3D&returnType=json&numOfRows=1000&pageNo=1&sidoName=%EC%A0%84%EA%B5%AD&ver=1.4"); /* URL */
 		urlBuilder.append("&" + URLEncoder.encode("MobileOS", "UTF-8") + "=" + URLEncoder.encode("WIN", "UTF-8")); /* 사용기기정보(정보수집용) */
 		urlBuilder.append("&" + URLEncoder.encode("MobileApp", "UTF-8") + "=" + URLEncoder.encode("test", "UTF-8")); /* 서비스명(어플명) */
 		urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10000", "UTF-8")); /* 한 페이지 결과 수 */

@@ -84,7 +84,7 @@
 		                		<li class="col-12 col-md-6 col-xl-4">
 			                       <div class="card border-light-subtle">
 			                           <div class="card-body overflow-hidden">
-			                               <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                               <img src="${product.thumbnail} alt=""/>
 			                           </div>
 			                           <div class="card-footer border-light-subtle">
 			                               <span class="category">${product.category }</span>
@@ -134,7 +134,7 @@
 		                		<li class="col-12 col-md-6 col-xl-4">
 			                        <div class="card border-light-subtle">
 			                            <div class="card-body overflow-hidden">
-			                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                                <img src="${location.thumbnail} alt=""/>
 			                            </div>
 			                            <div class="card-footer border-light-subtle">
 			                                <span class="category">${location.category }</span>
@@ -183,7 +183,7 @@
 			                	<li class="col-12 col-md-6 col-xl-4">
 			                        <div class="card border-light-subtle">
 			                            <div class="card-body overflow-hidden">
-			                                <img src="${pageContext.request.contextPath}/assets/images/no_image.jpg" alt=""/>
+			                                <img src="${lifestyle.thumbnail }" alt=""/>
 			                            </div>
 			                            <div class="card-footer border-light-subtle">
 			                                <span class="category">${lifestyle.category }</span>
