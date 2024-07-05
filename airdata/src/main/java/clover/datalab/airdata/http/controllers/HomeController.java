@@ -32,7 +32,7 @@ public class HomeController {
         model.addAttribute("jsonPmValues", json);
         model.addAttribute("averagePmValues", averagePmValues);
         model.addAttribute("products", pService.paginatedItem(1, 6, "", ""));
-        model.addAttribute("lifestyles", lsService.findLifestyles(1, 6, "", "", "id"));
+        model.addAttribute("lifestyles", lsService.findLifestyles(1, 6, "실외", "tags", "id"));
         model.addAttribute("locations", lcService.findLocations(1, 6, "", "id"));
         return "_pages/home";
     }
