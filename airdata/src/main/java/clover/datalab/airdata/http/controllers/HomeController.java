@@ -36,5 +36,11 @@ public class HomeController {
         model.addAttribute("locations", lcService.findLocations(1, 6, "", "id"));
         return "_pages/home";
     }
+    
+    @GetMapping("/admin")
+    public String adminPage() {
+    	
+    	return "_pages/admin/dashboard";
+    }
 
 }

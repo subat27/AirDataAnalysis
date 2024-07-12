@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <title>시도별 평균 미세먼지 및 초미세먼지 농도</title>
     <style>
-        .overlaybox { border-radius: 30px; position: relative; width: 100px; height: 50px; background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat; padding: 15px 10px; }
+        .overlaybox { border-radius: 30px; position: relative; width: 200px; height: 200px; background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png') no-repeat; padding: 15px 10px; }
         .overlaybox .boxtitle { text-align: center; color: #fff; font-size: 16px; font-weight: bold; margin-bottom: 8px; }
         td.good { background-color: #87CEEB; } /* 하늘색 */
         td.normal { background-color: #98FB98; } /* 연두색 */
@@ -160,21 +160,19 @@
 
             $.getJSON('/json/gson.json', function(geojson) {
                 var data = geojson.features;
-                var coordinates = [];
-                var name = '';
-
+                
                 $.each(data, function(index, val) {
-                    coordinates = val.geometry.coordinates;
-                    name = val.properties.CTP_KOR_NM;
-
+                    var coordinates = val.geometry.coordinates;
+                    var name = val.properties.CTP_KOR_NM;
                     var pm10Value = pmValues[name].split(",")[0];
-                    displayMap(coordinates, name, pm10Value);
+                    var pm25Value = pmValues[name].split(",")[1]
+                    displayMap(coordinates, name, pm10Value, pm25Value);
                 });
             });
 
             var polygons = [];
 
-            function displayMap(coordinates, name, pm10Value) {
+            function displayMap(coordinates, name, pm10Value, pm25Value) {
                 var path = [];
                 var points = [];
                 var pathArr = [];
@@ -207,15 +205,15 @@
                     polygon.setOptions({
                         fillColor: '#09f'
                     });
-                    var content = '<div class="overlaybox">';
-                    content += ' <div class="boxtitle">' + name + '</div> ';
+                    /* var content = '<div class="overlaybox">';
+                    content += ' <div class="boxtitle">' + name + '</div> </div>';
                     customOverlay.setContent(content);
                     //customOverlay.setPosition(mouseEvent.latLng);
-                    customOverlay.setMap(map);
+                    customOverlay.setMap(map); */
                 });
 
                 daum.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
-                    console.log('mousemove 이벤트');
+                    //console.log('mousemove 이벤트');
                 });
 
                 daum.maps.event.addListener(polygon, 'mouseout', function() {
@@ -226,14 +224,21 @@
                     overlaySet(name, pm10Value, points, polygon);
                 });
 
-                daum.maps.event.addListener(polygon, 'click', function() {
-                    var level = map.getLevel() - 2;
-                    map.setLevel(level, {
-                        anchor: centerMap(points),
-                        animate: {
-                            duration: 350
-                        }
-                    });
+                daum.maps.event.addListener(polygon, 'click', function(mouseEvent) {
+					console.log(name);
+					var postion = mouseEvent.point;
+					console.log(postion instanceof kakao.maps.LatLng);
+                	var content = '<div class="overlaybox">';
+                	content += ' <div class="boxtitle">';
+                	content += ' <p> 지역명 : ' + name + ' </p>';
+                	content += ' <p> 미세먼지 : ' + pm10Value + ' </p>';
+                	content += ' <p> 초미세먼지 : ' + pm25Value + ' </p>';
+                    content += ' </div> </div>';
+                    console.log(content);
+                    customOverlay.setContent(content);
+                    customOverlay.setPosition(postion);
+                    customOverlay.setMap(map);
+                	
                 });
             }
 

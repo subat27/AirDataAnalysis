@@ -21,7 +21,7 @@
             </a>
         </li>
         <li class="nav-item my-2">
-            <a href="${pageContext.request.contextPath}/products">
+            <a href="${pageContext.request.contextPath}/product">
                 <i class="bi bi-cart4"></i>
                 <span>추천 상품</span>
             </a>

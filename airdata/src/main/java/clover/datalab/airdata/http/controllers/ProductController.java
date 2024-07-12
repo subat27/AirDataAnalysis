@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import clover.datalab.airdata.entities.Product;
@@ -121,6 +119,17 @@ public class ProductController {
 	public String delete(@PathVariable("id") Long id) {
 		service.delete(id);
 		return "redirect:/admin/product";
+	}
+	
+	@GetMapping("/product")
+	public String getProducts(
+		@RequestParam(name = "p", defaultValue = "1") int page,
+		@RequestParam(name = "t", defaultValue = "") String searchType,
+		@RequestParam(name = "s", defaultValue = "") String searchWord,
+		Model model
+	) {
+		model.addAllAttributes(service.paginatedItem(page, 12, searchType, searchWord));
+		return "_pages/product/list";
 	}
 
 }
